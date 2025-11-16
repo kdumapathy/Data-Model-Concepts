@@ -157,15 +157,15 @@ erDiagram
     }
     
     %% Relationships
-    BATCH ||--o| BATCH : "derived from"
-    BATCH ||--o{ BATCH_GENEALOGY : "produces"
-    BATCH_GENEALOGY }o--|| BATCH : "sourced from"
-    
-    BATCH ||--o{ BATCH_MATERIAL_USAGE : "performed on"
-    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumes"
-    TRANSFORMATION ||--o{ BATCH_MATERIAL_USAGE : "transformed by"
-    
-    PRODUCTION_ORDER ||--o{ BATCH : "ordered via"
+    BATCH ||--o| BATCH : "parent batch of"
+    BATCH ||--o{ BATCH_GENEALOGY : "child batch in lineage"
+    BATCH_GENEALOGY }o--|| BATCH : "parent batch in lineage"
+
+    BATCH ||--o{ BATCH_MATERIAL_USAGE : "utilized in batch"
+    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumed as lot"
+    TRANSFORMATION ||--o{ BATCH_MATERIAL_USAGE : "processed by transformation"
+
+    PRODUCTION_ORDER ||--o{ BATCH : "manufactures batch"
             </div>
         </div>
     </div>

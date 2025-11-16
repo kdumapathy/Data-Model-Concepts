@@ -270,29 +270,29 @@ erDiagram
     }
     
     %% Self-Join Hierarchies
-    BATCH ||--o| BATCH : "sourced from"
-    MATERIAL ||--o| MATERIAL : "parent material (lineage)"
+    BATCH ||--o| BATCH : "parent batch of"
+    MATERIAL ||--o| MATERIAL : "child component of"
     
     %% Fact Relationships - LEFT: Conformed
-    BATCH ||--o{ ANALYTICAL_RESULTS : "batch"
-    SAMPLE ||--o{ ANALYTICAL_RESULTS : "sample"
-    MATERIAL ||--o{ ANALYTICAL_RESULTS : "source material"
-    MANUFACTURER ||--o{ ANALYTICAL_RESULTS : "manufacturer"
-    SPECIFICATION ||--o{ ANALYTICAL_RESULTS : "specification"
-    NOTIFICATION ||--o{ ANALYTICAL_RESULTS : "notification"
-    DOCUMENT ||--o{ ANALYTICAL_RESULTS : "document"
-    SOURCE_SYSTEM ||--o{ ANALYTICAL_RESULTS : "source system"
-    
+    BATCH ||--o{ ANALYTICAL_RESULTS : "analyzed by"
+    SAMPLE ||--o{ ANALYTICAL_RESULTS : "subjected to analysis"
+    MATERIAL ||--o{ ANALYTICAL_RESULTS : "material tested"
+    MANUFACTURER ||--o{ ANALYTICAL_RESULTS : "produced by"
+    SPECIFICATION ||--o{ ANALYTICAL_RESULTS : "compared to specification"
+    NOTIFICATION ||--o{ ANALYTICAL_RESULTS : "notified via"
+    DOCUMENT ||--o{ ANALYTICAL_RESULTS : "recorded in"
+    SOURCE_SYSTEM ||--o{ ANALYTICAL_RESULTS : "originated in"
+
     %% Fact Relationships - RIGHT: Analytical-Specific
-    ANALYTICAL_RESULTS }o--|| TEST : "test"
-    ANALYTICAL_RESULTS }o--|| TEST_LOCATION : "test location"
-    ANALYTICAL_RESULTS }o--|| ANALYTICAL_METHOD : "analytical method"
-    ANALYTICAL_RESULTS }o--|| CONDITION : "condition"
-    ANALYTICAL_RESULTS }o--|| TIMEPOINT : "timepoint"
-    ANALYTICAL_RESULTS }o--|| STUDY : "study"
-    
+    ANALYTICAL_RESULTS }o--|| TEST : "executes test method"
+    ANALYTICAL_RESULTS }o--|| TEST_LOCATION : "performed at location"
+    ANALYTICAL_RESULTS }o--|| ANALYTICAL_METHOD : "performed by method"
+    ANALYTICAL_RESULTS }o--|| CONDITION : "tested under conditions"
+    ANALYTICAL_RESULTS }o--|| TIMEPOINT : "collected at timepoint"
+    ANALYTICAL_RESULTS }o--|| STUDY : "conducted in study"
+
     %% Supporting Relationships
-    MATERIAL ||--o{ BATCH : "source material"
+    MATERIAL ||--o{ BATCH : "input to batch"
             </div>
         </div>
     </div>
