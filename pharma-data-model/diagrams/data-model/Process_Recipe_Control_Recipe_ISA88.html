@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Recipe & Control Recipe - ISA-88 Procedural Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #f5576c;
+            padding-left: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .key-points {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 Process Recipe & Control Recipe - ISA-88 Procedural Model</h1>
+
+    <div class="key-points">
+        <h3>Overview</h3>
+        <p><strong>Objective:</strong> Master recipe management and control recipe execution following ISA-88 procedural model for batch manufacturing.</p>
+        <p><strong>Recipe Types:</strong></p>
+        <ul>
+            <li><strong>Master Recipe:</strong> Product-independent process template (e.g., "mAb Production Process")</li>
+            <li><strong>Control Recipe:</strong> Product-specific executable recipe with set points (e.g., "Product A, Batch 12345")</li>
+            <li><strong>Recipe Execution:</strong> Actual batch execution with process values and deviations</li>
+        </ul>
+    </div>
+
+    <h2>ISA-88 Procedural Model Hierarchy</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Procedure Level"
+        PROCEDURE[Procedure<br/>📖 Complete Manufacturing Process<br/>PROC-MAB-001<br/>mAb Production]
+    end
+
+    subgraph "Unit Procedure Level"
+        UP1[Unit Procedure<br/>📑 Cell Culture<br/>UP-CULTURE-001<br/>Seed → Production]
+        UP2[Unit Procedure<br/>📑 Harvest<br/>UP-HARVEST-001<br/>Centrifuge → Filter]
+        UP3[Unit Procedure<br/>📑 Protein A Capture<br/>UP-PROTA-001<br/>Load → Wash → Elute]
+    end
+
+    subgraph "Operation Level"
+        OP1[Operation<br/>⚙️ Seed Train Expansion<br/>OP-SEED-001<br/>Flask → WAVE → Seed BR]
+        OP2[Operation<br/>⚙️ Production Culture<br/>OP-PROD-001<br/>10 days fed-batch]
+        OP3[Operation<br/>⚙️ Column Loading<br/>OP-LOAD-001<br/>Load at 300 cm/hr]
+    end
+
+    subgraph "Phase Level"
+        PH1[Phase<br/>🔹 Inoculation<br/>PH-INOC-001<br/>Transfer seed to BR]
+        PH2[Phase<br/>🔹 Fed-Batch Culture<br/>PH-FED-001<br/>Day 0-10 culture]
+        PH3[Phase<br/>🔹 Column Equilibration<br/>PH-EQUIL-001<br/>Buffer prep]
+    end
+
+    PROCEDURE --> UP1
+    PROCEDURE --> UP2
+    PROCEDURE --> UP3
+    UP1 --> OP1
+    UP1 --> OP2
+    UP3 --> OP3
+    OP1 --> PH1
+    OP2 --> PH2
+    OP3 --> PH3
+
+    style PROCEDURE fill:#e3f2fd
+    style UP1 fill:#c8e6c9
+    style UP2 fill:#c8e6c9
+    style UP3 fill:#c8e6c9
+    style OP1 fill:#fff3e0
+    style OP2 fill:#fff3e0
+    style OP3 fill:#fff3e0
+    style PH1 fill:#f8bbd0
+    style PH2 fill:#f8bbd0
+    style PH3 fill:#f8bbd0
+        </div>
+    </div>
+
+    <h2>Master Recipe & Control Recipe Data Model</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+erDiagram
+    MASTER_RECIPE["Master Recipe"] {
+        bigint master_recipe_identity PK "Surrogate key"
+        varchar recipe_ID UK "Recipe identifier (RCP-MAB-001)"
+        varchar recipe_name "Recipe name"
+        varchar recipe_type "Procedure, Unit Procedure, Operation"
+        varchar product_family "mAb, Vaccine, Gene Therapy"
+        varchar recipe_version "Version 1.0, 2.0"
+        varchar recipe_status "Draft, Approved, Active, Retired"
+        date approved_date "Regulatory approval date"
+        varchar approved_by "QA approver"
+        bigint parent_recipe_identity FK "Self-join hierarchy"
+        varchar isa88_level "Procedure, Unit Proc, Operation, Phase"
+        bigint equipment_class_identity FK "Required equipment class"
+        decimal expected_duration "Expected time"
+        varchar duration_uom "hours, days"
+        decimal expected_yield "Expected yield %"
+        boolean gmp_critical "GMP critical recipe"
+        bigint document_identity FK "Master batch record"
+        boolean current_flag "SCD Type 2"
+        timestamp effective_from "Version effective start"
+        timestamp effective_to "Version effective end"
+    }
+
+    RECIPE_PARAMETER["Recipe Parameter"] {
+        bigint recipe_parameter_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Parent recipe"
+        varchar parameter_name "Temperature, pH, Agitation"
+        varchar parameter_type "Process, Quality, Safety"
+        varchar parameter_category "CPP, Non-CPP, CQA"
+        decimal target_value "Set point"
+        decimal min_value "Lower specification limit"
+        decimal max_value "Upper specification limit"
+        varchar uom "°C, pH units, RPM"
+        varchar control_strategy "Feedback, Cascade, Manual"
+        boolean alarmed "Alarm on deviation"
+        decimal alarm_low "Low alarm threshold"
+        decimal alarm_high "High alarm threshold"
+        varchar criticality "Critical, Major, Minor"
+        boolean current_flag "SCD Type 2"
+    }
+
+    RECIPE_PHASE["Recipe Phase"] {
+        bigint recipe_phase_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Parent recipe"
+        varchar phase_ID "Phase identifier"
+        varchar phase_name "Phase description"
+        int phase_sequence "Execution order"
+        varchar phase_type "Transfer, Heat, Cool, Mix, React"
+        decimal phase_duration "Expected duration"
+        varchar duration_uom "minutes, hours"
+        varchar transition_logic "Time, Parameter, Manual"
+        varchar transition_criteria "pH < 7.0, Temp = 37°C"
+        boolean current_flag "SCD Type 2"
+    }
+
+    RECIPE_MATERIAL["Recipe Material"] {
+        bigint recipe_material_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Parent recipe"
+        bigint material_identity FK "Material required"
+        varchar material_type "Raw Material, Buffer, Media"
+        decimal quantity_required "Amount needed"
+        varchar quantity_uom "L, kg, g"
+        varchar addition_type "Charge, Feed, Continuous"
+        int addition_sequence "Order of addition"
+        varchar specification_reference "Material spec ID"
+        boolean critical_material "Critical raw material"
+        boolean current_flag "SCD Type 2"
+    }
+
+    RECIPE_EQUIPMENT["Recipe Equipment Assignment"] {
+        bigint recipe_equipment_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Parent recipe"
+        bigint equipment_class_identity FK "Equipment class required"
+        varchar equipment_role "Primary, Secondary, Support"
+        int quantity_required "Number of units needed"
+        varchar capability_requirement "Volume > 10000L"
+        boolean current_flag "SCD Type 2"
+    }
+
+    CONTROL_RECIPE["Control Recipe"] {
+        bigint control_recipe_identity PK "Surrogate key"
+        varchar control_recipe_ID UK "Executable recipe ID"
+        bigint master_recipe_identity FK "Based on master recipe"
+        bigint batch_identity FK "Batch to manufacture"
+        bigint product_identity FK "Specific product"
+        bigint equipment_identity FK "Assigned equipment"
+        varchar recipe_status "Scheduled, Running, Complete, Aborted"
+        timestamp scheduled_start "Planned start time"
+        timestamp actual_start "Actual start time"
+        timestamp scheduled_end "Planned completion"
+        timestamp actual_end "Actual completion"
+        varchar operator "Operator name/ID"
+        boolean current_flag "SCD Type 2"
+    }
+
+    CONTROL_RECIPE_PARAMETER["Control Recipe Parameter"] {
+        bigint control_parameter_identity PK "Surrogate key"
+        bigint control_recipe_identity FK "Control recipe"
+        bigint recipe_parameter_identity FK "Based on master parameter"
+        varchar parameter_name "Parameter name"
+        decimal set_point "Target value"
+        decimal lower_limit "LSL"
+        decimal upper_limit "USL"
+        varchar uom "Unit of measure"
+        boolean current_flag "SCD Type 2"
+    }
+
+    RECIPE_EXECUTION["Recipe Execution"] {
+        bigint execution_identity PK "Surrogate key"
+        bigint control_recipe_identity FK "Control recipe executed"
+        bigint batch_identity FK "Batch manufactured"
+        bigint recipe_phase_identity FK "Phase executed"
+        timestamp phase_start "Phase start time"
+        timestamp phase_end "Phase end time"
+        decimal phase_duration "Actual duration"
+        varchar execution_status "Running, Complete, Aborted, Failed"
+        varchar operator "Operator on duty"
+        bigint deviation_identity FK "Deviation if any"
+        boolean current_flag "SCD Type 2"
+    }
+
+    EXECUTION_PARAMETER_VALUE["Execution Parameter Value"] {
+        bigint execution_value_identity PK "Surrogate key"
+        bigint recipe_execution_identity FK "Execution instance"
+        bigint control_parameter_identity FK "Parameter measured"
+        timestamp measurement_time "When measured"
+        decimal actual_value "Measured value"
+        decimal set_point "Target at time"
+        varchar value_status "In-Spec, Out-of-Spec, Alarm"
+        varchar uom "Unit of measure"
+        boolean current_flag "SCD Type 2"
+    }
+
+    PRODUCT["Product"] {
+        bigint product_identity PK "Surrogate key"
+        varchar product_ID UK "Product code"
+        varchar product_name "Product name"
+        varchar product_type "mAb, Vaccine, Small Molecule"
+        boolean current_flag "SCD Type 2"
+    }
+
+    EQUIPMENT_CLASS["Equipment Class"] {
+        bigint equipment_class_identity PK "Surrogate key"
+        varchar equipment_class_ID UK "Class identifier"
+        varchar equipment_class_name "Bioreactor, Column, Filter"
+        varchar equipment_type "Unit, Equipment Module"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% Relationships
+    MASTER_RECIPE ||--o| MASTER_RECIPE : "composed of"
+    MASTER_RECIPE ||--o{ RECIPE_PARAMETER : "has parameters"
+    MASTER_RECIPE ||--o{ RECIPE_PHASE : "has phases"
+    MASTER_RECIPE ||--o{ RECIPE_MATERIAL : "requires materials"
+    MASTER_RECIPE ||--o{ RECIPE_EQUIPMENT : "uses equipment"
+
+    MASTER_RECIPE ||--o{ CONTROL_RECIPE : "instantiated as"
+    CONTROL_RECIPE ||--o{ CONTROL_RECIPE_PARAMETER : "has set points"
+    CONTROL_RECIPE ||--o{ RECIPE_EXECUTION : "executed via"
+
+    RECIPE_EXECUTION ||--o{ EXECUTION_PARAMETER_VALUE : "measured values"
+    RECIPE_PARAMETER ||--o{ CONTROL_RECIPE_PARAMETER : "instantiated as"
+
+    PRODUCT ||--o{ CONTROL_RECIPE : "manufactured using"
+    EQUIPMENT_CLASS ||--o{ RECIPE_EQUIPMENT : "required for"
+        </div>
+    </div>
+
+    <h2>Recipe Lifecycle Flow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph LR
+    subgraph "Recipe Development"
+        DRAFT[Draft Master Recipe<br/>📝 Process development<br/>Lab-scale trials<br/>Version 0.1]
+        REVIEW[Recipe Review<br/>🔍 Technical review<br/>QA review<br/>Regulatory review]
+        APPROVE[Approved Master Recipe<br/>✅ Approved for use<br/>Version 1.0<br/>GMP release]
+    end
+
+    subgraph "Recipe Instantiation"
+        SCHEDULE[Schedule Production<br/>📅 Batch B-12345<br/>Product XYZ<br/>Equipment BR-10KL-001]
+        CREATE_CR[Create Control Recipe<br/>⚙️ Copy master recipe<br/>Assign equipment<br/>Set parameters]
+        RELEASE[Release Control Recipe<br/>🚀 Ready for execution<br/>Electronic batch record]
+    end
+
+    subgraph "Recipe Execution"
+        EXECUTE[Execute Batch<br/>▶️ Run phases<br/>Monitor parameters<br/>Record actuals]
+        COMPLETE[Batch Complete<br/>✅ All phases done<br/>Data recorded<br/>eBR signed]
+        REVIEW_BATCH[Batch Review<br/>📊 Deviation review<br/>Quality review<br/>Batch disposition]
+    end
+
+    DRAFT --> REVIEW
+    REVIEW --> APPROVE
+    APPROVE --> SCHEDULE
+    SCHEDULE --> CREATE_CR
+    CREATE_CR --> RELEASE
+    RELEASE --> EXECUTE
+    EXECUTE --> COMPLETE
+    COMPLETE --> REVIEW_BATCH
+
+    style DRAFT fill:#ffccbc
+    style REVIEW fill:#fff3e0
+    style APPROVE fill:#c8e6c9
+    style SCHEDULE fill:#e1f5fe
+    style CREATE_CR fill:#b3e5fc
+    style RELEASE fill:#81d4fa
+    style EXECUTE fill:#f8bbd0
+    style COMPLETE fill:#c5cae9
+    style REVIEW_BATCH fill:#ce93d8
+        </div>
+    </div>
+
+    <div class="key-points">
+        <h3>🎯 Key Features</h3>
+        <ul>
+            <li><strong>ISA-88 Compliance:</strong> Procedural model (Procedure → Unit Procedure → Operation → Phase)</li>
+            <li><strong>Master Recipe:</strong> Product-independent process template with parameters and phases</li>
+            <li><strong>Control Recipe:</strong> Product-specific executable recipe with actual equipment and set points</li>
+            <li><strong>Recipe Versioning:</strong> SCD Type 2 to track recipe changes over time</li>
+            <li><strong>Critical Process Parameters (CPP):</strong> Flagged parameters with tight control limits</li>
+            <li><strong>Equipment Assignment:</strong> Equipment class requirements → actual equipment assignment</li>
+            <li><strong>Recipe Execution Tracking:</strong> Actual vs. target values for all parameters</li>
+            <li><strong>Electronic Batch Record:</strong> Complete execution history for regulatory compliance</li>
+            <li><strong>Material Bill of Materials:</strong> Required materials with quantities and specifications</li>
+            <li><strong>Phase Sequencing:</strong> Controlled phase transitions based on time or parameter criteria</li>
+        </ul>
+    </div>
+
+    <h2>Example: Production Bioreactor Recipe</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Master Recipe: mAb Production Culture"
+        RCP[Recipe: PROD-CULTURE-001<br/>📖 10-day fed-batch<br/>Version 2.0]
+    end
+
+    subgraph "Recipe Phases"
+        P1[Phase 1: Inoculation<br/>🔹 Transfer seed culture<br/>Duration: 2 hours<br/>Temp: 37°C ± 0.5]
+        P2[Phase 2: Batch Phase<br/>🔹 Day 0-3<br/>No feeding<br/>Monitor VCD, glucose]
+        P3[Phase 3: Fed-Batch Phase<br/>🔹 Day 3-10<br/>Glucose feed on demand<br/>Maintain pH 7.0 ± 0.1]
+        P4[Phase 4: Harvest<br/>🔹 Cool to 4°C<br/>Transfer to harvest tank]
+    end
+
+    subgraph "Critical Parameters"
+        CPP1[CPP: Temperature<br/>37.0 ± 0.5°C<br/>Critical]
+        CPP2[CPP: pH<br/>7.0 ± 0.1<br/>Critical]
+        CPP3[CPP: Dissolved Oxygen<br/>40 ± 5% saturation<br/>Critical]
+        NON1[Non-CPP: Agitation<br/>60 ± 10 RPM<br/>Monitor only]
+    end
+
+    RCP --> P1
+    RCP --> P2
+    RCP --> P3
+    RCP --> P4
+
+    P2 --> CPP1
+    P2 --> CPP2
+    P3 --> CPP2
+    P3 --> CPP3
+    P3 --> NON1
+
+    style RCP fill:#e3f2fd
+    style P1 fill:#fff3e0
+    style P2 fill:#c8e6c9
+    style P3 fill:#c8e6c9
+    style P4 fill:#ffccbc
+    style CPP1 fill:#ffcdd2
+    style CPP2 fill:#ffcdd2
+    style CPP3 fill:#ffcdd2
+    style NON1 fill:#e1f5fe
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>
