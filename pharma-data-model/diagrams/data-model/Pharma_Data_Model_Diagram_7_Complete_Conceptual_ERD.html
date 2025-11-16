@@ -121,7 +121,7 @@ erDiagram
     PRODUCTION_ORDER["Production Order"]
     
     %% === BRIDGE TABLES ===
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === SELF-JOIN HIERARCHIES ===
     BATCH ||--o| BATCH : "parent batch of"
@@ -130,8 +130,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent procedure of"
 
     %% === BRIDGE RELATIONSHIPS ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "child batch in lineage"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "parent batch in lineage"
+    BATCH ||--o{ BATCH_GENEALOGY : "child batch in lineage"
+    BATCH_GENEALOGY }o--|| BATCH : "parent batch in lineage"
     
     %% === SUPPORTING RELATIONSHIPS ===
     MATERIAL ||--o{ BATCH : "input to batch"

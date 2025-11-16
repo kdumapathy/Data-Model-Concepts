@@ -189,7 +189,7 @@ erDiagram
     PRODUCTION_ORDER["Production Order"]
     
     %% === BRIDGE TABLES ===
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
@@ -198,8 +198,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -282,7 +282,7 @@ erDiagram
     MATERIAL_LOT["Material Lot"]
     TRANSFORMATION["Transformation"]
     PRODUCTION_ORDER["Production Order"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
@@ -291,8 +291,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -377,7 +377,7 @@ erDiagram
     MATERIAL_LOT["Material Lot"]
     TRANSFORMATION["Transformation"]
     PRODUCTION_ORDER["Production Order"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
@@ -386,8 +386,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -459,7 +459,7 @@ erDiagram
     FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
     MATERIAL_LOT["Material Lot"]
     TRANSFORMATION["Transformation"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === SHARED ENTERPRISE DIMENSIONS ===
     BATCH["Batch"]
@@ -477,8 +477,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -531,7 +531,7 @@ erDiagram
                 <div class="mermaid">
 erDiagram
     %% === BRIDGE & SUPPORTING TABLES ===
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     PRODUCTION_ORDER["Production Order"]
     TRANSFORMATION["Transformation"]
     
@@ -572,8 +572,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -656,7 +656,7 @@ erDiagram
     MATERIAL_LOT["Material Lot"]
     TRANSFORMATION["Transformation"]
     PRODUCTION_ORDER["Production Order"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
@@ -665,8 +665,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -745,7 +745,7 @@ erDiagram
     FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
     MATERIAL_LOT["Material Lot"]
     TRANSFORMATION["Transformation"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === SUPPORTING ENTERPRISE ===
     MANUFACTURER["Manufacturer"]
@@ -760,8 +760,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -815,7 +815,7 @@ erDiagram
 erDiagram
     %% === CORE ENTITIES ===
     BATCH["Batch"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     MATERIAL["Material"]
     MATERIAL_LOT["Material Lot"]
     
@@ -857,8 +857,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -936,7 +936,7 @@ erDiagram
     
     %% === GENEALOGY TRACKING ===
     FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === ENTERPRISE SUPPORT ===
     NOTIFICATION["Notification"]
@@ -950,8 +950,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -1022,7 +1022,7 @@ erDiagram
     %% === GENEALOGY CLUSTER ===
     FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
     MATERIAL_LOT["Material Lot"]
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     TRANSFORMATION["Transformation"]
     PRODUCTION_ORDER["Production Order"]
     
@@ -1045,8 +1045,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING ===
     MATERIAL ||--o{ BATCH : "used to produce"
