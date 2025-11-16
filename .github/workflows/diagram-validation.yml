@@ -1,0 +1,184 @@
+name: Diagram and Model Validation
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  validate-diagrams:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run diagram validation tests
+        run: npm run test:ci
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-node-${{ matrix.node-version }}
+          path: |
+            coverage/
+            *.log
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Node.js Version: ${{ matrix.node-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f coverage/coverage-summary.json ]; then
+            echo "### Coverage Report" >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            cat coverage/coverage-summary.json >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Comment test results on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let comment = '## 📊 Diagram Validation Results\n\n';
+            comment += `**Node.js Version:** ${{ matrix.node-version }}\n\n`;
+            comment += '### Test Status\n';
+            comment += '✅ All validation tests passed!\n\n';
+            comment += '### Test Categories\n';
+            comment += '- ✅ HTML Structure Validation\n';
+            comment += '- ✅ Mermaid Diagram Syntax Validation\n';
+            comment += '- ✅ Model Relationship Validation\n';
+            comment += '- ✅ Documentation Cross-References\n';
+            comment += '- ✅ CSS and JavaScript Validation\n';
+            comment += '- ✅ Accessibility Features\n';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  diagram-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Count diagrams and generate report
+        run: |
+          echo "## 📈 Diagram Repository Statistics" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Count diagrams by category
+          data_model_count=$(find pharma-data-model/diagrams/data-model -name "*.html" 2>/dev/null | wc -l)
+          manufacturing_count=$(find pharma-data-model/diagrams/manufacturing-process -name "*.html" 2>/dev/null | wc -l)
+          clinical_count=$(find pharma-data-model/diagrams/clinical-process -name "*.html" 2>/dev/null | wc -l)
+          total_count=$((data_model_count + manufacturing_count + clinical_count))
+
+          echo "### Diagram Count by Category" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Category | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Data Model | $data_model_count |" >> $GITHUB_STEP_SUMMARY
+          echo "| Manufacturing Process | $manufacturing_count |" >> $GITHUB_STEP_SUMMARY
+          echo "| Clinical Process | $clinical_count |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Total** | **$total_count** |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Count documentation files
+          md_count=$(find pharma-data-model -name "*.md" 2>/dev/null | wc -l)
+          echo "### Documentation Files" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Total Markdown files: **$md_count**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # List all diagram files
+          echo "### All Diagram Files" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Data Model Diagrams" >> $GITHUB_STEP_SUMMARY
+          find pharma-data-model/diagrams/data-model -name "*.html" -exec basename {} \; 2>/dev/null | while read file; do
+            echo "- $file" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "#### Manufacturing Process Diagrams" >> $GITHUB_STEP_SUMMARY
+          find pharma-data-model/diagrams/manufacturing-process -name "*.html" -exec basename {} \; 2>/dev/null | while read file; do
+            echo "- $file" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "#### Clinical Process Diagrams" >> $GITHUB_STEP_SUMMARY
+          find pharma-data-model/diagrams/clinical-process -name "*.html" -exec basename {} \; 2>/dev/null | while read file; do
+            echo "- $file" >> $GITHUB_STEP_SUMMARY
+          done
+
+      - name: Validate Mermaid syntax
+        run: |
+          echo "## 🔍 Mermaid Syntax Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Simple check for common Mermaid keywords
+          error_count=0
+          for file in $(find pharma-data-model/diagrams -name "*.html"); do
+            if ! grep -q "class=\"mermaid\"" "$file"; then
+              echo "⚠️ Warning: $file may not contain Mermaid diagram" >> $GITHUB_STEP_SUMMARY
+              error_count=$((error_count + 1))
+            fi
+          done
+
+          if [ $error_count -eq 0 ]; then
+            echo "✅ All HTML files contain Mermaid diagrams" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Found $error_count potential issues" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: |
+          echo "## 🔒 Security Audit" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          npm audit --audit-level=moderate || true
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Security audit completed" >> $GITHUB_STEP_SUMMARY

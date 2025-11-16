@@ -1,0 +1,36 @@
+{
+  "name": "pharma-data-model-tests",
+  "version": "1.0.0",
+  "description": "Test suite for pharmaceutical data model diagrams and documentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:ci": "jest --ci --coverage --verbose"
+  },
+  "keywords": [
+    "pharma",
+    "data-model",
+    "mermaid",
+    "diagrams",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^10.6.1",
+    "cheerio": "^1.0.0-rc.12",
+    "jest": "^29.7.0",
+    "glob": "^10.3.10"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "tests/**/*.js"
+    ],
+    "coverageDirectory": "coverage",
+    "verbose": true
+  }
+}
