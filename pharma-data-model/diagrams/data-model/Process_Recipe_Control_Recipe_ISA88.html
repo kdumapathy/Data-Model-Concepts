@@ -105,13 +105,13 @@
     </div>
 
     <h2>ISA-88 Procedural Model Hierarchy</h2>
+    <div class="zoom-controls">
+        <button onclick="zoomOut1()">Zoom Out (-)</button>
+        <span class="zoom-level" id="zoomLevel1">100%</span>
+        <button onclick="zoomIn1()">Zoom In (+)</button>
+        <button onclick="resetZoom1()">Reset</button>
+    </div>
     <div class="diagram-container">
-        <div class="zoom-controls">
-            <button onclick="zoomOut1()">Zoom Out (-)</button>
-            <span class="zoom-level" id="zoomLevel1">100%</span>
-            <button onclick="zoomIn1()">Zoom In (+)</button>
-            <button onclick="resetZoom1()">Reset</button>
-        </div>
         <div class="mermaid" id="mermaidDiagram1">
 graph TB
     subgraph "Procedure Level"
@@ -160,13 +160,13 @@ graph TB
     </div>
 
     <h2>Master Recipe & Control Recipe Data Model</h2>
+    <div class="zoom-controls">
+        <button onclick="zoomOut2()">Zoom Out (-)</button>
+        <span class="zoom-level" id="zoomLevel2">100%</span>
+        <button onclick="zoomIn2()">Zoom In (+)</button>
+        <button onclick="resetZoom2()">Reset</button>
+    </div>
     <div class="diagram-container">
-        <div class="zoom-controls">
-            <button onclick="zoomOut2()">Zoom Out (-)</button>
-            <span class="zoom-level" id="zoomLevel2">100%</span>
-            <button onclick="zoomIn2()">Zoom In (+)</button>
-            <button onclick="resetZoom2()">Reset</button>
-        </div>
         <div class="mermaid" id="mermaidDiagram2">
 erDiagram
     MASTER_RECIPE["Master Recipe"] {
@@ -338,13 +338,13 @@ erDiagram
     </div>
 
     <h2>Recipe Lifecycle Flow</h2>
+    <div class="zoom-controls">
+        <button onclick="zoomOut3()">Zoom Out (-)</button>
+        <span class="zoom-level" id="zoomLevel3">100%</span>
+        <button onclick="zoomIn3()">Zoom In (+)</button>
+        <button onclick="resetZoom3()">Reset</button>
+    </div>
     <div class="diagram-container">
-        <div class="zoom-controls">
-            <button onclick="zoomOut3()">Zoom Out (-)</button>
-            <span class="zoom-level" id="zoomLevel3">100%</span>
-            <button onclick="zoomIn3()">Zoom In (+)</button>
-            <button onclick="resetZoom3()">Reset</button>
-        </div>
         <div class="mermaid" id="mermaidDiagram3">
 graph LR
     subgraph "Recipe Development"
@@ -403,13 +403,13 @@ graph LR
     </div>
 
     <h2>Example: Production Bioreactor Recipe</h2>
+    <div class="zoom-controls">
+        <button onclick="zoomOut4()">Zoom Out (-)</button>
+        <span class="zoom-level" id="zoomLevel4">100%</span>
+        <button onclick="zoomIn4()">Zoom In (+)</button>
+        <button onclick="resetZoom4()">Reset</button>
+    </div>
     <div class="diagram-container">
-        <div class="zoom-controls">
-            <button onclick="zoomOut4()">Zoom Out (-)</button>
-            <span class="zoom-level" id="zoomLevel4">100%</span>
-            <button onclick="zoomIn4()">Zoom In (+)</button>
-            <button onclick="resetZoom4()">Reset</button>
-        </div>
         <div class="mermaid" id="mermaidDiagram4">
 graph TB
     subgraph "Master Recipe: mAb Production Culture"
@@ -493,7 +493,7 @@ graph TB
         function updateZoom1() {
             const diagram = document.getElementById('mermaidDiagram1');
             diagram.style.transform = `scale(${currentZoom1})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
         }
 
@@ -522,7 +522,7 @@ graph TB
         function updateZoom2() {
             const diagram = document.getElementById('mermaidDiagram2');
             diagram.style.transform = `scale(${currentZoom2})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
         }
 
@@ -551,7 +551,7 @@ graph TB
         function updateZoom3() {
             const diagram = document.getElementById('mermaidDiagram3');
             diagram.style.transform = `scale(${currentZoom3})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel3').textContent = `${Math.round(currentZoom3 * 100)}%`;
         }
 
@@ -580,7 +580,7 @@ graph TB
         function updateZoom4() {
             const diagram = document.getElementById('mermaidDiagram4');
             diagram.style.transform = `scale(${currentZoom4})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel4').textContent = `${Math.round(currentZoom4 * 100)}%`;
         }
     </script>

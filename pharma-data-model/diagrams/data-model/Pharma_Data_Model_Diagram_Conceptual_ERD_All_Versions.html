@@ -194,13 +194,13 @@
                 Full enterprise model with all three fact tables, all dimensions, bridge tables, and hierarchies. 
                 Shows complete lineage including Production Order and Transformation entities.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut1()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel1">100%</span>
+                <button onclick="zoomIn1()">Zoom In (+)</button>
+                <button onclick="resetZoom1()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut1()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel1">100%</span>
-                    <button onclick="zoomIn1()">Zoom In (+)</button>
-                    <button onclick="resetZoom1()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram1">
 erDiagram
     %% COMPLETE ENTERPRISE DATA MODEL
@@ -298,13 +298,13 @@ erDiagram
                 Isolated view of manufacturing process fact with its dimensions. 
                 Clean star schema showing process hierarchies and conformed dimensions.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut2()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel2">100%</span>
+                <button onclick="zoomIn2()">Zoom In (+)</button>
+                <button onclick="resetZoom2()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut2()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel2">100%</span>
-                    <button onclick="zoomIn2()">Zoom In (+)</button>
-                    <button onclick="resetZoom2()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram2">
 erDiagram
     %% MANUFACTURING PROCESS STAR SCHEMA
@@ -352,13 +352,13 @@ erDiagram
                 Isolated analytical fact with both conformed and analytical-specific dimensions. 
                 Pure star schema for testing and quality control analytics.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut3()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel3">100%</span>
+                <button onclick="zoomIn3()">Zoom In (+)</button>
+                <button onclick="resetZoom3()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut3()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel3">100%</span>
-                    <button onclick="zoomIn3()">Zoom In (+)</button>
-                    <button onclick="resetZoom3()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram3">
 erDiagram
     %% ANALYTICAL RESULTS STAR SCHEMA
@@ -410,13 +410,13 @@ erDiagram
                 Batch material usage fact without Production Order and Transformation entities. 
                 Clean star schema focused on material lineage tracking.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut4()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel4">100%</span>
+                <button onclick="zoomIn4()">Zoom In (+)</button>
+                <button onclick="resetZoom4()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut4()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel4">100%</span>
-                    <button onclick="zoomIn4()">Zoom In (+)</button>
-                    <button onclick="resetZoom4()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram4">
 erDiagram
     %% SIMPLIFIED GENEALOGY STAR SCHEMA
@@ -464,13 +464,13 @@ erDiagram
                 Full genealogy fact including Production Order and Transformation dimensions. 
                 Comprehensive lineage with manufacturing execution context.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut5()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel5">100%</span>
+                <button onclick="zoomIn5()">Zoom In (+)</button>
+                <button onclick="resetZoom5()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut5()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel5">100%</span>
-                    <button onclick="zoomIn5()">Zoom In (+)</button>
-                    <button onclick="resetZoom5()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram5">
 erDiagram
     %% COMPLETE GENEALOGY STAR SCHEMA
@@ -523,13 +523,13 @@ erDiagram
                 Two fact constellation showing process and analytical facts with shared conformed dimensions. 
                 Excludes genealogy for cleaner manufacturing and testing analytics view.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut6()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel6">100%</span>
+                <button onclick="zoomIn6()">Zoom In (+)</button>
+                <button onclick="resetZoom6()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut6()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel6">100%</span>
-                    <button onclick="zoomIn6()">Zoom In (+)</button>
-                    <button onclick="resetZoom6()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram6">
 erDiagram
     %% DUAL STAR SCHEMA - PROCESS + ANALYTICAL
@@ -602,13 +602,13 @@ erDiagram
                 All three facts with conformed dimensions, but simplified genealogy without Production Order and Transformation. 
                 Balanced view for most analytical use cases.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut7()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel7">100%</span>
+                <button onclick="zoomIn7()">Zoom In (+)</button>
+                <button onclick="resetZoom7()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut7()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel7">100%</span>
-                    <button onclick="zoomIn7()">Zoom In (+)</button>
-                    <button onclick="resetZoom7()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram7">
 erDiagram
     %% SIMPLIFIED FULL ENTERPRISE MODEL
@@ -702,13 +702,13 @@ erDiagram
             <div class="version-description">
                 Single fact with only core conformed dimensions. Cleanest star schema showing fundamental dimensional model pattern.
             </div>
+            <div class="zoom-controls">
+                <button onclick="zoomOut8()">Zoom Out (-)</button>
+                <span class="zoom-level" id="zoomLevel8">100%</span>
+                <button onclick="zoomIn8()">Zoom In (+)</button>
+                <button onclick="resetZoom8()">Reset</button>
+            </div>
             <div class="diagram-container">
-                <div class="zoom-controls">
-                    <button onclick="zoomOut8()">Zoom Out (-)</button>
-                    <span class="zoom-level" id="zoomLevel8">100%</span>
-                    <button onclick="zoomIn8()">Zoom In (+)</button>
-                    <button onclick="resetZoom8()">Reset</button>
-                </div>
                 <div class="mermaid" id="mermaidDiagram8">
 erDiagram
     %% MINIMAL STAR SCHEMA - CORE DIMENSIONS
@@ -775,7 +775,7 @@ erDiagram
         function updateZoom1() {
             const diagram = document.getElementById('mermaidDiagram1');
             diagram.style.transform = `scale(${currentZoom1})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
         }
 
@@ -803,7 +803,7 @@ erDiagram
         function updateZoom2() {
             const diagram = document.getElementById('mermaidDiagram2');
             diagram.style.transform = `scale(${currentZoom2})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
         }
 
@@ -831,7 +831,7 @@ erDiagram
         function updateZoom3() {
             const diagram = document.getElementById('mermaidDiagram3');
             diagram.style.transform = `scale(${currentZoom3})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel3').textContent = `${Math.round(currentZoom3 * 100)}%`;
         }
 
@@ -859,7 +859,7 @@ erDiagram
         function updateZoom4() {
             const diagram = document.getElementById('mermaidDiagram4');
             diagram.style.transform = `scale(${currentZoom4})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel4').textContent = `${Math.round(currentZoom4 * 100)}%`;
         }
 
@@ -887,7 +887,7 @@ erDiagram
         function updateZoom5() {
             const diagram = document.getElementById('mermaidDiagram5');
             diagram.style.transform = `scale(${currentZoom5})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel5').textContent = `${Math.round(currentZoom5 * 100)}%`;
         }
 
@@ -915,7 +915,7 @@ erDiagram
         function updateZoom6() {
             const diagram = document.getElementById('mermaidDiagram6');
             diagram.style.transform = `scale(${currentZoom6})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel6').textContent = `${Math.round(currentZoom6 * 100)}%`;
         }
 
@@ -943,7 +943,7 @@ erDiagram
         function updateZoom7() {
             const diagram = document.getElementById('mermaidDiagram7');
             diagram.style.transform = `scale(${currentZoom7})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel7').textContent = `${Math.round(currentZoom7 * 100)}%`;
         }
 
@@ -971,7 +971,7 @@ erDiagram
         function updateZoom8() {
             const diagram = document.getElementById('mermaidDiagram8');
             diagram.style.transform = `scale(${currentZoom8})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel8').textContent = `${Math.round(currentZoom8 * 100)}%`;
         }
     </script>
