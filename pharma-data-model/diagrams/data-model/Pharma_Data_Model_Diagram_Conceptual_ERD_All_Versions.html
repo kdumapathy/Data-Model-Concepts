@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Pharmaceutical Data Model - All Versions Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .version-section {
+            margin: 50px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        .version-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .version-description {
+            color: #6c757d;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .diagram-container {
+            background: #ffffff;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border: 3px solid #e9ecef;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .mermaid {
+            display: block;
+            width: 100%;
+            min-height: 400px;
+        }
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+        .print-button {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .print-button button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+        .print-button button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .toc {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .toc h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 10px 0;
+        }
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .print-button, .toc {
+                display: none;
+            }
+            .version-section {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Pharmaceutical Data Model - All Versions Comparison</h1>
+        
+        <div class="print-button">
+            <button onclick="window.print()">🖨️ Print All Diagrams</button>
+        </div>
+
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#version1">Version 1: Complete Enterprise Model (Original)</a></li>
+                <li><a href="#version2">Version 2: Manufacturing Process Star Schema Only</a></li>
+                <li><a href="#version3">Version 3: Analytical Results Star Schema Only</a></li>
+                <li><a href="#version4">Version 4: Genealogy Star Schema (No Production Order/Transformation)</a></li>
+                <li><a href="#version5">Version 5: Genealogy Star Schema (With Production Order/Transformation)</a></li>
+                <li><a href="#version6">Version 6: Dual Star - Process + Analytical Only</a></li>
+                <li><a href="#version7">Version 7: Simplified Full Model (No Production Order/Transformation)</a></li>
+                <li><a href="#version8">Version 8: Minimal Star - Core Conformed Dimensions</a></li>
+            </ul>
+        </div>
+
+        <!-- VERSION 1: COMPLETE ORIGINAL -->
+        <div class="version-section" id="version1">
+            <div class="version-title">Version 1: Complete Enterprise Model (Original)</div>
+            <div class="version-description">
+                Full enterprise model with all three fact tables, all dimensions, bridge tables, and hierarchies. 
+                Shows complete lineage including Production Order and Transformation entities.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% COMPLETE ENTERPRISE DATA MODEL
+    
+    %% === FACTS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === PROCESS-SPECIFIC DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL-SPECIFIC DIMENSIONS ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === GENEALOGY DIMENSIONS ===
+    MATERIAL_LOT["Material Lot"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    
+    %% === BRIDGE TABLES ===
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === SELF-JOIN HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE RELATIONSHIPS ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING RELATIONSHIPS ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT RELATIONSHIPS ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT RELATIONSHIPS ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT RELATIONSHIPS ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- VERSION 2: PROCESS STAR SCHEMA ONLY -->
+        <div class="version-section" id="version2">
+            <div class="version-title">Version 2: Manufacturing Process Star Schema Only</div>
+            <div class="version-description">
+                Isolated view of manufacturing process fact with its dimensions. 
+                Clean star schema showing process hierarchies and conformed dimensions.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% MANUFACTURING PROCESS STAR SCHEMA
+    
+    %% === FACT ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    
+    %% === CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === PROCESS-SPECIFIC DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === DIMENSION HIERARCHIES ===
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+                </div>
+            </div>
+        </div>
+
+        <!-- VERSION 3: ANALYTICAL STAR SCHEMA ONLY -->
+        <div class="version-section" id="version3">
+            <div class="version-title">Version 3: Analytical Results Star Schema Only</div>
+            <div class="version-description">
+                Isolated analytical fact with both conformed and analytical-specific dimensions. 
+                Pure star schema for testing and quality control analytics.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% ANALYTICAL RESULTS STAR SCHEMA
+    
+    %% === FACT ===
+    FACT_ANALYTICAL["Analytical Result"]
+    
+    %% === CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === ANALYTICAL-SPECIFIC DIMENSIONS ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+                </div>
+            </div>
+        </div>
+
+        <!-- VERSION 4: GENEALOGY WITHOUT PRODUCTION ORDER/TRANSFORMATION -->
+        <div class="version-section" id="version4">
+            <div class="version-title">Version 4: Genealogy Star Schema (Simplified)</div>
+            <div class="version-description">
+                Batch material usage fact without Production Order and Transformation entities. 
+                Clean star schema focused on material lineage tracking.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% SIMPLIFIED GENEALOGY STAR SCHEMA
+    
+    %% === FACT ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === DIMENSIONS ===
+    BATCH["Batch"]
+    MATERIAL_LOT["Material Lot"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === BRIDGE TABLE ===
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    
+    %% === BRIDGE RELATIONSHIPS ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING RELATIONSHIPS ===
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    FACT_BATCH_MATERIAL_USAGE }o--|| MATERIAL : "material type"
+    FACT_BATCH_MATERIAL_USAGE }o--|| MANUFACTURER : "supplied by"
+    FACT_BATCH_MATERIAL_USAGE }o--|| DOCUMENT : "documented in"
+    FACT_BATCH_MATERIAL_USAGE }o--|| SOURCE_SYSTEM : "sourced from"
+                </div>
+            </div>
+        </div>
+
+        <!-- VERSION 5: GENEALOGY WITH PRODUCTION ORDER/TRANSFORMATION -->
+        <div class="version-section" id="version5">
+            <div class="version-title">Version 5: Genealogy Star Schema (Complete)</div>
+            <div class="version-description">
+                Full genealogy fact including Production Order and Transformation dimensions. 
+                Comprehensive lineage with manufacturing execution context.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% COMPLETE GENEALOGY STAR SCHEMA
+    
+    %% === FACT ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === DIMENSIONS ===
+    BATCH["Batch"]
+    MATERIAL_LOT["Material Lot"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    
+    %% === BRIDGE TABLE ===
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    
+    %% === BRIDGE RELATIONSHIPS ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING RELATIONSHIPS ===
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+    FACT_BATCH_MATERIAL_USAGE }o--|| MATERIAL : "material type"
+    FACT_BATCH_MATERIAL_USAGE }o--|| MANUFACTURER : "supplied by"
+    FACT_BATCH_MATERIAL_USAGE }o--|| DOCUMENT : "documented in"
+    FACT_BATCH_MATERIAL_USAGE }o--|| SOURCE_SYSTEM : "sourced from"
+    FACT_BATCH_MATERIAL_USAGE }o--|| PRODUCTION_ORDER : "executed by"
+                </div>
+            </div>
+        </div>
+
+        <!-- VERSION 6: DUAL STAR - PROCESS + ANALYTICAL -->
+        <div class="version-section" id="version6">
+            <div class="version-title">Version 6: Dual Star - Process + Analytical Only</div>
+            <div class="version-description">
+                Two fact constellation showing process and analytical facts with shared conformed dimensions. 
+                Excludes genealogy for cleaner manufacturing and testing analytics view.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% DUAL STAR SCHEMA - PROCESS + ANALYTICAL
+    
+    %% === FACTS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    
+    %% === CONFORMED DIMENSIONS (SHARED) ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === PROCESS-SPECIFIC DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL-SPECIFIC DIMENSIONS ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === HIERARCHIES ===
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === PROCESS FACT RELATIONSHIPS ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines step"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT RELATIONSHIPS ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "at location"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+                </div>
+            </div>
+        </div>
+
+        <!-- VERSION 7: SIMPLIFIED FULL MODEL -->
+        <div class="version-section" id="version7">
+            <div class="version-title">Version 7: Simplified Full Model (No Production Order/Transformation)</div>
+            <div class="version-description">
+                All three facts with conformed dimensions, but simplified genealogy without Production Order and Transformation. 
+                Balanced view for most analytical use cases.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% SIMPLIFIED FULL ENTERPRISE MODEL
+    
+    %% === FACTS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === PROCESS-SPECIFIC DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL-SPECIFIC DIMENSIONS ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === GENEALOGY DIMENSIONS ===
+    MATERIAL_LOT["Material Lot"]
+    
+    %% === BRIDGE TABLES ===
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process"
+    
+    %% === BRIDGE RELATIONSHIPS ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "parent"
+    
+    %% === SUPPORTING RELATIONSHIPS ===
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    
+    %% === PROCESS FACT RELATIONSHIPS ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "step"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "process"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "batch"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "sample"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "material"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufacturer"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "spec"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "notification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "document"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "source"
+    
+    %% === ANALYTICAL FACT RELATIONSHIPS ===
+    BATCH ||--o{ FACT_ANALYTICAL : "batch"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "sample"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "material"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "manufacturer"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "spec"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notification"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "document"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "source"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "method"
+    FACT_ANALYTICAL }o--|| TEST : "test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "location"
+    FACT_ANALYTICAL }o--|| CONDITION : "condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "time"
+    FACT_ANALYTICAL }o--|| STUDY : "study"
+    
+    %% === GENEALOGY FACT RELATIONSHIPS ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "batch"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "lot"
+    FACT_BATCH_MATERIAL_USAGE }o--|| MATERIAL : "material"
+    FACT_BATCH_MATERIAL_USAGE }o--|| DOCUMENT : "document"
+                </div>
+            </div>
+        </div>
+
+        <!-- VERSION 8: MINIMAL STAR SCHEMA -->
+        <div class="version-section" id="version8">
+            <div class="version-title">Version 8: Minimal Star - Core Conformed Dimensions</div>
+            <div class="version-description">
+                Single fact with only core conformed dimensions. Cleanest star schema showing fundamental dimensional model pattern.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% MINIMAL STAR SCHEMA - CORE DIMENSIONS
+    
+    %% === FACT ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    
+    %% === CORE CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                fontSize: '16px'
+            }
+        });
+    </script>
+</body>
+</html>

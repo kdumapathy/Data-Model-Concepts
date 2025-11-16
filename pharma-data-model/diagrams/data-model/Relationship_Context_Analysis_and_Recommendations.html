@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Data Model Relationship Context - Analysis & Recommendations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .standards-reference {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2196f3;
+        }
+        .standards-reference h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .standards-reference ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .category-section {
+            margin: 40px 0;
+        }
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        thead {
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+        }
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            font-size: 0.95em;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .entity-pair {
+            font-weight: bold;
+            color: #495057;
+            white-space: nowrap;
+        }
+        .current-label {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .option {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #dee2e6;
+        }
+        .option.recommended {
+            background: #d4edda;
+            border-left: 3px solid #28a745;
+            font-weight: 600;
+        }
+        .option-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .option-standard {
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+        .recommendation {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #ffc107;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .recommendation strong {
+            color: #856404;
+        }
+        .legend {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .legend-item.recommended {
+            background: #d4edda;
+            border-left: 3px solid #28a745;
+        }
+        .legend-item.option {
+            background: #f8f9fa;
+            border-left: 3px solid #dee2e6;
+        }
+        .print-button {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .print-button button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+        .print-button button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Data Model Relationship Context Analysis</h1>
+        <div class="subtitle">Industry Standards & Recommendations for Pharmaceutical Data Models</div>
+
+        <div class="print-button">
+            <button onclick="window.print()">🖨️ Print Analysis</button>
+        </div>
+
+        <div class="standards-reference">
+            <h3>📚 Standards & Frameworks Referenced</h3>
+            <ul>
+                <li><strong>ISO 13485:</strong> Medical devices - Quality management systems</li>
+                <li><strong>ISO 9001:</strong> Quality management systems - Requirements</li>
+                <li><strong>ISA-88:</strong> Batch control standard for pharmaceutical manufacturing</li>
+                <li><strong>ISA-95:</strong> Enterprise-control system integration</li>
+                <li><strong>21 CFR Part 11:</strong> Electronic records; electronic signatures</li>
+                <li><strong>cGMP:</strong> Current Good Manufacturing Practice</li>
+                <li><strong>ICH Guidelines:</strong> International Council for Harmonisation (Q7, Q10)</li>
+                <li><strong>Kimball Methodology:</strong> Dimensional modeling best practices</li>
+                <li><strong>APQC:</strong> American Productivity & Quality Center process standards</li>
+                <li><strong>ANSI/ISA-88.01:</strong> Batch control terminology and models</li>
+            </ul>
+        </div>
+
+        <div class="legend">
+            <strong>Legend:</strong>
+            <span class="legend-item recommended">✅ Recommended Option</span>
+            <span class="legend-item option">Alternative Option</span>
+        </div>
+
+        <!-- MANUFACTURING PROCESS RELATIONSHIPS -->
+        <div class="category-section">
+            <div class="category-header">🏭 Manufacturing Process Fact Relationships</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Entity A → Entity B</th>
+                        <th style="width: 18%;">Current Relationship</th>
+                        <th style="width: 62%;">Alternative Options & Recommendations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Process Fact to Batch -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Batch</td>
+                        <td class="current-label">performed on</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">executed for</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">produced by</span>
+                                <span class="option-standard">(ISO 13485)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">processed in</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">performed on</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "executed for" as it aligns with ISA-88 batch execution terminology and clearly indicates that the process step was executed for a specific batch. It's more precise than "performed on" in a manufacturing context.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Fact to Sample -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Sample</td>
+                        <td class="current-label">measured from</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">sampled from</span>
+                                <span class="option-standard">(cGMP, ISO 13485)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">derived from sample</span>
+                                <span class="option-standard">(ISO 9001)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">collected as</span>
+                                <span class="option-standard">(Kimball)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">measured from</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "sampled from" as it's standard pharmaceutical terminology. It clearly indicates the sample collection origin, which is critical for traceability and regulatory compliance (21 CFR Part 11).
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Fact to Material -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Material</td>
+                        <td class="current-label">consumed</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">consumed material</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">used material</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">utilized</span>
+                                <span class="option-standard">(APQC)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">consumed</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "consumed material" for explicit clarity in bill-of-materials tracking. ISA-95 uses this terminology for material consumption tracking in manufacturing execution systems.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Fact to Manufacturer -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Manufacturer</td>
+                        <td class="current-label">manufactured by</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">executed by manufacturer</span>
+                                <span class="option-standard">(ISO 13485, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">produced by</span>
+                                <span class="option-standard">(ICH Q10)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">manufactured by</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">performed by site</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "executed by manufacturer" to align with quality system terminology. It clearly indicates manufacturer responsibility, which is critical for regulatory submissions and audits.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Fact to Specification -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Specification</td>
+                        <td class="current-label">meets specification</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">evaluated against</span>
+                                <span class="option-standard">(ISO 9001, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">complies with</span>
+                                <span class="option-standard">(ICH Q6A)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">meets specification</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">verified against</span>
+                                <span class="option-standard">(ISO 13485)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "evaluated against" as it's neutral and doesn't imply pass/fail. The specification serves as criteria for evaluation. This aligns with quality control terminology and supports deviation tracking.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Fact to Notification -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Notification</td>
+                        <td class="current-label">triggers</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">generated notification</span>
+                                <span class="option-standard">(21 CFR Part 11)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">raised alert</span>
+                                <span class="option-standard">(ISO 9001)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">triggers</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">initiated notification</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "generated notification" for clear audit trail. It indicates the process result created the notification, which is important for compliance and deviation management.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Fact to Document -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Document</td>
+                        <td class="current-label">documented in</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">recorded in</span>
+                                <span class="option-standard">(21 CFR Part 11, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">documented by</span>
+                                <span class="option-standard">(ISO 13485)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">documented in</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">evidenced in</span>
+                                <span class="option-standard">(ICH Q10)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "recorded in" as it's standard regulatory language for electronic records. It clearly indicates where the official record exists, critical for 21 CFR Part 11 compliance.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Fact to Source System -->
+                    <tr>
+                        <td class="entity-pair">Manufacturing Process Result → Source System</td>
+                        <td class="current-label">sourced from</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">originated in</span>
+                                <span class="option-standard">(Kimball, Data Lineage)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">captured by system</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">sourced from</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">generated by</span>
+                                <span class="option-standard">(Data Governance)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "originated in" for clear data lineage. It's Kimball best practice for tracking data provenance in dimensional models, essential for data quality and audit trails.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Hierarchies -->
+                    <tr>
+                        <td class="entity-pair">Local Process Hierarchy → Manufacturing Process Result</td>
+                        <td class="current-label">defines local step for</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">defines unit operation</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">specifies step</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">defines local step for</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">describes operation</span>
+                                <span class="option-standard">(APQC)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "defines unit operation" as it aligns with ISA-88 hierarchical batch control model. "Unit operation" is precise pharmaceutical manufacturing terminology.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="entity-pair">Common Process Hierarchy → Manufacturing Process Result</td>
+                        <td class="current-label">defines process for</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">defines procedure</span>
+                                <span class="option-standard">(ISA-88, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">categorizes process</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">defines process for</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">standardizes operation</span>
+                                <span class="option-standard">(ICH Q10)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "defines procedure" to align with ISA-88 terminology where "procedure" is a higher-level process classification than unit operation.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ANALYTICAL RELATIONSHIPS -->
+        <div class="category-section">
+            <div class="category-header">🔬 Analytical/Quality Control Fact Relationships</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Entity A → Entity B</th>
+                        <th style="width: 18%;">Current Relationship</th>
+                        <th style="width: 62%;">Alternative Options & Recommendations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Analytical Fact to Batch -->
+                    <tr>
+                        <td class="entity-pair">Batch → Analytical Result</td>
+                        <td class="current-label">tested via</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">analyzed by</span>
+                                <span class="option-standard">(ICH Q6A, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">tested via</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">evaluated by</span>
+                                <span class="option-standard">(ISO 13485)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">assessed in</span>
+                                <span class="option-standard">(ISO 9001)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "analyzed by" as it's the preferred term in ICH Q6A (specifications) and pharmaceutical quality control. More precise than "tested via."
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Sample -->
+                    <tr>
+                        <td class="entity-pair">Sample → Analytical Result</td>
+                        <td class="current-label">analyzed as</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">subjected to analysis</span>
+                                <span class="option-standard">(cGMP, ICH Q2(R1))</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">tested in</span>
+                                <span class="option-standard">(ISO 17025)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">analyzed as</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">generated result</span>
+                                <span class="option-standard">(Kimball)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "subjected to analysis" for precision in describing the sample's role in testing. This aligns with analytical validation terminology (ICH Q2).
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Material -->
+                    <tr>
+                        <td class="entity-pair">Material → Analytical Result</td>
+                        <td class="current-label">tested for</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">material tested</span>
+                                <span class="option-standard">(ICH Q6A, Q11)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">analyzed as type</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">tested for</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">characterized by</span>
+                                <span class="option-standard">(ICH Q6B)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "material tested" for clear identification of the material type being analyzed. Important for raw material vs. intermediate vs. finished product distinction.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Specification -->
+                    <tr>
+                        <td class="entity-pair">Specification → Analytical Result</td>
+                        <td class="current-label">evaluated against</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">compared to specification</span>
+                                <span class="option-standard">(ICH Q6A, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">evaluated against</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">assessed per criteria</span>
+                                <span class="option-standard">(ISO 9001)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">validated against</span>
+                                <span class="option-standard">(ISO 17025)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "compared to specification" for clarity in QC release testing. This is standard pharmaceutical QC terminology and aligns with ICH Q6A specifications guidance.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Test -->
+                    <tr>
+                        <td class="entity-pair">Analytical Result → Test</td>
+                        <td class="current-label">performs test</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">executes test method</span>
+                                <span class="option-standard">(ICH Q2(R1), USP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">applies test</span>
+                                <span class="option-standard">(ISO 17025)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">performs test</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">utilizes assay</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "executes test method" to align with analytical method validation terminology. It clearly indicates the specific test method being performed.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Analytical Method -->
+                    <tr>
+                        <td class="entity-pair">Analytical Result → Analytical Method</td>
+                        <td class="current-label">using method</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">performed by method</span>
+                                <span class="option-standard">(ICH Q2(R1), USP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">applied method</span>
+                                <span class="option-standard">(ISO 17025)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">using method</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">validated by method</span>
+                                <span class="option-standard">(ICH Q2(R1))</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "performed by method" to indicate the validated analytical method used. Critical for regulatory submissions and method lifecycle management.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Test Location -->
+                    <tr>
+                        <td class="entity-pair">Analytical Result → Test Location</td>
+                        <td class="current-label">conducted at</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">performed at location</span>
+                                <span class="option-standard">(ISO 17025, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">tested at lab</span>
+                                <span class="option-standard">(ISO 13485)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">conducted at</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">executed at site</span>
+                                <span class="option-standard">(GLP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "performed at location" for clarity in multi-site quality operations. Important for lab qualification and method transfer tracking.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Condition -->
+                    <tr>
+                        <td class="entity-pair">Analytical Result → Condition</td>
+                        <td class="current-label">under condition</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">tested under conditions</span>
+                                <span class="option-standard">(ICH Q1A, Stability)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">performed at condition</span>
+                                <span class="option-standard">(ICH Q2(R1))</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">under condition</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">environmental setting</span>
+                                <span class="option-standard">(ISO 17025)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "tested under conditions" for stability and method robustness studies. Aligns with ICH Q1A stability testing guidance.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Time Point -->
+                    <tr>
+                        <td class="entity-pair">Analytical Result → Time Point</td>
+                        <td class="current-label">measured at</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">collected at timepoint</span>
+                                <span class="option-standard">(ICH Q1A, Stability)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">sampled at</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">measured at</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">analyzed at interval</span>
+                                <span class="option-standard">(ICH Q1E)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "collected at timepoint" for stability studies and time-series analysis. This is ICH Q1A standard terminology for stability testing schedules.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Analytical Fact to Study -->
+                    <tr>
+                        <td class="entity-pair">Analytical Result → Study</td>
+                        <td class="current-label">part of study</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">conducted in study</span>
+                                <span class="option-standard">(ICH, GLP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">assigned to protocol</span>
+                                <span class="option-standard">(GLP, GCP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">part of study</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">included in investigation</span>
+                                <span class="option-standard">(ISO 13485)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "conducted in study" for clear study/protocol association. Essential for stability studies, validation studies, and clinical material testing.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- GENEALOGY RELATIONSHIPS -->
+        <div class="category-section">
+            <div class="category-header">🔗 Material Genealogy & Traceability Relationships</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Entity A → Entity B</th>
+                        <th style="width: 18%;">Current Relationship</th>
+                        <th style="width: 62%;">Alternative Options & Recommendations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Genealogy Fact to Batch -->
+                    <tr>
+                        <td class="entity-pair">Batch → Batch Material Usage</td>
+                        <td class="current-label">consumed in</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">utilized in batch</span>
+                                <span class="option-standard">(21 CFR Part 11, cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">incorporated into</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">consumed in</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">used by batch</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "utilized in batch" for clear traceability. Critical for batch record accuracy and recall management per cGMP requirements.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Genealogy Fact to Material Lot -->
+                    <tr>
+                        <td class="entity-pair">Material Lot → Batch Material Usage</td>
+                        <td class="current-label">used as</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">consumed as lot</span>
+                                <span class="option-standard">(21 CFR Part 11, Traceability)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">applied as input</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">used as</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">dispensed lot</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "consumed as lot" for lot-level traceability. Essential for forward/backward traceability and recall management.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Genealogy Fact to Transformation -->
+                    <tr>
+                        <td class="entity-pair">Transformation → Batch Material Usage</td>
+                        <td class="current-label">transformed via</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">processed by transformation</span>
+                                <span class="option-standard">(ISA-88, ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">converted through</span>
+                                <span class="option-standard">(APQC)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">transformed via</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">modified by process</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "processed by transformation" to align with ISA-95 material flow models. Clearly indicates the transformation type applied to materials.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Material to Material Lot -->
+                    <tr>
+                        <td class="entity-pair">Material → Material Lot</td>
+                        <td class="current-label">tracked as</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">instantiated as lot</span>
+                                <span class="option-standard">(Kimball, Data Modeling)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">exists as lot</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">tracked as</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">received as lot</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "instantiated as lot" to show material master to lot instance relationship. This is standard dimensional modeling terminology for type-instance patterns.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Material to Batch -->
+                    <tr>
+                        <td class="entity-pair">Material → Batch</td>
+                        <td class="current-label">used to produce</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">input to batch</span>
+                                <span class="option-standard">(ISA-88, ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">consumed to produce</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">used to produce</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">required for batch</span>
+                                <span class="option-standard">(BOM)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "input to batch" for clarity in bill-of-materials and batch recipe. Aligns with ISA-88 batch control terminology.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Production Order to Batch -->
+                    <tr>
+                        <td class="entity-pair">Production Order → Batch</td>
+                        <td class="current-label">produces</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">manufactures batch</span>
+                                <span class="option-standard">(ISA-95, MES)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">executes production</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">produces</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">generates batch</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "manufactures batch" to align with ISA-95 work order terminology. Links production planning to execution clearly.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- HIERARCHY & BRIDGE RELATIONSHIPS -->
+        <div class="category-section">
+            <div class="category-header">🔄 Hierarchy & Bridge Table Relationships</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Entity A → Entity B</th>
+                        <th style="width: 18%;">Current Relationship</th>
+                        <th style="width: 62%;">Alternative Options & Recommendations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Batch Self-Join -->
+                    <tr>
+                        <td class="entity-pair">Batch → Batch (Self-Join)</td>
+                        <td class="current-label">parent of</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">parent batch of</span>
+                                <span class="option-standard">(Kimball, Hierarchy Best Practice)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">split into</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">parent of</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">derived child batch</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "parent batch of" for explicit hierarchy navigation. Critical for batch splitting/pooling operations and multi-generation batch relationships.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Material Self-Join -->
+                    <tr>
+                        <td class="entity-pair">Material → Material (Self-Join)</td>
+                        <td class="current-label">component of</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">child component of</span>
+                                <span class="option-standard">(ISA-95, BOM)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">sub material of</span>
+                                <span class="option-standard">(PLM)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">component of</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">ingredient in</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "child component of" for bill-of-materials hierarchy. Aligns with ISA-95 material definition model and supports multi-level BOMs.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Process Hierarchy Self-Joins -->
+                    <tr>
+                        <td class="entity-pair">Local Process Hierarchy → Local Process Hierarchy</td>
+                        <td class="current-label">parent step of</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">parent operation of</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">contains sub step</span>
+                                <span class="option-standard">(cGMP)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">parent step of</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">decomposes into</span>
+                                <span class="option-standard">(APQC)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "parent operation of" to align with ISA-88 procedural model hierarchy (Unit → Operation → Phase → Step).
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="entity-pair">Common Process Hierarchy → Common Process Hierarchy</td>
+                        <td class="current-label">parent process of</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">parent procedure of</span>
+                                <span class="option-standard">(ISA-88)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">categorizes process</span>
+                                <span class="option-standard">(ISA-95)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">parent process of</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">groups sub process</span>
+                                <span class="option-standard">(APQC)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "parent procedure of" for ISA-88 alignment at the procedure level (higher-level process grouping).
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Bridge Table Relationships -->
+                    <tr>
+                        <td class="entity-pair">Batch → Bridge Batch Genealogy</td>
+                        <td class="current-label">is child in</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">child batch in lineage</span>
+                                <span class="option-standard">(Kimball Bridge Table)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">descendant in</span>
+                                <span class="option-standard">(Data Modeling)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">is child in</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">linked as child</span>
+                                <span class="option-standard">(Genealogy)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "child batch in lineage" for explicit bridge table semantics. Follows Kimball's bridge table pattern for many-to-many hierarchies.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="entity-pair">Bridge Batch Genealogy → Batch</td>
+                        <td class="current-label">has parent</td>
+                        <td>
+                            <div class="option recommended">
+                                <span class="option-label">parent batch in lineage</span>
+                                <span class="option-standard">(Kimball Bridge Table)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">ancestor batch</span>
+                                <span class="option-standard">(Data Modeling)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">has parent</span>
+                                <span class="option-standard">(Current)</span>
+                            </div>
+                            <div class="option">
+                                <span class="option-label">traced to parent</span>
+                                <span class="option-standard">(Genealogy)</span>
+                            </div>
+                            <div class="recommendation">
+                                <strong>Recommendation:</strong> Use "parent batch in lineage" to maintain symmetry with child relationship. Essential for complex batch genealogy queries.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SUMMARY & RECOMMENDATIONS -->
+        <div class="category-section">
+            <div class="category-header">📊 Summary & Implementation Recommendations</div>
+            
+            <div style="padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="color: #2c3e50; margin-top: 0;">Key Principles Applied:</h3>
+                
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #667eea;">1. Regulatory Compliance</h4>
+                    <p>Relationship names aligned with 21 CFR Part 11, cGMP, and ICH guidelines to ensure clear audit trails and regulatory submission clarity.</p>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #667eea;">2. Industry Standards Alignment</h4>
+                    <p>Terminology follows ISA-88 (batch control), ISA-95 (enterprise integration), and ISO standards for pharmaceutical quality systems.</p>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #667eea;">3. Data Modeling Best Practices</h4>
+                    <p>Kimball dimensional modeling conventions applied, especially for bridge tables, hierarchies, and role-playing dimensions.</p>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #667eea;">4. Business Clarity</h4>
+                    <p>Relationship labels are descriptive and unambiguous for both technical and business users, supporting self-service analytics.</p>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <h4 style="color: #667eea;">5. Traceability & Lineage</h4>
+                    <p>Material genealogy and data lineage relationships clearly indicate forward/backward traceability paths for recall management.</p>
+                </div>
+
+                <h3 style="color: #2c3e50; margin-top: 30px;">Implementation Approach:</h3>
+                
+                <ol style="line-height: 1.8;">
+                    <li><strong>Phase 1 - Critical Compliance:</strong> Update relationships in facts first (Manufacturing Process, Analytical, Genealogy) as these directly impact regulatory reporting.</li>
+                    <li><strong>Phase 2 - Hierarchies & Bridges:</strong> Standardize self-join and bridge table relationships to support complex queries.</li>
+                    <li><strong>Phase 3 - Supporting Dimensions:</strong> Update remaining conformed dimension relationships for consistency.</li>
+                    <li><strong>Phase 4 - Documentation:</strong> Update data dictionary, ERDs, and business glossary with new terminology.</li>
+                    <li><strong>Phase 5 - Validation:</strong> Test all existing queries, reports, and BI dashboards for compatibility.</li>
+                </ol>
+
+                <h3 style="color: #2c3e50; margin-top: 30px;">Additional Considerations:</h3>
+                
+                <ul style="line-height: 1.8;">
+                    <li><strong>Naming Convention:</strong> Use underscores (snake case) for consistency with database naming standards</li>
+                    <li><strong>Verb Tense:</strong> Use past participle for completed actions (e.g., "executed by") and present tense for ongoing relationships</li>
+                    <li><strong>Directionality:</strong> Ensure relationship names read naturally in both directions of the foreign key</li>
+                    <li><strong>Glossary Alignment:</strong> Create business glossary entries for each relationship context</li>
+                    <li><strong>Metadata Management:</strong> Document rationale and standard reference for each relationship in metadata repository</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
