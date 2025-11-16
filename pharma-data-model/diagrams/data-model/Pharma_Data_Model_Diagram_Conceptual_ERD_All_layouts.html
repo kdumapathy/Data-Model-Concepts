@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Complete Enterprise Model - Visual Layout Variations</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 1900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .layout-section {
+            margin: 50px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        .layout-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .layout-description {
+            color: #6c757d;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .diagram-container {
+            background: #ffffff;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border: 3px solid #e9ecef;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .mermaid {
+            display: block;
+            width: 100%;
+            min-height: 500px;
+        }
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+        .print-button {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .print-button button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+        .print-button button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .toc {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .toc h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 10px 0;
+        }
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .print-button, .toc {
+                display: none;
+            }
+            .layout-section {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Complete Enterprise Model - Visual Layout Variations</h1>
+        
+        <div class="print-button">
+            <button onclick="window.print()">🖨️ Print All Layouts</button>
+        </div>
+
+        <div class="toc">
+            <h2>Visual Layout Options</h2>
+            <ul>
+                <li><a href="#layout1">Layout 1: Facts-First Grouping</a></li>
+                <li><a href="#layout2">Layout 2: Conformed Dimensions Centered</a></li>
+                <li><a href="#layout3">Layout 3: Hierarchical Flow (Facts → Dimensions → Supporting)</a></li>
+                <li><a href="#layout4">Layout 4: Business Domain Clustering</a></li>
+                <li><a href="#layout5">Layout 5: Dimension Type Segregation</a></li>
+                <li><a href="#layout6">Layout 6: Star Schema Traditional (Conformed First)</a></li>
+                <li><a href="#layout7">Layout 7: Process Flow Sequence</a></li>
+                <li><a href="#layout8">Layout 8: Bridge-Centric View</a></li>
+                <li><a href="#layout9">Layout 9: Analytical vs Operational Split</a></li>
+                <li><a href="#layout10">Layout 10: Minimal Overlap Optimization</a></li>
+            </ul>
+        </div>
+
+        <!-- LAYOUT 1: FACTS-FIRST GROUPING -->
+        <div class="layout-section" id="layout1">
+            <div class="layout-title">Layout 1: Facts-First Grouping</div>
+            <div class="layout-description">
+                All fact tables listed first, followed by conformed dimensions, then specific dimensions and supporting entities.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === FACTS (TOP LEVEL) ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === PROCESS-SPECIFIC DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL-SPECIFIC DIMENSIONS ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === GENEALOGY DIMENSIONS ===
+    MATERIAL_LOT["Material Lot"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    
+    %% === BRIDGE TABLES ===
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 2: CONFORMED DIMENSIONS CENTERED -->
+        <div class="layout-section" id="layout2">
+            <div class="layout-title">Layout 2: Conformed Dimensions Centered</div>
+            <div class="layout-description">
+                Conformed dimensions placed centrally as the core hub, with facts and specific dimensions radiating outward.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === CONFORMED DIMENSIONS (CENTRAL HUB) ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === FACTS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === PROCESS DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL DIMENSIONS ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === GENEALOGY DIMENSIONS ===
+    MATERIAL_LOT["Material Lot"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 3: HIERARCHICAL FLOW -->
+        <div class="layout-section" id="layout3">
+            <div class="layout-title">Layout 3: Hierarchical Flow (Facts → Dimensions → Supporting)</div>
+            <div class="layout-description">
+                Structured in tiers: Facts at top, primary dimensions in middle, supporting entities at bottom.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === TIER 1: FACTS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === TIER 2: PRIMARY DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    
+    %% === TIER 2B: PROCESS DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === TIER 2C: ANALYTICAL DIMENSIONS ===
+    TEST["Test"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    TEST_LOCATION["Test Location"]
+    
+    %% === TIER 3: SUPPORTING DIMENSIONS ===
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === TIER 4: GENEALOGY & BRIDGE ===
+    MATERIAL_LOT["Material Lot"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 4: BUSINESS DOMAIN CLUSTERING -->
+        <div class="layout-section" id="layout4">
+            <div class="layout-title">Layout 4: Business Domain Clustering</div>
+            <div class="layout-description">
+                Grouped by business domain: Manufacturing, Quality/Analytical, Material Genealogy, and Shared Enterprise dimensions.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === MANUFACTURING DOMAIN ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    PRODUCTION_ORDER["Production Order"]
+    
+    %% === QUALITY/ANALYTICAL DOMAIN ===
+    FACT_ANALYTICAL["Analytical Result"]
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    SPECIFICATION["Specification"]
+    
+    %% === MATERIAL GENEALOGY DOMAIN ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    MATERIAL_LOT["Material Lot"]
+    TRANSFORMATION["Transformation"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === SHARED ENTERPRISE DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 5: DIMENSION TYPE SEGREGATION -->
+        <div class="layout-section" id="layout5">
+            <div class="layout-title">Layout 5: Dimension Type Segregation</div>
+            <div class="layout-description">
+                Clear separation between fact tables, conformed dimensions, role-specific dimensions, and bridge/supporting tables.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === BRIDGE & SUPPORTING TABLES ===
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    PRODUCTION_ORDER["Production Order"]
+    TRANSFORMATION["Transformation"]
+    
+    %% === FACT TABLES ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === CONFORMED DIMENSIONS (ENTERPRISE-WIDE) ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === ROLE-SPECIFIC: PROCESS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ROLE-SPECIFIC: ANALYTICAL ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === ROLE-SPECIFIC: GENEALOGY ===
+    MATERIAL_LOT["Material Lot"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 6: STAR SCHEMA TRADITIONAL -->
+        <div class="layout-section" id="layout6">
+            <div class="layout-title">Layout 6: Star Schema Traditional (Conformed First)</div>
+            <div class="layout-description">
+                Traditional star schema presentation with shared conformed dimensions listed before facts and role-playing dimensions.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === SHARED CONFORMED DIMENSIONS (FIRST) ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === FACTS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    FACT_ANALYTICAL["Analytical Result"]
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    
+    %% === PROCESS DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL DIMENSIONS ===
+    ANALYTICAL_METHOD["Analytical Method"]
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === GENEALOGY DIMENSIONS ===
+    MATERIAL_LOT["Material Lot"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 7: PROCESS FLOW SEQUENCE -->
+        <div class="layout-section" id="layout7">
+            <div class="layout-title">Layout 7: Process Flow Sequence</div>
+            <div class="layout-description">
+                Arranged to follow business process flow: Planning → Production → Testing → Genealogy tracking.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === PLANNING/EXECUTION ===
+    PRODUCTION_ORDER["Production Order"]
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === PRODUCTION PROCESS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    BATCH["Batch"]
+    MATERIAL["Material"]
+    SAMPLE["Sample"]
+    
+    %% === QUALITY TESTING ===
+    FACT_ANALYTICAL["Analytical Result"]
+    TEST["Test"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    TEST_LOCATION["Test Location"]
+    SPECIFICATION["Specification"]
+    
+    %% === ANALYTICAL CONDITIONS ===
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === MATERIAL GENEALOGY ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    MATERIAL_LOT["Material Lot"]
+    TRANSFORMATION["Transformation"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === SUPPORTING ENTERPRISE ===
+    MANUFACTURER["Manufacturer"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 8: BRIDGE-CENTRIC VIEW -->
+        <div class="layout-section" id="layout8">
+            <div class="layout-title">Layout 8: Bridge-Centric View</div>
+            <div class="layout-description">
+                Emphasizes bridge table and genealogy relationships by placing them prominently with related entities.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === CORE ENTITIES ===
+    BATCH["Batch"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    MATERIAL["Material"]
+    MATERIAL_LOT["Material Lot"]
+    
+    %% === GENEALOGY FACT ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    
+    %% === MANUFACTURING FACT ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL FACT ===
+    FACT_ANALYTICAL["Analytical Result"]
+    TEST["Test"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    TEST_LOCATION["Test Location"]
+    
+    %% === SHARED DIMENSIONS ===
+    SAMPLE["Sample"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    
+    %% === ANALYTICAL CONTEXT ===
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === ENTERPRISE SUPPORT ===
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 9: ANALYTICAL VS OPERATIONAL SPLIT -->
+        <div class="layout-section" id="layout9">
+            <div class="layout-title">Layout 9: Analytical vs Operational Split</div>
+            <div class="layout-description">
+                Clear separation between operational/transactional entities and analytical/reporting entities.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === OPERATIONAL ENTITIES ===
+    PRODUCTION_ORDER["Production Order"]
+    BATCH["Batch"]
+    MATERIAL["Material"]
+    MATERIAL_LOT["Material Lot"]
+    MANUFACTURER["Manufacturer"]
+    TRANSFORMATION["Transformation"]
+    
+    %% === PROCESS EXECUTION ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL ENTITIES ===
+    FACT_ANALYTICAL["Analytical Result"]
+    TEST["Test"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    TEST_LOCATION["Test Location"]
+    SAMPLE["Sample"]
+    SPECIFICATION["Specification"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === GENEALOGY TRACKING ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    
+    %% === ENTERPRISE SUPPORT ===
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT 10: MINIMAL OVERLAP OPTIMIZATION -->
+        <div class="layout-section" id="layout10">
+            <div class="layout-title">Layout 10: Minimal Overlap Optimization</div>
+            <div class="layout-description">
+                Optimized entity ordering to minimize relationship line crossings and overlaps. Most connected entities grouped together.
+            </div>
+            <div class="diagram-container">
+                <div class="mermaid">
+erDiagram
+    %% === CENTRAL CORE (MOST CONNECTED) ===
+    BATCH["Batch"]
+    MATERIAL["Material"]
+    SAMPLE["Sample"]
+    
+    %% === PROCESS FACT & DIMENSIONS ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+    
+    %% === ANALYTICAL FACT & DIMENSIONS ===
+    FACT_ANALYTICAL["Analytical Result"]
+    TEST["Test"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    SPECIFICATION["Specification"]
+    
+    %% === GENEALOGY CLUSTER ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+    MATERIAL_LOT["Material Lot"]
+    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+    
+    %% === TEST CONTEXT ===
+    TEST_LOCATION["Test Location"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+    
+    %% === SUPPORTING (PERIPHERAL) ===
+    MANUFACTURER["Manufacturer"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+    
+    %% === BRIDGE ===
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    
+    %% === SUPPORTING ===
+    MATERIAL ||--o{ BATCH : "used to produce"
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    
+    %% === PROCESS FACT ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    
+    %% === ANALYTICAL FACT ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+    
+    %% === GENEALOGY FACT ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                fontSize: '16px'
+            }
+        });
+    </script>
+</body>
+</html>
