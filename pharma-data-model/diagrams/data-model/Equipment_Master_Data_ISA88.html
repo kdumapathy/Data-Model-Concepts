@@ -100,13 +100,13 @@
     </div>
 
     <h2>ISA-88 Physical Model Hierarchy</h2>
+    <div class="zoom-controls">
+        <button onclick="zoomOut1()">Zoom Out (-)</button>
+        <span class="zoom-level" id="zoomLevel1">100%</span>
+        <button onclick="zoomIn1()">Zoom In (+)</button>
+        <button onclick="resetZoom1()">Reset</button>
+    </div>
     <div class="diagram-container">
-        <div class="zoom-controls">
-            <button onclick="zoomOut1()">Zoom Out (-)</button>
-            <span class="zoom-level" id="zoomLevel1">100%</span>
-            <button onclick="zoomIn1()">Zoom In (+)</button>
-            <button onclick="resetZoom1()">Reset</button>
-        </div>
         <div class="mermaid" id="mermaidDiagram1">
 graph TB
     subgraph "Enterprise Level"
@@ -188,13 +188,13 @@ graph TB
     </div>
 
     <h2>Equipment Master Data Model</h2>
+    <div class="zoom-controls">
+        <button onclick="zoomOut2()">Zoom Out (-)</button>
+        <span class="zoom-level" id="zoomLevel2">100%</span>
+        <button onclick="zoomIn2()">Zoom In (+)</button>
+        <button onclick="resetZoom2()">Reset</button>
+    </div>
     <div class="diagram-container">
-        <div class="zoom-controls">
-            <button onclick="zoomOut2()">Zoom Out (-)</button>
-            <span class="zoom-level" id="zoomLevel2">100%</span>
-            <button onclick="zoomIn2()">Zoom In (+)</button>
-            <button onclick="resetZoom2()">Reset</button>
-        </div>
         <div class="mermaid" id="mermaidDiagram2">
 erDiagram
     EQUIPMENT_MASTER["Equipment Master"] {
