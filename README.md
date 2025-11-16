@@ -86,7 +86,7 @@ pharma-data-model/
 ### 🔬 Data Model Diagrams (10)
 - Complete lifecycle view
 - Conceptual models (process, analytical, integrated)
-- Batch genealogy (SAP GBT)
+- Batch genealogy (GBT)
 - Star schemas (manufacturing, analytical)
 - Entity relationship diagrams (conceptual, logical)
 
