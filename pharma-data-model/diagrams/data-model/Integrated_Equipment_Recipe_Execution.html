@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Equipment-Recipe-Batch Execution Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #4facfe;
+            padding-bottom: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #4facfe;
+            padding-left: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .key-points {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Integrated Equipment-Recipe-Batch Execution Model</h1>
+
+    <div class="key-points">
+        <h3>Overview</h3>
+        <p><strong>Objective:</strong> Complete integration of Equipment Master Data, Process Recipes, and Batch Execution for end-to-end manufacturing traceability.</p>
+        <p><strong>This model answers critical questions:</strong></p>
+        <ul>
+            <li>Which equipment was used to manufacture which batch?</li>
+            <li>Which recipe (and version) was executed?</li>
+            <li>What were the actual vs. target parameter values?</li>
+            <li>Which operator ran which phase on which equipment?</li>
+            <li>Complete equipment utilization and batch genealogy</li>
+        </ul>
+    </div>
+
+    <h2>Complete Integrated Data Model</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+erDiagram
+    %% BATCH ENTITY (CENTRAL)
+    BATCH["Batch"] {
+        bigint batch_identity PK "Surrogate key"
+        varchar batch_ID UK "Batch number"
+        bigint product_identity FK "Product manufactured"
+        bigint master_recipe_identity FK "Recipe used"
+        bigint control_recipe_identity FK "Executable recipe"
+        varchar batch_status "Scheduled, Running, Complete"
+        date mfg_start_date "Manufacturing start"
+        date mfg_end_date "Manufacturing end"
+        decimal batch_size "Quantity"
+        varchar batch_size_uom "L, kg"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% MASTER RECIPE
+    MASTER_RECIPE["Master Recipe"] {
+        bigint master_recipe_identity PK "Surrogate key"
+        varchar recipe_ID UK "Recipe ID"
+        varchar recipe_name "Recipe name"
+        varchar recipe_version "Version"
+        varchar recipe_status "Active, Retired"
+        bigint parent_recipe_identity FK "Hierarchy"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% CONTROL RECIPE
+    CONTROL_RECIPE["Control Recipe"] {
+        bigint control_recipe_identity PK "Surrogate key"
+        varchar control_recipe_ID UK "Executable recipe ID"
+        bigint master_recipe_identity FK "Based on master"
+        bigint batch_identity FK "For specific batch"
+        varchar recipe_status "Scheduled, Running, Complete"
+        timestamp scheduled_start "Planned start"
+        timestamp actual_start "Actual start"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% RECIPE PHASE
+    RECIPE_PHASE["Recipe Phase"] {
+        bigint recipe_phase_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Parent recipe"
+        varchar phase_ID "Phase identifier"
+        varchar phase_name "Phase name"
+        int phase_sequence "Execution order"
+        decimal phase_duration "Expected duration"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% RECIPE EXECUTION
+    RECIPE_EXECUTION["Recipe Execution"] {
+        bigint execution_identity PK "Surrogate key"
+        bigint control_recipe_identity FK "Control recipe"
+        bigint batch_identity FK "Batch"
+        bigint recipe_phase_identity FK "Phase executed"
+        bigint equipment_identity FK "Equipment used"
+        timestamp phase_start "Phase start"
+        timestamp phase_end "Phase end"
+        decimal phase_duration "Actual duration"
+        varchar operator "Operator ID"
+        varchar execution_status "Complete, Failed"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% RECIPE PARAMETER
+    RECIPE_PARAMETER["Recipe Parameter"] {
+        bigint recipe_parameter_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Recipe"
+        varchar parameter_name "Temp, pH, DO"
+        varchar parameter_category "CPP, CQA, Non-CPP"
+        decimal target_value "Set point"
+        decimal min_value "LSL"
+        decimal max_value "USL"
+        varchar uom "Units"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% CONTROL RECIPE PARAMETER
+    CONTROL_RECIPE_PARAMETER["Control Recipe Parameter"] {
+        bigint control_parameter_identity PK "Surrogate key"
+        bigint control_recipe_identity FK "Control recipe"
+        bigint recipe_parameter_identity FK "Master parameter"
+        decimal set_point "Target value"
+        decimal lower_limit "LSL"
+        decimal upper_limit "USL"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% EXECUTION PARAMETER VALUE
+    EXECUTION_PARAMETER_VALUE["Execution Parameter Value"] {
+        bigint execution_value_identity PK "Surrogate key"
+        bigint recipe_execution_identity FK "Execution"
+        bigint control_parameter_identity FK "Parameter"
+        timestamp measurement_time "When measured"
+        decimal actual_value "Measured value"
+        decimal set_point "Target"
+        varchar value_status "In-Spec, OOS"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% EQUIPMENT MASTER
+    EQUIPMENT_MASTER["Equipment Master"] {
+        bigint equipment_identity PK "Surrogate key"
+        varchar equipment_ID UK "Equipment tag"
+        varchar equipment_name "Name"
+        varchar equipment_type "Bioreactor, Column"
+        varchar equipment_class "Unit, EM, CM"
+        bigint parent_equipment_identity FK "Hierarchy"
+        varchar equipment_status "Active, Maintenance"
+        bigint site_identity FK "Site"
+        boolean gmp_critical "GMP flag"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% EQUIPMENT USAGE
+    EQUIPMENT_USAGE["Equipment Usage"] {
+        bigint usage_identity PK "Surrogate key"
+        bigint equipment_identity FK "Equipment"
+        bigint batch_identity FK "Batch"
+        bigint recipe_execution_identity FK "Recipe execution"
+        timestamp usage_start "Start time"
+        timestamp usage_end "End time"
+        decimal runtime_hours "Runtime"
+        varchar usage_status "Running, Idle"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% EQUIPMENT CAPABILITY
+    EQUIPMENT_CAPABILITY["Equipment Capability"] {
+        bigint capability_identity PK "Surrogate key"
+        bigint equipment_identity FK "Equipment"
+        varchar capability_type "Volume, Pressure"
+        decimal min_value "Min capability"
+        decimal max_value "Max capability"
+        varchar uom "Units"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% RECIPE EQUIPMENT ASSIGNMENT
+    RECIPE_EQUIPMENT["Recipe Equipment Assignment"] {
+        bigint recipe_equipment_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Recipe"
+        bigint equipment_class_identity FK "Required class"
+        varchar equipment_role "Primary, Secondary"
+        varchar capability_requirement "Volume > 10KL"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% EQUIPMENT CLASS
+    EQUIPMENT_CLASS["Equipment Class"] {
+        bigint equipment_class_identity PK "Surrogate key"
+        varchar equipment_class_ID UK "Class ID"
+        varchar equipment_class_name "Bioreactor, Column"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% PRODUCT
+    PRODUCT["Product"] {
+        bigint product_identity PK "Surrogate key"
+        varchar product_ID UK "Product code"
+        varchar product_name "Product name"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% MATERIAL
+    MATERIAL["Material"] {
+        bigint material_identity PK "Surrogate key"
+        varchar material_ID UK "Material code"
+        varchar material_name "Material name"
+        varchar material_type "WCB, Media, Buffer"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% RECIPE MATERIAL
+    RECIPE_MATERIAL["Recipe Material"] {
+        bigint recipe_material_identity PK "Surrogate key"
+        bigint master_recipe_identity FK "Recipe"
+        bigint material_identity FK "Material"
+        decimal quantity_required "Amount"
+        varchar quantity_uom "L, kg"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% BATCH MATERIAL USAGE
+    BATCH_MATERIAL_USAGE["Batch Material Usage"] {
+        bigint usage_identity PK "Surrogate key"
+        bigint batch_identity FK "Batch"
+        bigint material_lot_identity FK "Material lot"
+        bigint recipe_execution_identity FK "Recipe execution"
+        decimal quantity_used "Amount used"
+        varchar quantity_uom "L, kg"
+        timestamp usage_timestamp "When used"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% MATERIAL LOT
+    MATERIAL_LOT["Material Lot"] {
+        bigint material_lot_identity PK "Surrogate key"
+        varchar lot_number UK "Lot number"
+        bigint material_identity FK "Material"
+        varchar lot_status "Available, Consumed"
+        date expiry_date "Expiration"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% RELATIONSHIPS - BATCH CENTRIC
+    BATCH }o--|| PRODUCT : "manufactures"
+    BATCH }o--|| MASTER_RECIPE : "uses recipe"
+    BATCH }o--|| CONTROL_RECIPE : "executes via"
+
+    %% RECIPE HIERARCHY
+    MASTER_RECIPE ||--o| MASTER_RECIPE : "composed of"
+    MASTER_RECIPE ||--o{ RECIPE_PHASE : "has phases"
+    MASTER_RECIPE ||--o{ RECIPE_PARAMETER : "has parameters"
+    MASTER_RECIPE ||--o{ RECIPE_MATERIAL : "requires materials"
+    MASTER_RECIPE ||--o{ RECIPE_EQUIPMENT : "uses equipment class"
+
+    %% CONTROL RECIPE
+    MASTER_RECIPE ||--o{ CONTROL_RECIPE : "instantiated as"
+    CONTROL_RECIPE ||--o{ CONTROL_RECIPE_PARAMETER : "has set points"
+    RECIPE_PARAMETER ||--o{ CONTROL_RECIPE_PARAMETER : "instantiated as"
+
+    %% RECIPE EXECUTION
+    CONTROL_RECIPE ||--o{ RECIPE_EXECUTION : "executed via"
+    RECIPE_PHASE ||--o{ RECIPE_EXECUTION : "executed as"
+    BATCH ||--o{ RECIPE_EXECUTION : "performed on"
+
+    %% EXECUTION VALUES
+    RECIPE_EXECUTION ||--o{ EXECUTION_PARAMETER_VALUE : "measured values"
+    CONTROL_RECIPE_PARAMETER ||--o{ EXECUTION_PARAMETER_VALUE : "actual vs target"
+
+    %% EQUIPMENT
+    EQUIPMENT_MASTER ||--o| EQUIPMENT_MASTER : "composed of"
+    EQUIPMENT_MASTER ||--o{ EQUIPMENT_CAPABILITY : "has capabilities"
+    EQUIPMENT_MASTER ||--o{ RECIPE_EXECUTION : "used in"
+    EQUIPMENT_MASTER ||--o{ EQUIPMENT_USAGE : "tracked via"
+
+    RECIPE_EXECUTION ||--o{ EQUIPMENT_USAGE : "equipment runtime"
+    BATCH ||--o{ EQUIPMENT_USAGE : "used equipment"
+
+    %% EQUIPMENT CLASS
+    EQUIPMENT_CLASS ||--o{ RECIPE_EQUIPMENT : "required for recipe"
+    EQUIPMENT_CLASS ||--o{ EQUIPMENT_MASTER : "instance of"
+
+    %% MATERIALS
+    MATERIAL ||--o{ RECIPE_MATERIAL : "required in recipe"
+    MATERIAL ||--o{ MATERIAL_LOT : "has lots"
+    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumed in"
+    BATCH ||--o{ BATCH_MATERIAL_USAGE : "consumes"
+    RECIPE_EXECUTION ||--o{ BATCH_MATERIAL_USAGE : "used during"
+        </div>
+    </div>
+
+    <h2>Manufacturing Execution Flow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Recipe Design & Approval"
+        MR[Master Recipe<br/>📖 RCP-MAB-001 v2.0<br/>10-day fed-batch<br/>Status: Approved]
+        RP[Recipe Parameters<br/>📊 pH: 7.0 ± 0.1 (CPP)<br/>Temp: 37 ± 0.5°C (CPP)<br/>DO: 40 ± 5% (CPP)]
+        RPHASE[Recipe Phases<br/>🔹 4 phases defined<br/>Inoculation → Batch<br/>→ Fed-Batch → Harvest]
+    end
+
+    subgraph "Production Planning"
+        BATCH[Batch B-12345<br/>📦 Product: XYZ-mAb<br/>Size: 10,000L<br/>Scheduled: 2025-12-01]
+        CR[Control Recipe<br/>⚙️ CR-12345<br/>Based on: RCP-MAB-001<br/>Equipment: BR-10KL-001]
+        ASSIGN[Equipment Assignment<br/>🏭 BR-10KL-001 assigned<br/>Qualification: Valid<br/>Calibration: Current]
+    end
+
+    subgraph "Batch Execution"
+        EX1[Execute Phase 1<br/>▶️ Inoculation<br/>Equipment: BR-10KL-001<br/>Operator: JSmith<br/>Start: 2025-12-01 08:00]
+        EX2[Execute Phase 2<br/>▶️ Batch Phase Day 0-3<br/>Monitor: pH, Temp, DO<br/>Record: Every 15 min]
+        EX3[Execute Phase 3<br/>▶️ Fed-Batch Day 3-10<br/>Glucose feed on-demand<br/>CPP control active]
+        EX4[Execute Phase 4<br/>▶️ Harvest<br/>Cool to 4°C<br/>Transfer complete]
+    end
+
+    subgraph "Data Capture"
+        PV1[Parameter Values<br/>📈 10,000+ data points<br/>Actual vs Target<br/>All In-Spec]
+        EU1[Equipment Usage<br/>⏱️ Runtime: 240 hours<br/>Utilization: 95%<br/>No downtime]
+        MU1[Material Usage<br/>📦 WCB Lot: L-12345<br/>Media Lot: M-67890<br/>All consumed]
+    end
+
+    subgraph "Batch Completion"
+        COMP[Batch Complete<br/>✅ All phases done<br/>Status: Complete<br/>End: 2025-12-11]
+        REVIEW[Batch Disposition<br/>🔍 Review deviations<br/>QA approval<br/>Release decision]
+        EBR[Electronic Batch Record<br/>📋 Complete traceability<br/>21 CFR Part 11<br/>Inspection ready]
+    end
+
+    MR --> RP
+    MR --> RPHASE
+    MR --> BATCH
+    BATCH --> CR
+    CR --> ASSIGN
+    ASSIGN --> EX1
+    EX1 --> EX2
+    EX2 --> EX3
+    EX3 --> EX4
+    EX1 --> PV1
+    EX2 --> PV1
+    EX3 --> PV1
+    EX1 --> EU1
+    EX2 --> EU1
+    EX3 --> MU1
+    EX4 --> COMP
+    COMP --> REVIEW
+    REVIEW --> EBR
+    PV1 --> EBR
+    EU1 --> EBR
+    MU1 --> EBR
+
+    style MR fill:#e3f2fd
+    style BATCH fill:#c8e6c9
+    style CR fill:#fff3e0
+    style ASSIGN fill:#ffccbc
+    style EX1 fill:#f8bbd0
+    style EX2 fill:#f8bbd0
+    style EX3 fill:#f8bbd0
+    style EX4 fill:#f8bbd0
+    style COMP fill:#c5cae9
+    style EBR fill:#ce93d8
+        </div>
+    </div>
+
+    <h2>Key Query Patterns</h2>
+    <div class="key-points">
+        <h3>📊 Critical Manufacturing Queries</h3>
+
+        <h4>1. Equipment Usage History</h4>
+        <p><code>Which batches were manufactured on equipment BR-10KL-001 in the last 6 months?</code></p>
+        <pre>
+SELECT b.batch_ID, b.product_identity, eu.usage_start, eu.usage_end, eu.runtime_hours
+FROM EQUIPMENT_USAGE eu
+JOIN BATCH b ON eu.batch_identity = b.batch_identity
+WHERE eu.equipment_identity = 'BR-10KL-001'
+  AND eu.usage_start >= DATEADD(month, -6, GETDATE())
+        </pre>
+
+        <h4>2. Recipe Version Tracking</h4>
+        <p><code>Which recipe version was used for each batch of Product XYZ?</code></p>
+        <pre>
+SELECT b.batch_ID, mr.recipe_ID, mr.recipe_version, b.mfg_start_date
+FROM BATCH b
+JOIN MASTER_RECIPE mr ON b.master_recipe_identity = mr.master_recipe_identity
+JOIN PRODUCT p ON b.product_identity = p.product_identity
+WHERE p.product_ID = 'XYZ'
+ORDER BY b.mfg_start_date DESC
+        </pre>
+
+        <h4>3. Out-of-Specification (OOS) Detection</h4>
+        <p><code>Find all OOS parameter values for Batch B-12345</code></p>
+        <pre>
+SELECT re.phase_start, cp.parameter_name, epv.actual_value,
+       cp.set_point, cp.lower_limit, cp.upper_limit
+FROM EXECUTION_PARAMETER_VALUE epv
+JOIN RECIPE_EXECUTION re ON epv.recipe_execution_identity = re.execution_identity
+JOIN CONTROL_RECIPE_PARAMETER cp ON epv.control_parameter_identity = cp.control_parameter_identity
+WHERE re.batch_identity = (SELECT batch_identity FROM BATCH WHERE batch_ID = 'B-12345')
+  AND epv.value_status = 'Out-of-Spec'
+        </pre>
+
+        <h4>4. Material Lot Genealogy</h4>
+        <p><code>Which material lots were used in Batch B-12345?</code></p>
+        <pre>
+SELECT m.material_ID, ml.lot_number, bmu.quantity_used, bmu.usage_timestamp
+FROM BATCH_MATERIAL_USAGE bmu
+JOIN MATERIAL_LOT ml ON bmu.material_lot_identity = ml.material_lot_identity
+JOIN MATERIAL m ON ml.material_identity = m.material_identity
+WHERE bmu.batch_identity = (SELECT batch_identity FROM BATCH WHERE batch_ID = 'B-12345')
+        </pre>
+
+        <h4>5. Equipment Utilization (OEE)</h4>
+        <p><code>Calculate equipment utilization for BR-10KL-001 in Q4 2025</code></p>
+        <pre>
+SELECT e.equipment_ID,
+       SUM(eu.runtime_hours) AS total_runtime,
+       COUNT(DISTINCT eu.batch_identity) AS batches_run,
+       AVG(eu.runtime_hours) AS avg_runtime_per_batch
+FROM EQUIPMENT_USAGE eu
+JOIN EQUIPMENT_MASTER e ON eu.equipment_identity = e.equipment_identity
+WHERE e.equipment_ID = 'BR-10KL-001'
+  AND eu.usage_start BETWEEN '2025-10-01' AND '2025-12-31'
+GROUP BY e.equipment_ID
+        </pre>
+
+        <h4>6. Recipe Execution Time Analysis</h4>
+        <p><code>Compare actual vs. planned phase durations for Recipe RCP-MAB-001</code></p>
+        <pre>
+SELECT rp.phase_name,
+       rp.phase_duration AS planned_duration,
+       AVG(re.phase_duration) AS avg_actual_duration,
+       COUNT(*) AS executions
+FROM RECIPE_EXECUTION re
+JOIN RECIPE_PHASE rp ON re.recipe_phase_identity = rp.recipe_phase_identity
+JOIN CONTROL_RECIPE cr ON re.control_recipe_identity = cr.control_recipe_identity
+JOIN MASTER_RECIPE mr ON cr.master_recipe_identity = mr.master_recipe_identity
+WHERE mr.recipe_ID = 'RCP-MAB-001'
+GROUP BY rp.phase_name, rp.phase_duration
+        </pre>
+    </div>
+
+    <div class="key-points">
+        <h3>🎯 Integration Benefits</h3>
+        <ul>
+            <li><strong>Complete Traceability:</strong> Equipment → Recipe → Batch → Material → Parameters in single model</li>
+            <li><strong>Electronic Batch Record:</strong> All execution data captured for 21 CFR Part 11 compliance</li>
+            <li><strong>Equipment Lifecycle:</strong> Qualification, calibration, usage, maintenance all tracked</li>
+            <li><strong>Recipe Versioning:</strong> Track which recipe version produced which batches</li>
+            <li><strong>CPP Monitoring:</strong> Critical Process Parameters tracked with alarming</li>
+            <li><strong>Material Genealogy:</strong> Complete bill of materials with lot-level traceability</li>
+            <li><strong>OEE Calculation:</strong> Equipment utilization and performance metrics</li>
+            <li><strong>Deviation Management:</strong> OOS/OOT detection with root cause linkage</li>
+            <li><strong>Regulatory Inspection:</strong> Query any batch, any parameter, any equipment instantly</li>
+            <li><strong>Process Optimization:</strong> Analyze actual vs. target across multiple batches</li>
+        </ul>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>

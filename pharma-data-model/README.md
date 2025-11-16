@@ -12,10 +12,13 @@ This repository contains a comprehensive **pharmaceutical data model** and detai
 
 Professional data models covering:
 - Manufacturing process data (upstream, downstream, fill/finish)
+- **Equipment Master Data & Hierarchy (ISA-88 Physical Model)** ⭐ NEW
+- **Process Recipe & Control Recipe Management (ISA-88 Procedural Model)** ⭐ NEW
+- **Integrated Equipment-Recipe-Batch Execution Tracking** ⭐ NEW
 - Analytical testing and quality control
 - Clinical trial data management
 - Batch genealogy and traceability
-- Regulatory compliance (21 CFR Part 11, EU GMP, ICH)
+- Regulatory compliance (21 CFR Part 11, EU GMP, ICH, ISA-88, ISA-95)
 
 ### 🏭 Manufacturing Process Diagrams
 
@@ -122,6 +125,32 @@ Open `docs/EQUIPMENT_REFERENCE_GUIDE.md` for detailed specifications including:
 - **Lyophilization:** 48-72 hour freeze-drying cycles (if applicable)
 - **Inspection:** Automated visual inspection + manual backup
 - **Serialization:** 2D barcode track & trace compliance
+
+### Equipment Master Data & Recipe Management ⭐ NEW
+
+#### ISA-88 Equipment Physical Model
+- **Enterprise → Site → Area → Process Cell → Unit → Equipment Module → Control Module**
+- **Equipment Master Data:** Equipment ID, type, class, capabilities, status
+- **Equipment Lifecycle:** Installation, qualification (IQ/OQ/PQ), calibration, maintenance
+- **Equipment Usage Tracking:** Batch-to-equipment traceability, runtime, utilization (OEE)
+- **Equipment Capabilities:** Volume, pressure, temperature ranges, operational limits
+- **GMP Critical Equipment:** Qualification status, requalification schedules
+
+#### ISA-88 Recipe Procedural Model
+- **Procedure → Unit Procedure → Operation → Phase**
+- **Master Recipe:** Product-independent process template with parameters
+- **Control Recipe:** Executable recipe with equipment assignments and set points
+- **Recipe Parameters:** Critical Process Parameters (CPP), set points, control limits
+- **Recipe Phases:** Sequenced phases with transition logic
+- **Recipe Versioning:** Track recipe changes over time (SCD Type 2)
+- **Recipe Execution:** Actual vs. target parameter values, deviations, electronic batch record
+
+#### Integrated Execution Tracking
+- **Equipment + Recipe + Batch:** Complete integration for end-to-end traceability
+- **Parameter Monitoring:** Real-time CPP tracking with alarming
+- **Material Genealogy:** Bill of materials with lot-level traceability
+- **Electronic Batch Record:** 21 CFR Part 11 compliant documentation
+- **Query Patterns:** Equipment history, recipe versions, OOS detection, utilization
 
 ### Clinical Trial Systems
 
