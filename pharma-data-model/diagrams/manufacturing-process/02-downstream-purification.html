@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downstream Processing & Purification - Equipment & Systems</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #9b59b6;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #9b59b6;
+            padding-left: 15px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .equipment-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .equipment-card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        .equipment-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .equipment-card li {
+            margin: 5px 0;
+        }
+        .phase-badge {
+            display: inline-block;
+            background: #9b59b6;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+        }
+        .key-points {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .key-points ul {
+            margin: 10px 0;
+        }
+        .key-points li {
+            margin: 8px 0;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔬 Downstream Processing & Purification - Equipment & Systems</h1>
+
+    <div class="key-points">
+        <h3>Process Overview</h3>
+        <p><strong>Objective:</strong> Purification of biopharmaceutical product from cell culture harvest to final drug substance (>99% purity).</p>
+        <p><strong>Phases:</strong></p>
+        <span class="phase-badge">Harvest & Clarification</span>
+        <span class="phase-badge">Capture Chromatography</span>
+        <span class="phase-badge">Polishing Chromatography</span>
+        <span class="phase-badge">Viral Clearance</span>
+        <span class="phase-badge">Concentration & Formulation</span>
+    </div>
+
+    <h2>Complete Downstream Process Flow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    subgraph "Harvest & Clarification"
+        BIOREACTOR[Production Bioreactor<br/>🏭 10,000L<br/>Product in supernatant]
+        CENT[Disk-Stack Centrifuge<br/>⚙️ Alfa Laval BTPX<br/>8,000-10,000 RPM<br/>Remove cells & debris]
+        DEPTH[Depth Filtration<br/>📄 Pall SUPRAcap<br/>0.6μm → 0.2μm<br/>Clarify cell-free broth]
+    end
+
+    subgraph "Capture Chromatography"
+        PROTAINA[Protein A Affinity<br/>🧲 GE MabSelect SuRe<br/>300L column, 30 cm bed<br/>Capture mAb (>95%)]
+        VIINACT1[Viral Inactivation 1<br/>⚗️ Low pH Hold<br/>pH 3.5, 60 min, RT<br/>Log reduction >4]
+    end
+
+    subgraph "Polishing Chromatography"
+        CEX[Cation Exchange<br/>➕ Poros XS or Capto S<br/>Remove aggregates & HCP<br/>Bind-elute mode]
+        AEX[Anion Exchange<br/>➖ Poros HQ or Q Sepharose<br/>Remove DNA, viruses, HCP<br/>Flow-through mode]
+        NANOFILT[Nanofiltration<br/>🦠 Planova 20N (20 nm)<br/>Viral removal filter<br/>LRV >4 for viruses]
+    end
+
+    subgraph "Concentration & Formulation"
+        UF[Ultrafiltration/Diafiltration<br/>🔄 30 kDa MWCO<br/>Pellicon or Sartocon<br/>Concentrate & buffer exchange]
+        FORMULATION[Formulation Tank<br/>💊 Final Drug Substance<br/>Target concentration 50-150 mg/mL<br/>Formulation buffer]
+        STERILE[Sterile Filtration<br/>✨ 0.2μm Sartopore<br/>Dual redundant filters<br/>Terminal bioburden reduction]
+    end
+
+    BIOREACTOR --> CENT
+    CENT --> DEPTH
+    DEPTH --> PROTAINA
+    PROTAINA --> VIINACT1
+    VIINACT1 --> CEX
+    CEX --> AEX
+    AEX --> NANOFILT
+    NANOFILT --> UF
+    UF --> FORMULATION
+    FORMULATION --> STERILE
+
+    style BIOREACTOR fill:#e3f2fd
+    style CENT fill:#c5cae9
+    style DEPTH fill:#9fa8da
+    style PROTAINA fill:#ef9a9a
+    style VIINACT1 fill:#ffccbc
+    style CEX fill:#c8e6c9
+    style AEX fill:#a5d6a7
+    style NANOFILT fill:#80cbc4
+    style UF fill:#ffcc80
+    style FORMULATION fill:#ffab91
+    style STERILE fill:#f48fb1
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Harvest & Clarification</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>⚙️ Disk-Stack Centrifuge</h3>
+            <ul>
+                <li><strong>Model:</strong> Alfa Laval BTPX 205 or Carr Powerfuge</li>
+                <li><strong>Speed:</strong> 8,000-10,000 RPM</li>
+                <li><strong>Flow Rate:</strong> 200-400 L/hr</li>
+                <li><strong>Function:</strong> Remove cells, cell debris (>5μm)</li>
+                <li><strong>Output:</strong> Clarified supernatant (turbidity <50 NTU)</li>
+                <li><strong>CIP/SIP:</strong> Automated cleaning/sterilization</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📄 Depth Filtration</h3>
+            <ul>
+                <li><strong>System:</strong> Pall SUPRAcap or Merck Millistak+</li>
+                <li><strong>Configuration:</strong> Dual-stage (0.6μm → 0.2μm)</li>
+                <li><strong>Technology:</strong> Single-use capsule filters</li>
+                <li><strong>Capacity:</strong> 200-400 kg cell mass/m²</li>
+                <li><strong>Function:</strong> Remove fine particulates, DNA, HCP</li>
+                <li><strong>Output:</strong> Crystal-clear filtrate (turbidity <5 NTU)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔧 Harvest Skid Components</h3>
+            <ul>
+                <li><strong>Transfer Pumps:</strong> Peristaltic (Watson Marlow)</li>
+                <li><strong>Hold Tanks:</strong> 1,000-2,000L single-use bags</li>
+                <li><strong>Sensors:</strong> Pressure, flow, conductivity, pH</li>
+                <li><strong>Control:</strong> DCS/SCADA integration</li>
+                <li><strong>Materials:</strong> 316L SS or single-use biocontainers</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Chromatography Systems</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🧲 Protein A Affinity Chromatography</h3>
+            <ul>
+                <li><strong>Resin:</strong> GE MabSelect SuRe, Poros MabCapture</li>
+                <li><strong>Column:</strong> 300L (60 cm diameter × 30 cm bed)</li>
+                <li><strong>System:</strong> GE AKTA Ready or Cytiva BioProcess</li>
+                <li><strong>Load:</strong> 30-50 g mAb/L resin (dynamic binding)</li>
+                <li><strong>Elution:</strong> Low pH (3.0-3.5) citrate buffer</li>
+                <li><strong>Yield:</strong> >95% recovery, >98% purity</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>➕ Cation Exchange (CEX)</h3>
+            <ul>
+                <li><strong>Resin:</strong> Poros 50 XS, GE Capto S ImpRes</li>
+                <li><strong>Mode:</strong> Bind-elute</li>
+                <li><strong>Column:</strong> 100L (40 cm × 20 cm bed)</li>
+                <li><strong>Function:</strong> Remove aggregates, HCP, leached Protein A</li>
+                <li><strong>Elution:</strong> Salt gradient (0-500 mM NaCl)</li>
+                <li><strong>Output:</strong> Monomer purity >99%</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>➖ Anion Exchange (AEX)</h3>
+            <ul>
+                <li><strong>Resin:</strong> Poros 50 HQ, GE Q Sepharose FF</li>
+                <li><strong>Mode:</strong> Flow-through (mAb in flow-through)</li>
+                <li><strong>Column:</strong> 100L (40 cm × 20 cm bed)</li>
+                <li><strong>Function:</strong> Remove DNA, viruses, endotoxin, HCP</li>
+                <li><strong>Binding:</strong> Impurities bind, product flows through</li>
+                <li><strong>Output:</strong> DNA <100 pg/dose, HCP <100 ppm</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>💻 Chromatography Automation</h3>
+            <ul>
+                <li><strong>System:</strong> GE AKTA Ready, Cytiva BioProcess</li>
+                <li><strong>Control:</strong> UNICORN software, DeltaV integration</li>
+                <li><strong>Sensors:</strong> UV280, conductivity, pH, pressure</li>
+                <li><strong>Fraction Collection:</strong> Automated based on UV signal</li>
+                <li><strong>CIP/SIP:</strong> Automated sequences (NaOH, sanitization)</li>
+                <li><strong>Data:</strong> Electronic batch records, 21 CFR Part 11</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Viral Clearance</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>⚗️ Viral Inactivation (Low pH)</h3>
+            <ul>
+                <li><strong>Method:</strong> Low pH hold (citrate buffer)</li>
+                <li><strong>Conditions:</strong> pH 3.5, 60 minutes, 18-25°C</li>
+                <li><strong>Hold Tank:</strong> 500-1,000L jacketed vessel</li>
+                <li><strong>Monitoring:</strong> pH probe, temperature, timer</li>
+                <li><strong>Log Reduction:</strong> >4 logs for enveloped viruses</li>
+                <li><strong>Validation:</strong> Spiking studies with model viruses</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🦠 Nanofiltration (Viral Removal)</h3>
+            <ul>
+                <li><strong>Filter:</strong> Asahi Planova 20N (20 nm pores)</li>
+                <li><strong>Mechanism:</strong> Size exclusion (virus removal)</li>
+                <li><strong>Format:</strong> Single-use cartridge</li>
+                <li><strong>Capacity:</strong> 200-500 L/m²</li>
+                <li><strong>Log Reduction:</strong> >4-6 logs (MuLV, MMV, PPV)</li>
+                <li><strong>Integrity Test:</strong> Bubble point test before/after</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📊 Viral Clearance Strategy</h3>
+            <ul>
+                <li><strong>Orthogonal Steps:</strong> Low pH + nanofiltration</li>
+                <li><strong>Regulatory:</strong> >12 log reduction required (FDA)</li>
+                <li><strong>Model Viruses:</strong> MuLV, MMV, X-MuLV</li>
+                <li><strong>Testing:</strong> TCID50, qPCR, infectivity assays</li>
+                <li><strong>Documentation:</strong> Viral validation reports</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Concentration & Formulation</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🔄 Ultrafiltration/Diafiltration (UF/DF)</h3>
+            <ul>
+                <li><strong>System:</strong> Merck Pellicon 3, Sartorius Sartocon</li>
+                <li><strong>Membrane:</strong> 30 kDa MWCO (polyethersulfone)</li>
+                <li><strong>Area:</strong> 2-10 m² (depends on scale)</li>
+                <li><strong>Mode:</strong> TFF (tangential flow filtration)</li>
+                <li><strong>Function:</strong> 10-30X concentration + buffer exchange</li>
+                <li><strong>Final:</strong> 50-150 mg/mL protein concentration</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>💊 Formulation System</h3>
+            <ul>
+                <li><strong>Tank:</strong> 200-500L jacketed vessel</li>
+                <li><strong>Components:</strong> Histidine, sucrose, polysorbate 80</li>
+                <li><strong>pH Adjustment:</strong> HCl or NaOH addition</li>
+                <li><strong>Mixing:</strong> Gentle agitation (avoid foaming)</li>
+                <li><strong>Monitoring:</strong> pH, conductivity, concentration (UV280)</li>
+                <li><strong>Target:</strong> pH 5.5-6.5, osmolality 280-320 mOsm/kg</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>✨ Sterile Filtration</h3>
+            <ul>
+                <li><strong>Filter:</strong> Sartorius Sartopore 2, Pall Supor</li>
+                <li><strong>Pore Size:</strong> 0.2μm (dual redundant)</li>
+                <li><strong>Format:</strong> Single-use cartridge</li>
+                <li><strong>Capacity:</strong> 200-500 L/m²</li>
+                <li><strong>Integrity Test:</strong> Bubble point/diffusion test</li>
+                <li><strong>Function:</strong> Terminal bioburden reduction (<10 CFU)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🧊 Drug Substance Storage</h3>
+            <ul>
+                <li><strong>Container:</strong> 10-50L single-use bags or SS tanks</li>
+                <li><strong>Material:</strong> EVA, polyethylene (extractables tested)</li>
+                <li><strong>Storage:</strong> -80°C to -20°C (frozen) or 2-8°C</li>
+                <li><strong>Stability:</strong> 18-24 months at -20°C</li>
+                <li><strong>Monitoring:</strong> Temperature, fill volume, integrity</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Purification Performance Metrics</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph LR
+    subgraph "Process Inputs"
+        INPUT[Cell Culture Harvest<br/>📊 2-8 g/L titer<br/>10,000L volume<br/>40-80 kg product]
+    end
+
+    subgraph "Step Recovery & Purity"
+        CAPTURE[Protein A Capture<br/>⭐ 95% yield<br/>98% purity<br/>36-76 kg]
+        CEX_STEP[CEX Polish<br/>⭐ 90% yield<br/>99% purity<br/>32-68 kg]
+        AEX_STEP[AEX Polish<br/>⭐ 95% yield<br/>99.5% purity<br/>30-65 kg]
+        VIRAL[Viral Clearance<br/>⭐ 90% yield<br/>99.5% purity<br/>27-58 kg]
+    end
+
+    subgraph "Final Output"
+        OUTPUT[Drug Substance<br/>✅ 50-70% overall yield<br/>>99.5% purity<br/>20-56 kg at 100 mg/mL]
+    end
+
+    INPUT --> CAPTURE
+    CAPTURE --> CEX_STEP
+    CEX_STEP --> AEX_STEP
+    AEX_STEP --> VIRAL
+    VIRAL --> OUTPUT
+
+    style INPUT fill:#e3f2fd
+    style CAPTURE fill:#ffccbc
+    style CEX_STEP fill:#c8e6c9
+    style AEX_STEP fill:#a5d6a7
+    style VIRAL fill:#80cbc4
+    style OUTPUT fill:#c5cae9
+        </div>
+    </div>
+
+    <h2>Analytical Testing - In-Process Controls</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🔬 Purity Analysis</h3>
+            <ul>
+                <li><strong>SEC-HPLC:</strong> Aggregates, fragments, monomer %</li>
+                <li><strong>SDS-PAGE:</strong> Reducing/non-reducing purity</li>
+                <li><strong>CE-SDS:</strong> Automated capillary electrophoresis</li>
+                <li><strong>Imaged CE:</strong> Protein Express system</li>
+                <li><strong>Target:</strong> >99% monomer, <2% HMWS, <1% LMWS</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🧪 Impurity Testing</h3>
+            <ul>
+                <li><strong>HCP ELISA:</strong> Host cell proteins (<100 ppm)</li>
+                <li><strong>DNA (qPCR):</strong> Residual DNA (<100 pg/dose)</li>
+                <li><strong>Protein A ELISA:</strong> Leached ligand (<100 ppm)</li>
+                <li><strong>Endotoxin (LAL):</strong> <0.5 EU/mg protein</li>
+                <li><strong>Bioburden:</strong> <10 CFU before sterile filtration</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📈 Product Quality</h3>
+            <ul>
+                <li><strong>Protein Concentration:</strong> UV280, BCA, or HPLC</li>
+                <li><strong>pH:</strong> Benchtop pH meter (target ±0.2)</li>
+                <li><strong>Osmolality:</strong> Freezing point depression</li>
+                <li><strong>Appearance:</strong> Visual inspection (clarity, color)</li>
+                <li><strong>Particulates:</strong> HIAC or light obscuration</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>⭐ Release Testing Instruments</h3>
+            <ul>
+                <li><strong>HPLC/UPLC:</strong> Agilent 1290, Waters Acquity</li>
+                <li><strong>Mass Spec:</strong> LC-MS/MS for glycan analysis</li>
+                <li><strong>Capillary Electrophoresis:</strong> Sciex PA800</li>
+                <li><strong>Spectrophotometer:</strong> Nanodrop, Cary UV-Vis</li>
+                <li><strong>Osmometer:</strong> Advanced Instruments 2020</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="key-points">
+        <h3>🎯 Key Success Factors</h3>
+        <ul>
+            <li><strong>Step Yield Optimization:</strong> Target >90% per step for overall >50% yield</li>
+            <li><strong>Purity Progression:</strong> Each step increases purity (98% → 99% → 99.5% → >99.5%)</li>
+            <li><strong>Viral Safety:</strong> Two orthogonal clearance mechanisms (low pH + nanofiltration) = >12 log reduction</li>
+            <li><strong>Process Validation:</strong> 3 consecutive commercial batches demonstrating consistency</li>
+            <li><strong>Resin Lifetime:</strong> Protein A: 100-200 cycles, CEX/AEX: 50-100 cycles</li>
+            <li><strong>Single-Use Technology:</strong> Depth filters, nanofilters, UF cassettes, bags reduce cleaning validation</li>
+            <li><strong>Automation:</strong> AKTA systems with UNICORN software ensure reproducibility</li>
+            <li><strong>Data Integrity:</strong> Electronic batch records, automated fraction collection, integrated LIMS</li>
+        </ul>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>

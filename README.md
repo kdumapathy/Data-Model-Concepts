@@ -1,189 +1,192 @@
-# 🧬 Pharmaceutical Data Model - Complete Lifecycle Architecture
+# Pharmaceutical Data Model & Process Documentation
 
-## Overview
-
-This repository contains a comprehensive **pharmaceutical and biological product data model** supporting the complete lifecycle from Discovery through Commercial Manufacturing. The model is optimized for modern data platforms including Databricks, AWS, and Trino.
-
-## 🚀 Quick Start
-
-### For Business Users
-Start here: [`final_refactored/README_Pharma_Data_Model.md`](final_refactored/README_Pharma_Data_Model.md)
-- Understand the business value
-- Learn about lifecycle coverage
-- Review implementation roadmap
-
-### For Technical Users
-Start here: [`final_refactored/Technical_Quick_Reference.md`](final_refactored/Technical_Quick_Reference.md)
-- SQL patterns and examples
-- Table structures and relationships
-- Performance optimization tips
-
-### For Executives
-Start here: [`final_refactored/Executive_Summary_One_Pager.md`](final_refactored/Executive_Summary_One_Pager.md)
-- ROI analysis
-- Implementation roadmap
-- Success metrics
-
-## 📦 What's Included
-
-### Interactive Diagrams (HTML Files)
-Open any of these in your browser:
-- **Complete Lifecycle View**: `final_refactored/Pharma_Data_Model_Complete_Lifecycle.html`
-- **9 Standalone Diagrams**: Individual focused views for presentations
-
-### Documentation
-- **README_Pharma_Data_Model.md** - Comprehensive guide
-- **Technical_Quick_Reference.md** - Developer reference
-- **REFACTORING_SUMMARY.md** - Refactoring details
-- **DELIVERABLES_SUMMARY.md** - Package inventory
-- **INTEGRATION_SUMMARY.md** - Integration guide
-- **DYNAMIC_DIAGRAMS_GUIDE.md** - Diagram architecture
-
-### Diagram Modules
-Modular JavaScript diagrams in `final_refactored/diagrams/`:
-- `conceptualProcessFlow.js`
-- `batchGenealogy.js`
-- `processStarSchema.js`
-- `analyticalStarSchema.js`
-- And more...
-
-## 🎯 Key Features
-
-### Architecture
-- **Kimball Bus Architecture** with two star schemas
-- **8 Conformed Dimensions** shared across domains
-- **SAP GBT Batch Genealogy** for traceability
-- **Business-friendly naming** in all diagrams
-
-### Coverage
-- ✅ Discovery → Pre-Clinical → Phase 1-3 → Filing → Commercial
-- ✅ Manufacturing operations (cell culture, purification, fill-finish)
-- ✅ Quality analytics (release, stability, characterization)
-- ✅ Regulatory compliance (21 CFR Part 11, EU GMP, ICH)
-
-### Technology Stack
-- **Visualization**: Mermaid.js for interactive diagrams
-- **Platforms**: Databricks, AWS Redshift, Trino
-- **Format**: HTML5, ES6 JavaScript modules, Markdown
-
-## 📊 Star Schema Design
-
-### Process Star Schema (Manufacturing)
-**Fact**: Manufacturing Process Results
-**Dimensions**: Batch, Material, Sample, Manufacturer, Process Hierarchy, Specification, Notification, Document, Source System
-
-### Analytical Star Schema (Quality/Testing)
-**Fact**: Analytical Results
-**Dimensions**: Batch, Material, Sample, Test, Test Location, Method, Condition, Timepoint, Study, Specification, Notification, Document, Source System
-
-### Genealogy & Traceability
-- **Batch Genealogy**: SAP GBT multi-parent architecture
-- **Material Lineage**: Vector → Cell Line → MCB → WCB
-- **Lot Traceability**: Complete raw material tracking
-
-## 🛠️ Getting Started
-
-### 1. View the Diagrams
-```bash
-# Open the main lifecycle file in your browser
-open final_refactored/Pharma_Data_Model_Complete_Lifecycle.html
-```
-
-### 2. Read the Documentation
-```bash
-# Comprehensive guide
-cat final_refactored/README_Pharma_Data_Model.md
-
-# Quick technical reference
-cat final_refactored/Technical_Quick_Reference.md
-```
-
-### 3. Explore the Code
-```bash
-# View diagram modules
-ls -l final_refactored/diagrams/
-
-# Example: View batch genealogy diagram code
-cat final_refactored/diagrams/batchGenealogy.js
-```
-
-## 📚 Documentation Index
-
-| Document | Audience | Purpose |
-|----------|----------|---------|
-| README_Pharma_Data_Model.md | All stakeholders | Comprehensive overview |
-| Executive_Summary_One_Pager.md | Executives | Business case & ROI |
-| Technical_Quick_Reference.md | Data engineers | SQL patterns & DDL |
-| REFACTORING_SUMMARY.md | Technical | Refactoring details |
-| DELIVERABLES_SUMMARY.md | All | Package contents |
-| INTEGRATION_SUMMARY.md | Architects | Integration guide |
-| DYNAMIC_DIAGRAMS_GUIDE.md | Developers | Diagram architecture |
-| BEFORE_AFTER_COMPARISON.md | All | Visual comparisons |
-
-## 🏗️ Implementation Phases
-
-### Phase 1: Foundation (2-3 months)
-- Core dimensions (Material, Batch, Sample, Manufacturer)
-- Process Star schema for one area
-- Initial ETL pipelines
-
-### Phase 2: Expansion (3-4 months)
-- Analytical Star schema
-- Batch genealogy
-- Comprehensive dashboards
-
-### Phase 3: Optimization (2-3 months)
-- Material transformation tracking
-- Advanced analytics (ML, SPC)
-- Automated reporting
-
-## ✅ Regulatory Compliance
-
-This model supports:
-- **21 CFR Part 11** - Electronic records and signatures
-- **EU Annex 11** - Computerized systems
-- **ICH Q7** - API manufacturing GMP
-- **ALCOA+** - Data integrity principles
-
-## 🎓 Use Cases
-
-1. **Tech Transfer**: Accelerate development to manufacturing handoff
-2. **Regulatory Inspections**: Rapid data retrieval for FDA/EMA
-3. **Product Recalls**: Complete traceability in <1 hour
-4. **Quality Investigations**: Root cause analysis with correlated data
-5. **Annual Product Review**: Automated compliance reporting
-
-## 🔧 Technical Requirements
-
-- **Browser**: Modern browser (Chrome, Firefox, Edge, Safari)
-- **For Development**: ES6 JavaScript support
-- **For Production**: Databricks, AWS Redshift, or Trino
-
-## 📞 Support
-
-For questions or issues:
-1. Review the documentation in `final_refactored/`
-2. Check the Technical_Quick_Reference.md for SQL examples
-3. Refer to REFACTORING_SUMMARY.md for design decisions
-
-## 📝 Version Information
-
-**Version**: 1.0 Baseline
-**Release Date**: November 16, 2025
-**Status**: Production Ready
-
-## 🏆 Success Metrics
-
-Expected outcomes from implementation:
-- **15% reduction** in manufacturing cycle times
-- **10% increase** in first-pass yield
-- **50% faster** root cause investigations
-- **Zero data integrity findings** in inspections
+**Version:** 1.0 Baseline
+**Last Updated:** November 16, 2025
+**Status:** Production Ready
 
 ---
 
-**Built for the pharmaceutical industry by data architecture experts.**
-**Optimized for Databricks, AWS, and Trino platforms.**
-**Designed to support your journey from Discovery to Commercial.**
+## Overview
 
-🧬 **Your data, your insights, your competitive advantage.** 🧬
+Professional pharmaceutical data model and comprehensive manufacturing and clinical process documentation for the biopharmaceutical industry. This repository provides:
+
+- ✅ **Data Model Architecture** - Star schema design for manufacturing and analytics
+- ✅ **Manufacturing Process Diagrams** - Detailed equipment and workflow visualization
+- ✅ **Clinical Trial Documentation** - Systems, workflows, and IT platforms
+- ✅ **Equipment Reference Guide** - 100+ equipment specifications
+- ✅ **Regulatory Compliance** - FDA, EMA, ICH alignment
+
+---
+
+## Quick Start
+
+### Navigate to Documentation
+```bash
+cd pharma-data-model
+open README.md
+```
+
+### View Manufacturing Processes
+```bash
+# Cell culture manufacturing
+open pharma-data-model/diagrams/manufacturing-process/01-cell-culture-process.html
+
+# Downstream purification
+open pharma-data-model/diagrams/manufacturing-process/02-downstream-purification.html
+
+# Fill/finish operations
+open pharma-data-model/diagrams/manufacturing-process/03-fill-finish-process.html
+```
+
+### View Clinical Trial Workflows
+```bash
+# Clinical trial lifecycle
+open pharma-data-model/diagrams/clinical-process/01-clinical-trial-lifecycle.html
+
+# Quality control and analytics
+open pharma-data-model/diagrams/clinical-process/02-quality-control-analytics.html
+```
+
+### View Data Model Diagrams
+```bash
+# Complete lifecycle view
+open pharma-data-model/diagrams/data-model/Pharma_Data_Model_Complete_Lifecycle.html
+```
+
+---
+
+## Repository Structure
+
+```
+pharma-data-model/
+├── README.md                          # Complete overview and navigation
+├── BASELINE_SUMMARY.md                # Version 1.0 baseline summary
+├── docs/
+│   └── EQUIPMENT_REFERENCE_GUIDE.md   # 100+ equipment specifications
+├── diagrams/
+│   ├── manufacturing-process/         # 3 manufacturing process diagrams
+│   ├── clinical-process/              # 2 clinical trial diagrams
+│   └── data-model/                    # 10 data model ERD diagrams
+└── assets/                            # Resources and images
+```
+
+---
+
+## What's Included
+
+### 📊 Manufacturing Process Diagrams (3)
+1. **Cell Culture Process** - Bioreactors, seed trains, control systems
+2. **Downstream Purification** - Chromatography, viral clearance, formulation
+3. **Fill/Finish Operations** - Aseptic filling, lyophilization, inspection
+
+### 🏥 Clinical Process Diagrams (2)
+1. **Clinical Trial Lifecycle** - Phase 1-3, EDC, CTMS, bioanalysis
+2. **Quality Control & Analytics** - LIMS, instruments, testing workflows
+
+### 🔬 Data Model Diagrams (10)
+- Complete lifecycle view
+- Conceptual models (process, analytical, integrated)
+- Batch genealogy (SAP GBT)
+- Star schemas (manufacturing, analytical)
+- Entity relationship diagrams (conceptual, logical)
+
+### 📚 Reference Documentation
+- **Equipment Reference Guide** - Complete specifications for 100+ equipment types
+- **Baseline Summary** - Version 1.0 release notes and features
+- **Main README** - Navigation and overview
+
+---
+
+## Key Features
+
+### Manufacturing Excellence
+- **Upstream Processing:** Cell culture, bioreactors (2-20 KL), PAT sensors
+- **Downstream Processing:** Chromatography, viral clearance, concentration
+- **Fill/Finish:** Aseptic filling, lyophilization, serialization
+
+### Clinical Development
+- **Trial Management:** EDC, CTMS, IRT, Safety DB, eTMF
+- **Bioanalysis:** LC-MS/MS, ELISA, flow cytometry
+- **Data Standards:** CDISC (SDTM, ADaM), GCP compliance
+
+### Quality Control
+- **Analytical Testing:** HPLC, mass spec, protein characterization
+- **Microbiology:** Sterility, endotoxin, bioburden
+- **LIMS Integration:** LabWare, Thermo SampleManager
+
+### Data Architecture
+- **Star Schema:** Kimball methodology, conformed dimensions
+- **Technology Stack:** Databricks, AWS, Trino, Tableau
+- **Compliance:** 21 CFR Part 11, EU GMP, ICH guidelines
+
+---
+
+## Use Cases
+
+- ✅ **Data Platform Design** - Star schema implementation
+- ✅ **Equipment Procurement** - Specifications and vendor selection
+- ✅ **Process Documentation** - Manufacturing and clinical workflows
+- ✅ **Regulatory Submissions** - Compliance documentation
+- ✅ **Training & Onboarding** - Visual process learning
+
+---
+
+## Getting Started
+
+1. **Review the main README:**
+   ```bash
+   open pharma-data-model/README.md
+   ```
+
+2. **Explore manufacturing processes:**
+   - Cell culture, purification, fill/finish diagrams
+
+3. **Check clinical trial workflows:**
+   - Phase 1-3 lifecycles, systems, bioanalysis
+
+4. **Review equipment specifications:**
+   ```bash
+   open pharma-data-model/docs/EQUIPMENT_REFERENCE_GUIDE.md
+   ```
+
+5. **Study data model architecture:**
+   - Star schemas, batch genealogy, ERDs
+
+---
+
+## Documentation
+
+- **[Main README](pharma-data-model/README.md)** - Complete documentation
+- **[Baseline Summary](pharma-data-model/BASELINE_SUMMARY.md)** - Version 1.0 release notes
+- **[Equipment Guide](pharma-data-model/docs/EQUIPMENT_REFERENCE_GUIDE.md)** - Equipment specifications
+
+---
+
+## Version Information
+
+**Version:** 1.0 Baseline
+**Release Date:** November 16, 2025
+**Status:** Production Ready
+
+### Highlights
+- Clean, professional baseline (no delta/comparison content)
+- 15 interactive HTML diagrams
+- 100+ equipment specifications
+- Complete regulatory alignment
+- Production-ready documentation
+
+---
+
+## Support
+
+For questions or updates:
+1. Review documentation in `pharma-data-model/`
+2. Check equipment specifications in reference guide
+3. Review individual process diagrams
+4. Contact data architecture team
+
+---
+
+**Built for pharmaceutical excellence. Optimized for data-driven insights.**
+
+🧬 **Professional. Comprehensive. Production-Ready.** 🧬

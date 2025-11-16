@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Master Data & Hierarchy - ISA-88 Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .key-points {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏭 Equipment Master Data & Hierarchy - ISA-88 Physical Model</h1>
+
+    <div class="key-points">
+        <h3>Overview</h3>
+        <p><strong>Objective:</strong> Comprehensive equipment master data management following ISA-88 physical model for pharmaceutical manufacturing.</p>
+        <p><strong>Standards:</strong> ISA-88 (Batch Control), ISA-95 (Enterprise-Control Integration), 21 CFR Part 11</p>
+    </div>
+
+    <h2>ISA-88 Physical Model Hierarchy</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Enterprise Level"
+        ENTERPRISE[Enterprise<br/>🏢 Global Organization<br/>Multiple Sites Worldwide]
+    end
+
+    subgraph "Site Level"
+        SITE1[Site<br/>🏭 Manufacturing Site<br/>Location: Cambridge, MA<br/>Site ID: SITE-001]
+        SITE2[Site<br/>🏭 Manufacturing Site<br/>Location: Singapore<br/>Site ID: SITE-002]
+    end
+
+    subgraph "Area Level - Biological Production"
+        AREA1[Area<br/>📍 Upstream Manufacturing<br/>Cell Culture Suite<br/>AREA-US-001]
+        AREA2[Area<br/>📍 Downstream Manufacturing<br/>Purification Suite<br/>AREA-DS-001]
+        AREA3[Area<br/>📍 Fill/Finish<br/>Aseptic Fill Suite<br/>AREA-FF-001]
+    end
+
+    subgraph "Process Cell Level"
+        PC1[Process Cell<br/>⚙️ Bioreactor Farm<br/>PC-BIOREACTOR-01<br/>4 Production Bioreactors]
+        PC2[Process Cell<br/>⚙️ Chromatography Skid<br/>PC-CHROM-01<br/>Protein A + Polish Steps]
+        PC3[Process Cell<br/>⚙️ Filling Line<br/>PC-FILL-01<br/>Vial Filling Line #1]
+    end
+
+    subgraph "Unit Level"
+        UNIT1[Unit<br/>🔧 Production Bioreactor<br/>UNIT-BR-10KL-001<br/>10,000L STR]
+        UNIT2[Unit<br/>🔧 Protein A Column<br/>UNIT-PROTA-300L-001<br/>300L Column System]
+        UNIT3[Unit<br/>🔧 Filling Machine<br/>UNIT-FILLER-001<br/>Optima Inova]
+    end
+
+    subgraph "Equipment Module Level"
+        EM1[Equipment Module<br/>📦 Agitation System<br/>EM-AGIT-001<br/>Top-drive impeller]
+        EM2[Equipment Module<br/>📦 Temperature Control<br/>EM-TEMP-001<br/>Jacket heating/cooling]
+        EM3[Equipment Module<br/>📦 pH Control Loop<br/>EM-PH-001<br/>Acid/base dosing]
+    end
+
+    subgraph "Control Module Level"
+        CM1[Control Module<br/>🎛️ pH Sensor<br/>CM-PH-001<br/>Mettler Toledo InPro]
+        CM2[Control Module<br/>🎛️ DO Sensor<br/>CM-DO-001<br/>Optical DO probe]
+        CM3[Control Module<br/>🎛️ Base Pump<br/>CM-PUMP-001<br/>Peristaltic pump]
+    end
+
+    ENTERPRISE --> SITE1
+    ENTERPRISE --> SITE2
+    SITE1 --> AREA1
+    SITE1 --> AREA2
+    SITE1 --> AREA3
+    AREA1 --> PC1
+    AREA2 --> PC2
+    AREA3 --> PC3
+    PC1 --> UNIT1
+    PC2 --> UNIT2
+    PC3 --> UNIT3
+    UNIT1 --> EM1
+    UNIT1 --> EM2
+    UNIT1 --> EM3
+    EM3 --> CM1
+    UNIT1 --> CM2
+    EM1 --> CM3
+
+    style ENTERPRISE fill:#e3f2fd
+    style SITE1 fill:#b3e5fc
+    style SITE2 fill:#b3e5fc
+    style AREA1 fill:#c8e6c9
+    style AREA2 fill:#c8e6c9
+    style AREA3 fill:#c8e6c9
+    style PC1 fill:#ffccbc
+    style PC2 fill:#ffccbc
+    style PC3 fill:#ffccbc
+    style UNIT1 fill:#f8bbd0
+    style UNIT2 fill:#f8bbd0
+    style UNIT3 fill:#f8bbd0
+    style EM1 fill:#d1c4e9
+    style EM2 fill:#d1c4e9
+    style EM3 fill:#d1c4e9
+    style CM1 fill:#c5cae9
+    style CM2 fill:#c5cae9
+    style CM3 fill:#c5cae9
+        </div>
+    </div>
+
+    <h2>Equipment Master Data Model</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+erDiagram
+    EQUIPMENT_MASTER["Equipment Master"] {
+        bigint equipment_identity PK "Surrogate key"
+        varchar equipment_ID UK "Equipment tag (BR-10KL-001)"
+        varchar equipment_name "Descriptive name"
+        varchar equipment_type "Bioreactor, Column, Pump"
+        varchar equipment_class "ISA-88 class (Unit, EM, CM)"
+        bigint parent_equipment_identity FK "Self-join hierarchy"
+        varchar manufacturer "Thermo Fisher, Sartorius"
+        varchar model_number "BIOSTAT STR 10000"
+        varchar serial_number "SN-12345678"
+        date installation_date "Installed on site"
+        varchar equipment_status "Active, Idle, Maintenance, Retired"
+        varchar location "Building, Room, Area"
+        bigint site_identity FK "Manufacturing site"
+        bigint area_identity FK "Process area"
+        bigint process_cell_identity FK "Process cell"
+        boolean gmp_critical "GMP critical equipment"
+        varchar qualification_status "IQ, OQ, PQ, Qualified"
+        date last_qualification_date "Last IQ/OQ/PQ"
+        date next_qualification_date "Requalification due"
+        varchar calibration_status "Calibrated, Due, Overdue"
+        date last_calibration_date "Last calibration"
+        date next_calibration_date "Next calibration due"
+        varchar maintenance_plan "PM schedule ID"
+        boolean current_flag "SCD Type 2"
+        timestamp effective_from "Record effective start"
+        timestamp effective_to "Record effective end"
+    }
+
+    EQUIPMENT_CAPABILITY["Equipment Capability"] {
+        bigint capability_identity PK "Surrogate key"
+        bigint equipment_identity FK "Equipment"
+        varchar capability_type "Volume, Pressure, Temp Range"
+        decimal min_value "Minimum capability"
+        decimal max_value "Maximum capability"
+        decimal nominal_value "Normal operating point"
+        varchar uom "Unit of measure"
+        varchar capability_status "Available, Limited, Unavailable"
+        boolean current_flag "SCD Type 2"
+    }
+
+    EQUIPMENT_QUALIFICATION["Equipment Qualification"] {
+        bigint qualification_identity PK "Surrogate key"
+        bigint equipment_identity FK "Equipment qualified"
+        varchar qualification_type "IQ, OQ, PQ"
+        varchar qualification_ID "Protocol number"
+        date execution_date "Qualification performed"
+        varchar executed_by "Engineer name"
+        varchar qualification_status "Passed, Failed, In Progress"
+        bigint document_identity FK "Qualification report"
+        date next_requalification "Requalification due"
+        boolean current_flag "SCD Type 2"
+    }
+
+    EQUIPMENT_CALIBRATION["Equipment Calibration"] {
+        bigint calibration_identity PK "Surrogate key"
+        bigint equipment_identity FK "Equipment calibrated"
+        bigint control_module_identity FK "Sensor/instrument"
+        date calibration_date "Calibration performed"
+        varchar performed_by "Technician name"
+        varchar calibration_standard "Reference standard used"
+        decimal accuracy "Calibration accuracy"
+        varchar accuracy_uom "%, units"
+        varchar calibration_status "Passed, Failed"
+        bigint document_identity FK "Calibration certificate"
+        date next_calibration_date "Next calibration due"
+        boolean current_flag "SCD Type 2"
+    }
+
+    EQUIPMENT_MAINTENANCE["Equipment Maintenance"] {
+        bigint maintenance_identity PK "Surrogate key"
+        bigint equipment_identity FK "Equipment maintained"
+        varchar maintenance_type "Preventive, Corrective, Breakdown"
+        varchar work_order_ID "CMMS work order"
+        date scheduled_date "Planned maintenance"
+        date actual_date "Actual maintenance"
+        varchar performed_by "Technician/vendor"
+        varchar maintenance_description "Work performed"
+        decimal downtime_hours "Equipment downtime"
+        varchar maintenance_status "Scheduled, Complete, Cancelled"
+        bigint document_identity FK "Maintenance record"
+        boolean current_flag "SCD Type 2"
+    }
+
+    EQUIPMENT_USAGE["Equipment Usage"] {
+        bigint usage_identity PK "Surrogate key"
+        bigint equipment_identity FK "Equipment used"
+        bigint batch_identity FK "Batch manufactured"
+        bigint recipe_execution_identity FK "Recipe executed"
+        timestamp usage_start "Equipment start time"
+        timestamp usage_end "Equipment end time"
+        decimal runtime_hours "Actual runtime"
+        varchar usage_status "Running, Idle, Cleaning"
+        decimal utilization_percent "% utilization"
+        boolean current_flag "SCD Type 2"
+    }
+
+    SITE["Site"] {
+        bigint site_identity PK "Surrogate key"
+        varchar site_ID UK "Site code"
+        varchar site_name "Site name"
+        varchar site_type "Commercial, Clinical, R&D"
+        varchar location "City, State, Country"
+        boolean gmp_certified "GMP certification"
+        boolean current_flag "SCD Type 2"
+    }
+
+    AREA["Area"] {
+        bigint area_identity PK "Surrogate key"
+        varchar area_ID UK "Area code"
+        varchar area_name "Area name"
+        varchar area_type "Upstream, Downstream, Fill/Finish"
+        bigint site_identity FK "Parent site"
+        varchar cleanroom_class "ISO 5, ISO 7, ISO 8"
+        boolean current_flag "SCD Type 2"
+    }
+
+    PROCESS_CELL["Process Cell"] {
+        bigint process_cell_identity PK "Surrogate key"
+        varchar process_cell_ID UK "Process cell code"
+        varchar process_cell_name "Process cell name"
+        bigint area_identity FK "Parent area"
+        varchar process_cell_type "Bioreactor Farm, Chromatography"
+        boolean current_flag "SCD Type 2"
+    }
+
+    %% Relationships
+    EQUIPMENT_MASTER ||--o| EQUIPMENT_MASTER : "composed of"
+    EQUIPMENT_MASTER ||--o{ EQUIPMENT_CAPABILITY : "has capabilities"
+    EQUIPMENT_MASTER ||--o{ EQUIPMENT_QUALIFICATION : "qualified via"
+    EQUIPMENT_MASTER ||--o{ EQUIPMENT_CALIBRATION : "calibrated via"
+    EQUIPMENT_MASTER ||--o{ EQUIPMENT_MAINTENANCE : "maintained via"
+    EQUIPMENT_MASTER ||--o{ EQUIPMENT_USAGE : "used in"
+
+    SITE ||--o{ AREA : "contains"
+    AREA ||--o{ PROCESS_CELL : "contains"
+    PROCESS_CELL ||--o{ EQUIPMENT_MASTER : "contains"
+    SITE ||--o{ EQUIPMENT_MASTER : "located at"
+        </div>
+    </div>
+
+    <div class="key-points">
+        <h3>🎯 Key Features</h3>
+        <ul>
+            <li><strong>ISA-88 Compliance:</strong> Full physical model hierarchy (Enterprise → Site → Area → Process Cell → Unit → Equipment Module → Control Module)</li>
+            <li><strong>Equipment Lifecycle:</strong> Installation, qualification, calibration, maintenance, usage tracking, retirement</li>
+            <li><strong>Self-Join Hierarchy:</strong> Equipment_Master.parent_equipment_identity enables recursive hierarchy queries</li>
+            <li><strong>Qualification Tracking:</strong> IQ/OQ/PQ documentation with requalification scheduling</li>
+            <li><strong>Calibration Management:</strong> Sensor/instrument calibration with standards traceability</li>
+            <li><strong>Preventive Maintenance:</strong> PM schedule tracking with CMMS integration</li>
+            <li><strong>Equipment Utilization:</strong> Runtime tracking for OEE (Overall Equipment Effectiveness) calculation</li>
+            <li><strong>GMP Critical:</strong> Flag for equipment requiring heightened documentation and control</li>
+        </ul>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>
