@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Culture Manufacturing Process - Equipment & Systems</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .equipment-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .equipment-card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        .equipment-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .equipment-card li {
+            margin: 5px 0;
+        }
+        .phase-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+        }
+        .key-points {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .key-points ul {
+            margin: 10px 0;
+        }
+        .key-points li {
+            margin: 8px 0;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧬 Cell Culture Manufacturing Process - Equipment & Systems</h1>
+
+    <div class="key-points">
+        <h3>Process Overview</h3>
+        <p><strong>Objective:</strong> Production of biopharmaceutical products (monoclonal antibodies, recombinant proteins) using mammalian cell culture technology.</p>
+        <p><strong>Phases:</strong></p>
+        <span class="phase-badge">Upstream Processing (USP)</span>
+        <span class="phase-badge">Cell Banking</span>
+        <span class="phase-badge">Seed Train Expansion</span>
+        <span class="phase-badge">Production Bioreactor</span>
+    </div>
+
+    <h2>Phase 1: Cell Banking & Seed Train</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Cell Banking Facility"
+        MCB[Master Cell Bank<br/>🧪 Cryogenic Storage<br/>-196°C LN2 Tanks]
+        WCB[Working Cell Bank<br/>🧊 Controlled Rate Freezer<br/>LN2 Dewars]
+    end
+
+    subgraph "Seed Train - Scale Up"
+        SHAKE[Shake Flask<br/>🔬 125mL-2L<br/>Orbital Shaker Incubator<br/>37°C, 5% CO2, 125 RPM]
+        SPIN1[Spinner Flask<br/>⚗️ 3-6L<br/>Magnetic Stirrer<br/>Temperature Controlled]
+        WAVE[WAVE Bioreactor<br/>🌊 25-50L<br/>Rocking Platform<br/>Single-Use Bag]
+        SEED[Seed Bioreactor<br/>⚙️ 100-500L<br/>Stirred Tank<br/>pH/DO Control]
+    end
+
+    subgraph "Production Scale"
+        PROD[Production Bioreactor<br/>🏭 2,000-20,000L<br/>Stainless Steel STR<br/>Automated Control System]
+    end
+
+    MCB -->|Thaw 1 Vial| SHAKE
+    WCB -->|Thaw 1 Vial| SHAKE
+    SHAKE -->|10x Scale| SPIN1
+    SPIN1 -->|5x Scale| WAVE
+    WAVE -->|5x Scale| SEED
+    SEED -->|10-20x Scale| PROD
+
+    style MCB fill:#e3f2fd
+    style WCB fill:#e1f5fe
+    style SHAKE fill:#fff3e0
+    style SPIN1 fill:#ffe0b2
+    style WAVE fill:#c8e6c9
+    style SEED fill:#b2dfdb
+    style PROD fill:#c5cae9
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Seed Train</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🔬 Shake Flask Systems</h3>
+            <ul>
+                <li><strong>Equipment:</strong> Thermo Forma Orbital Shaker</li>
+                <li><strong>Capacity:</strong> 125mL - 2L flasks</li>
+                <li><strong>Control:</strong> Temperature, CO2, Humidity</li>
+                <li><strong>Monitoring:</strong> Visual inspection, cell count</li>
+                <li><strong>Usage:</strong> Initial cell expansion from MCB/WCB</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🌊 WAVE Bioreactor</h3>
+            <ul>
+                <li><strong>Model:</strong> Cytiva WAVE 25/50</li>
+                <li><strong>Technology:</strong> Single-use rocking platform</li>
+                <li><strong>Sensors:</strong> pH, DO, Temperature</li>
+                <li><strong>Control:</strong> Automated gas mixing</li>
+                <li><strong>Advantages:</strong> No cleaning validation, rapid setup</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>⚙️ Seed Bioreactor (STR)</h3>
+            <ul>
+                <li><strong>Model:</strong> Sartorius BIOSTAT 200-500L</li>
+                <li><strong>Type:</strong> Stirred Tank Reactor (reusable)</li>
+                <li><strong>Control:</strong> pH, DO, Temperature, Agitation</li>
+                <li><strong>Sensors:</strong> Online biomass, glucose, lactate</li>
+                <li><strong>Automation:</strong> DCS integration (DeltaV, Syncade)</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Phase 2: Production Bioreactor</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph LR
+    subgraph "Production Bioreactor System"
+        VESSEL[Production Vessel<br/>🏭 10,000L STR<br/>Stainless Steel 316L<br/>Jacketed Design]
+
+        subgraph "Control Systems"
+            DCS[DCS - DeltaV<br/>💻 Process Control<br/>pH, DO, Temp, RPM]
+            MES[MES - Syncade<br/>📊 Batch Management<br/>Electronic Batch Record]
+            SCADA[SCADA - iFix<br/>📈 Data Historian<br/>Real-time Monitoring]
+        end
+
+        subgraph "Sensing & Actuation"
+            SENSORS[Online Sensors<br/>📡 pH, DO, CO2<br/>Biomass, Glucose<br/>Lactate, Osmolality]
+            PUMPS[Dosing Pumps<br/>⚡ Peristaltic/Diaphragm<br/>Base, Acid, Glucose<br/>Antifoam, Gas Mix]
+        end
+
+        subgraph "Utilities"
+            WATER[Water for Injection<br/>💧 WFI System<br/>80°C Distribution]
+            STEAM[Clean Steam<br/>♨️ SIP System<br/>121°C Sterilization]
+            GAS[Gas Mixing<br/>🌬️ Air, O2, N2, CO2<br/>Mass Flow Controllers]
+        end
+    end
+
+    VESSEL <--> DCS
+    DCS <--> MES
+    DCS <--> SCADA
+    DCS <--> SENSORS
+    DCS --> PUMPS
+    WATER --> VESSEL
+    STEAM --> VESSEL
+    GAS --> VESSEL
+
+    style VESSEL fill:#c5cae9
+    style DCS fill:#ffccbc
+    style MES fill:#c8e6c9
+    style SCADA fill:#b2dfdb
+    style SENSORS fill:#f8bbd0
+    style PUMPS fill:#d1c4e9
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Production Scale</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🏭 Production Bioreactor</h3>
+            <ul>
+                <li><strong>Manufacturer:</strong> Thermo Fisher/Sartorius</li>
+                <li><strong>Capacity:</strong> 2,000L - 20,000L working volume</li>
+                <li><strong>Material:</strong> 316L stainless steel, electropolished</li>
+                <li><strong>Design:</strong> Jacketed vessel, top-driven impeller</li>
+                <li><strong>Impeller:</strong> Pitched blade or marine impeller</li>
+                <li><strong>Sparger:</strong> Micro-sparger for gas delivery</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📡 Online Sensors (PAT)</h3>
+            <ul>
+                <li><strong>pH Sensor:</strong> Mettler Toledo InPro 4260i</li>
+                <li><strong>DO Sensor:</strong> Mettler Toledo InPro 6860i (optical)</li>
+                <li><strong>Biomass:</strong> ABER Futura (capacitance probe)</li>
+                <li><strong>Glucose/Lactate:</strong> YSI 2900 or Raman spectroscopy</li>
+                <li><strong>Off-gas:</strong> Mass spectrometer (O2, CO2, N2)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>💻 Control Systems</h3>
+            <ul>
+                <li><strong>DCS:</strong> Emerson DeltaV, Siemens PCS7</li>
+                <li><strong>MES:</strong> Emerson Syncade, Dassault BIOVIA</li>
+                <li><strong>LIMS:</strong> LabWare, Thermo SampleManager</li>
+                <li><strong>Historian:</strong> OSIsoft PI, Aspen IP.21</li>
+                <li><strong>Compliance:</strong> 21 CFR Part 11, Audit Trail</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>⚡ Dosing & Feed Systems</h3>
+            <ul>
+                <li><strong>Base Addition:</strong> 2M NaOH or Na2CO3</li>
+                <li><strong>Acid Addition:</strong> 1M HCl or CO2 gas</li>
+                <li><strong>Glucose Feed:</strong> Concentrated 500 g/L solution</li>
+                <li><strong>Nutrient Feed:</strong> Amino acids, vitamins</li>
+                <li><strong>Antifoam:</strong> Poloxamer or silicone-based</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🌬️ Gas Delivery System</h3>
+            <ul>
+                <li><strong>Air Supply:</strong> HEPA filtered, 0.2μm</li>
+                <li><strong>Oxygen:</strong> USP grade, mass flow controlled</li>
+                <li><strong>Nitrogen:</strong> Blanketing and overlay</li>
+                <li><strong>CO2:</strong> pH control, USP grade</li>
+                <li><strong>Flow Rate:</strong> 0.01-1 VVM (volume per volume per minute)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>♨️ Sterilization Systems</h3>
+            <ul>
+                <li><strong>SIP (Steam-in-Place):</strong> 121°C for 30-60 min</li>
+                <li><strong>CIP (Clean-in-Place):</strong> Caustic, acid, WFI rinse</li>
+                <li><strong>Media Sterilization:</strong> 121°C autoclave</li>
+                <li><strong>Filter Sterilization:</strong> 0.2μm for heat-sensitive</li>
+                <li><strong>Validation:</strong> BI indicators (Geobacillus)</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Process Parameters & Critical Quality Attributes</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Critical Process Parameters (CPPs)"
+        TEMP[Temperature<br/>📊 36.5-37.5°C<br/>±0.5°C tolerance]
+        PH[pH<br/>📊 6.8-7.2<br/>±0.1 control]
+        DO[Dissolved Oxygen<br/>📊 30-50% saturation<br/>Cascade control]
+        AGI[Agitation<br/>📊 40-80 RPM<br/>Shear sensitive]
+        OSMO[Osmolality<br/>📊 280-350 mOsm/kg<br/>Feed strategy]
+    end
+
+    subgraph "In-Process Controls (IPCs)"
+        VCD[Viable Cell Density<br/>🔬 0.5-20 × 10⁶ cells/mL<br/>Daily sampling]
+        VIAB[Viability<br/>🔬 >90% target<br/>Trypan blue exclusion]
+        GLUC[Glucose<br/>🔬 2-8 g/L<br/>Feed to demand]
+        LACT[Lactate<br/>🔬 <3 g/L<br/>Metabolic health]
+        AMM[Ammonia<br/>🔬 <5 mM<br/>Toxicity monitor]
+    end
+
+    subgraph "Critical Quality Attributes (CQAs)"
+        TITER[Product Titer<br/>⭐ 1-10 g/L<br/>ELISA quantification]
+        GLYCO[Glycosylation<br/>⭐ N-glycan profile<br/>LC-MS analysis]
+        AGG[Aggregation<br/>⭐ <5% HMWS<br/>SEC-HPLC]
+        CHARGE[Charge Variants<br/>⭐ Acidic/Basic<br/>cIEF, CEX]
+    end
+
+    TEMP --> VCD
+    PH --> VCD
+    DO --> VCD
+    AGI --> VCD
+    OSMO --> VCD
+
+    VCD --> TITER
+    VIAB --> TITER
+    GLUC --> GLYCO
+    PH --> GLYCO
+
+    style TEMP fill:#ffccbc
+    style PH fill:#f8bbd0
+    style DO fill:#c5cae9
+    style TITER fill:#c8e6c9
+    style GLYCO fill:#b2dfdb
+        </div>
+    </div>
+
+    <div class="key-points">
+        <h3>🎯 Key Success Factors</h3>
+        <ul>
+            <li><strong>Process Control:</strong> Tight control of CPPs (pH ±0.1, DO ±5%, Temp ±0.5°C)</li>
+            <li><strong>Sterility Assurance:</strong> Validated SIP/CIP, closed system design, HEPA filtration</li>
+            <li><strong>Data Integrity:</strong> Electronic batch records, 21 CFR Part 11 compliance, audit trails</li>
+            <li><strong>Scale-Up:</strong> Maintain consistent specific power input (W/m³) and tip speed across scales</li>
+            <li><strong>PAT Integration:</strong> Real-time monitoring enables feed optimization and early deviation detection</li>
+            <li><strong>Equipment Qualification:</strong> IQ/OQ/PQ for all GMP equipment, annual recalibration</li>
+        </ul>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>

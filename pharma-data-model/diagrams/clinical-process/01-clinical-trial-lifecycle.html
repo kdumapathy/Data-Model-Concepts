@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Trial Lifecycle - Systems & Equipment</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #16a085;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #16a085;
+            padding-left: 15px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .equipment-card {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .equipment-card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        .equipment-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .equipment-card li {
+            margin: 5px 0;
+        }
+        .phase-badge {
+            display: inline-block;
+            background: #16a085;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+        }
+        .key-points {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .key-points ul {
+            margin: 10px 0;
+        }
+        .key-points li {
+            margin: 8px 0;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏥 Clinical Trial Lifecycle - Systems & Equipment</h1>
+
+    <div class="key-points">
+        <h3>Overview</h3>
+        <p><strong>Objective:</strong> Conduct clinical trials to establish safety and efficacy of investigational drugs from first-in-human (Phase 1) through regulatory approval (Phase 3).</p>
+        <p><strong>Clinical Phases:</strong></p>
+        <span class="phase-badge">Phase 1 - Safety (n=20-100)</span>
+        <span class="phase-badge">Phase 2 - Efficacy (n=100-300)</span>
+        <span class="phase-badge">Phase 3 - Confirmation (n=1,000-3,000)</span>
+        <span class="phase-badge">Phase 4 - Post-Market</span>
+    </div>
+
+    <h2>Complete Clinical Trial Workflow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Pre-Clinical & IND Preparation"
+        PRECLIN[Pre-Clinical Studies<br/>🔬 Animal PK/PD<br/>Toxicology studies<br/>GLP compliance]
+        CMC[CMC Package<br/>📋 Manufacturing process<br/>Analytical methods<br/>Stability data]
+        IND[IND Submission<br/>📄 FDA/EMA filing<br/>Clinical protocol<br/>Investigator brochure]
+    end
+
+    subgraph "Phase 1 - First in Human"
+        P1_DESIGN[Phase 1 Design<br/>📊 Dose escalation (3+3)<br/>SAD/MAD studies<br/>n=20-100 healthy volunteers]
+        P1_CONDUCT[Phase 1 Conduct<br/>🏥 Clinical Research Unit<br/>Intensive PK/PD sampling<br/>Safety monitoring]
+        P1_DATA[Phase 1 Data<br/>📈 PK parameters<br/>MTD determination<br/>Safety database]
+    end
+
+    subgraph "Phase 2 - Proof of Concept"
+        P2_DESIGN[Phase 2 Design<br/>📊 Randomized placebo-controlled<br/>Dose ranging<br/>n=100-300 patients]
+        P2_CONDUCT[Phase 2 Conduct<br/>🏥 Multi-site trials<br/>Efficacy endpoints<br/>Biomarker analysis]
+        P2_DATA[Phase 2 Data<br/>📈 Efficacy signals<br/>Dose selection<br/>Expanded safety]
+    end
+
+    subgraph "Phase 3 - Pivotal Trials"
+        P3_DESIGN[Phase 3 Design<br/>📊 Large RCTs<br/>Primary endpoints<br/>n=1,000-3,000 patients]
+        P3_CONDUCT[Phase 3 Conduct<br/>🏥 Global multi-center<br/>GCP compliance<br/>Data monitoring]
+        P3_DATA[Phase 3 Data<br/>📈 Statistical significance<br/>Regulatory submission<br/>Safety database]
+    end
+
+    subgraph "Regulatory Approval"
+        BLA[BLA/MAA Submission<br/>📋 eCTD format<br/>Clinical study reports<br/>Safety summaries]
+        APPROVAL[Regulatory Approval<br/>✅ FDA/EMA review<br/>Advisory committee<br/>Marketing authorization]
+    end
+
+    PRECLIN --> CMC
+    CMC --> IND
+    IND --> P1_DESIGN
+    P1_DESIGN --> P1_CONDUCT
+    P1_CONDUCT --> P1_DATA
+    P1_DATA --> P2_DESIGN
+    P2_DESIGN --> P2_CONDUCT
+    P2_CONDUCT --> P2_DATA
+    P2_DATA --> P3_DESIGN
+    P3_DESIGN --> P3_CONDUCT
+    P3_CONDUCT --> P3_DATA
+    P3_DATA --> BLA
+    BLA --> APPROVAL
+
+    style PRECLIN fill:#e3f2fd
+    style CMC fill:#b3e5fc
+    style IND fill:#81d4fa
+    style P1_DESIGN fill:#ffccbc
+    style P1_CONDUCT fill:#ffab91
+    style P1_DATA fill:#ff8a65
+    style P2_DESIGN fill:#c8e6c9
+    style P2_CONDUCT fill:#a5d6a7
+    style P2_DATA fill:#81c784
+    style P3_DESIGN fill:#f8bbd0
+    style P3_CONDUCT fill:#f48fb1
+    style P3_DATA fill:#f06292
+    style BLA fill:#ce93d8
+    style APPROVAL fill:#ba68c8
+        </div>
+    </div>
+
+    <h2>Clinical Trial IT Systems & Software</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>📊 Electronic Data Capture (EDC)</h3>
+            <ul>
+                <li><strong>Systems:</strong> Medidata Rave, Oracle InForm, Veeva CTMS</li>
+                <li><strong>Function:</strong> Case report form (CRF) data entry</li>
+                <li><strong>Features:</strong> Edit checks, query management, audit trail</li>
+                <li><strong>Compliance:</strong> 21 CFR Part 11, GCP</li>
+                <li><strong>Users:</strong> Site coordinators, monitors, data managers</li>
+                <li><strong>Integration:</strong> CTMS, safety databases, LIMS</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔬 Clinical Trial Management System (CTMS)</h3>
+            <ul>
+                <li><strong>Systems:</strong> Medidata CTMS, Oracle Siebel CTMS, Veeva Vault</li>
+                <li><strong>Function:</strong> Trial planning, site management, tracking</li>
+                <li><strong>Features:</strong> Budget management, enrollment tracking, milestones</li>
+                <li><strong>Reporting:</strong> Dashboards, KPIs (enrollment rate, query rate)</li>
+                <li><strong>Users:</strong> Clinical operations, project managers, sponsors</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>💊 Interactive Response Technology (IRT)</h3>
+            <ul>
+                <li><strong>Systems:</strong> Almac IWRS, Signant SmartSignals, Oracle IRT</li>
+                <li><strong>Function:</strong> Randomization, drug supply management</li>
+                <li><strong>Features:</strong> Blinding, stratification, inventory tracking</li>
+                <li><strong>Access:</strong> Web-based or phone (IVR/IWR)</li>
+                <li><strong>Integration:</strong> EDC, depot management systems</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📱 Electronic Patient-Reported Outcomes (ePRO)</h3>
+            <ul>
+                <li><strong>Systems:</strong> CRF Health TrialMax, ERT EXPERT, Signant</li>
+                <li><strong>Devices:</strong> Smartphones, tablets, web portals</li>
+                <li><strong>Function:</strong> Patient diaries, quality of life questionnaires</li>
+                <li><strong>Features:</strong> Push notifications, compliance monitoring</li>
+                <li><strong>Data:</strong> Real-time data capture, reduced recall bias</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>⚡ Safety Databases (Pharmacovigilance)</h3>
+            <ul>
+                <li><strong>Systems:</strong> Oracle Argus, ArisGlobal LifeSphere, AB Cube</li>
+                <li><strong>Function:</strong> Adverse event (AE) reporting, SUSAR tracking</li>
+                <li><strong>Features:</strong> MedDRA coding, expectedness assessment</li>
+                <li><strong>Regulatory:</strong> E2B expedited reporting (FDA, EMA)</li>
+                <li><strong>Timelines:</strong> 15-day SAE reporting, annual safety reports</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔐 Electronic Trial Master File (eTMF)</h3>
+            <ul>
+                <li><strong>Systems:</strong> Veeva Vault eTMF, Mastercontrol, SureClinical</li>
+                <li><strong>Function:</strong> Centralized document management</li>
+                <li><strong>Documents:</strong> Protocols, ICFs, IRB approvals, CVs</li>
+                <li><strong>Compliance:</strong> Inspection readiness, audit trail</li>
+                <li><strong>Features:</strong> Version control, workflow, e-signatures</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Clinical Laboratory & Bioanalytical Systems</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🧪 Central Laboratory Services</h3>
+            <ul>
+                <li><strong>Vendors:</strong> LabCorp Covance, Quest Diagnostics, ICON Central Labs</li>
+                <li><strong>Tests:</strong> Hematology, chemistry, urinalysis, serology</li>
+                <li><strong>Instruments:</strong> Automated analyzers (Roche Cobas, Abbott Architect)</li>
+                <li><strong>Turnaround:</strong> 24-48 hours for routine tests</li>
+                <li><strong>Data Transfer:</strong> Electronic integration to EDC (HL7, CDISC)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>💉 PK/PD Bioanalysis</h3>
+            <ul>
+                <li><strong>CROs:</strong> Covance, PPD, Charles River</li>
+                <li><strong>Methods:</strong> LC-MS/MS for drug and metabolites</li>
+                <li><strong>Instruments:</strong> AB Sciex Triple Quad, Thermo Orbitrap</li>
+                <li><strong>Validation:</strong> FDA/EMA bioanalytical method validation</li>
+                <li><strong>LLOQ:</strong> Typically 10-100 pg/mL for biologics</li>
+                <li><strong>Sample Matrix:</strong> Plasma, serum, urine, CSF</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔬 Biomarker Analysis</h3>
+            <ul>
+                <li><strong>Technology:</strong> ELISA, Luminex, flow cytometry</li>
+                <li><strong>Instruments:</strong> Luminex MAGPIX, BD FACSCanto, MSD platform</li>
+                <li><strong>Applications:</strong> Cytokines, antibodies, cell phenotyping</li>
+                <li><strong>Genomics:</strong> Illumina sequencing, Fluidigm qPCR</li>
+                <li><strong>Proteomics:</strong> Olink, SOMAscan aptamer-based</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🧬 Immunogenicity Testing</h3>
+            <ul>
+                <li><strong>Assays:</strong> Anti-drug antibody (ADA) detection</li>
+                <li><strong>Platforms:</strong> ELISA, ECL (electrochemiluminescence)</li>
+                <li><strong>Instruments:</strong> Meso Scale Discovery (MSD) platform</li>
+                <li><strong>Tiers:</strong> Screening, confirmatory, titer, neutralizing</li>
+                <li><strong>Regulatory:</strong> FDA guidance on immunogenicity testing</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Clinical Site Equipment & Facilities</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🏥 Clinical Research Unit (Phase 1)</h3>
+            <ul>
+                <li><strong>Facility:</strong> Dedicated inpatient unit for healthy volunteers</li>
+                <li><strong>Beds:</strong> 20-100 monitored beds</li>
+                <li><strong>Equipment:</strong> Vital sign monitors, ECG, emergency cart</li>
+                <li><strong>Staff:</strong> Research nurses, physicians, pharmacists</li>
+                <li><strong>PK Sampling:</strong> Intensive serial blood draws (0, 0.5, 1, 2, 4, 8, 12, 24h)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>💊 Investigational Drug Pharmacy</h3>
+            <ul>
+                <li><strong>Storage:</strong> Refrigerators (2-8°C), freezers (-20°C to -80°C)</li>
+                <li><strong>Monitoring:</strong> 24/7 temperature logging, alarms</li>
+                <li><strong>Dispensing:</strong> Barcode verification, IRT integration</li>
+                <li><strong>Accountability:</strong> Drug receipt, dispensing, return logs</li>
+                <li><strong>Compliance:</strong> GCP, local pharmacy regulations</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📈 Diagnostic Equipment</h3>
+            <ul>
+                <li><strong>ECG Machines:</strong> GE MAC 5500, Mortara ELI 350</li>
+                <li><strong>Holter Monitors:</strong> 24-48 hour ambulatory ECG</li>
+                <li><strong>Spirometry:</strong> Pulmonary function testing (FEV1, FVC)</li>
+                <li><strong>Vital Signs:</strong> Automated BP monitors, pulse oximeters</li>
+                <li><strong>Imaging:</strong> X-ray, MRI, CT (outsourced or on-site)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🧊 Sample Processing & Shipping</h3>
+            <ul>
+                <li><strong>Centrifuge:</strong> Refrigerated centrifuge for plasma separation</li>
+                <li><strong>Freezers:</strong> -20°C, -80°C for sample storage</li>
+                <li><strong>Cryovials:</strong> Barcoded 2mL cryovials</li>
+                <li><strong>Shipping:</strong> Dry ice shippers, cold chain logistics</li>
+                <li><strong>Tracking:</strong> Sample manifest, chain of custody</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Phase-Specific Data Collection & Endpoints</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Phase 1 - Safety & PK"
+        P1_SAFETY[Safety Endpoints<br/>⚠️ Adverse events<br/>Vital signs, labs<br/>ECG abnormalities<br/>Dose-limiting toxicity]
+        P1_PK[PK Endpoints<br/>📊 Cmax, Tmax, AUC<br/>Half-life, clearance<br/>Volume of distribution<br/>Dose proportionality]
+        P1_PD[PD Endpoints<br/>🔬 Target engagement<br/>Biomarker modulation<br/>Receptor occupancy<br/>Mechanism validation]
+    end
+
+    subgraph "Phase 2 - Efficacy Signals"
+        P2_EFFICACY[Efficacy Endpoints<br/>⭐ Disease-specific measures<br/>ORR (oncology)<br/>HbA1c (diabetes)<br/>ADAS-Cog (Alzheimer's)]
+        P2_SAFETY[Safety Endpoints<br/>⚠️ Expanded safety data<br/>AE frequency<br/>Laboratory trends<br/>Immunogenicity]
+        P2_DOSE[Dose Selection<br/>📊 Dose-response modeling<br/>Optimal biological dose<br/>Benefit-risk assessment]
+    end
+
+    subgraph "Phase 3 - Confirmatory"
+        P3_PRIMARY[Primary Endpoints<br/>🎯 Pre-specified outcomes<br/>Overall survival (OS)<br/>Progression-free survival<br/>Clinical response rate]
+        P3_SECONDARY[Secondary Endpoints<br/>📈 Quality of life (QoL)<br/>Duration of response<br/>Time to progression<br/>Biomarker subgroup]
+        P3_SAFETY[Safety Endpoints<br/>⚠️ Large safety database<br/>Rare AE detection<br/>Long-term effects<br/>Special populations]
+    end
+
+    P1_SAFETY --> P1_PK
+    P1_PK --> P1_PD
+    P1_PD --> P2_EFFICACY
+    P2_EFFICACY --> P2_SAFETY
+    P2_SAFETY --> P2_DOSE
+    P2_DOSE --> P3_PRIMARY
+    P3_PRIMARY --> P3_SECONDARY
+    P3_SECONDARY --> P3_SAFETY
+
+    style P1_SAFETY fill:#ffccbc
+    style P1_PK fill:#ffab91
+    style P1_PD fill:#ff8a65
+    style P2_EFFICACY fill:#c8e6c9
+    style P2_SAFETY fill:#a5d6a7
+    style P2_DOSE fill:#81c784
+    style P3_PRIMARY fill:#f8bbd0
+    style P3_SECONDARY fill:#f48fb1
+    style P3_SAFETY fill:#f06292
+        </div>
+    </div>
+
+    <h2>Data Standards & Regulatory Compliance</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>📋 CDISC Standards</h3>
+            <ul>
+                <li><strong>SDTM:</strong> Study Data Tabulation Model (submission format)</li>
+                <li><strong>ADaM:</strong> Analysis Data Model (statistical analysis)</li>
+                <li><strong>ODM:</strong> Operational Data Model (EDC exchange)</li>
+                <li><strong>CDASH:</strong> Clinical Data Acquisition Standards</li>
+                <li><strong>Controlled Terminology:</strong> MedDRA, WHODrug, LOINC</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>✅ Good Clinical Practice (GCP)</h3>
+            <ul>
+                <li><strong>ICH E6:</strong> International GCP guideline</li>
+                <li><strong>Informed Consent:</strong> Ethical approval, patient rights</li>
+                <li><strong>IRB/IEC Approval:</strong> Protocol review, oversight</li>
+                <li><strong>Monitoring:</strong> Site visits, source data verification</li>
+                <li><strong>Audits:</strong> Internal and regulatory inspections</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔒 Data Security & Privacy</h3>
+            <ul>
+                <li><strong>HIPAA:</strong> Protected Health Information (PHI) de-identification</li>
+                <li><strong>GDPR:</strong> European data protection regulations</li>
+                <li><strong>Encryption:</strong> Data transmission (TLS/SSL), storage (AES-256)</li>
+                <li><strong>Access Control:</strong> Role-based permissions, audit logs</li>
+                <li><strong>Backup:</strong> Daily backups, disaster recovery plan</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📊 Statistical Analysis Systems</h3>
+            <ul>
+                <li><strong>Software:</strong> SAS, R, Stata</li>
+                <li><strong>Validation:</strong> 21 CFR Part 11 compliant</li>
+                <li><strong>Analysis Plans:</strong> Pre-specified statistical analysis plan (SAP)</li>
+                <li><strong>Outputs:</strong> Tables, listings, figures (TLFs)</li>
+                <li><strong>Reproducibility:</strong> Version control (Git), code review</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="key-points">
+        <h3>🎯 Key Success Factors</h3>
+        <ul>
+            <li><strong>System Integration:</strong> Seamless data flow from EDC → CTMS → Safety DB → CDISC datasets</li>
+            <li><strong>Data Quality:</strong> Real-time edit checks, query resolution <30 days, clean database lock</li>
+            <li><strong>Patient Safety:</strong> 24/7 safety monitoring, SAE reporting within regulatory timelines</li>
+            <li><strong>Enrollment:</strong> Predictive analytics for enrollment forecasting, site performance metrics</li>
+            <li><strong>Regulatory Readiness:</strong> Inspection-ready eTMF, validated systems, audit trail</li>
+            <li><strong>Sample Chain of Custody:</strong> Barcoded samples, temperature monitoring, centralized tracking</li>
+            <li><strong>Protocol Compliance:</strong> Training, monitoring visits, deviation tracking and CAPA</li>
+            <li><strong>Bioanalytical Excellence:</strong> Validated methods (precision, accuracy, stability), QC samples</li>
+        </ul>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>
