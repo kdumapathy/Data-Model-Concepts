@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill/Finish Manufacturing - Equipment & Systems</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #e74c3c;
+            padding-left: 15px;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .equipment-card {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #2c3e50;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .equipment-card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            border-bottom: 2px solid rgba(0,0,0,0.2);
+            padding-bottom: 10px;
+        }
+        .equipment-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .equipment-card li {
+            margin: 5px 0;
+        }
+        .phase-badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+        }
+        .key-points {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .key-points ul {
+            margin: 10px 0;
+        }
+        .key-points li {
+            margin: 8px 0;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <h1>💉 Fill/Finish Manufacturing - Equipment & Systems</h1>
+
+    <div class="key-points">
+        <h3>Process Overview</h3>
+        <p><strong>Objective:</strong> Aseptic filling of sterile drug substance into primary containers (vials, syringes, cartridges) for patient administration.</p>
+        <p><strong>Phases:</strong></p>
+        <span class="phase-badge">Container Preparation</span>
+        <span class="phase-badge">Aseptic Filling</span>
+        <span class="phase-badge">Lyophilization (if applicable)</span>
+        <span class="phase-badge">Inspection & Packaging</span>
+        <span class="phase-badge">Labeling & Serialization</span>
+    </div>
+
+    <h2>Complete Fill/Finish Process Flow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    subgraph "Drug Substance Preparation"
+        DS[Drug Substance<br/>🧊 Thaw frozen DS<br/>-20°C to 2-8°C<br/>Controlled thawing]
+        POOL[Compounding Tank<br/>⚗️ Pool multiple bags<br/>500L vessel<br/>Homogenization]
+        FILTER[Final Sterile Filtration<br/>✨ 0.2μm dual redundant<br/>Pre-use integrity test<br/>Bioburden reduction]
+    end
+
+    subgraph "Container Washing & Sterilization"
+        DEPYR[Depyrogenation Tunnel<br/>🔥 Glass vials/syringes<br/>300°C for 30 min<br/>Endotoxin removal]
+        STOPPER[Stopper Washing<br/>💧 WFI + steam<br/>Elastomeric closures<br/>Automated system]
+    end
+
+    subgraph "Aseptic Filling Line"
+        FILLING[Filling Machine<br/>💉 Isolator/RABS<br/>Grade A environment<br/>Peristaltic/Time-Pressure]
+        STOPPER_PLACE[Stopper Placement<br/>🔌 Automated<br/>Partial insertion<br/>Grade A zone]
+        CAPPING[Capping/Crimping<br/>🔧 Aluminum seal<br/>Automated crimper<br/>Grade B zone]
+    end
+
+    subgraph "Lyophilization (Optional)"
+        LYOPH[Lyophilizer<br/>❄️ Freeze-drying<br/>-45°C to +25°C cycle<br/>48-72 hour process]
+        BACKFILL[Nitrogen Backfill<br/>🌬️ Inert atmosphere<br/>Grade A chamber<br/>Moisture protection]
+    end
+
+    subgraph "Inspection & Packaging"
+        INSPECT[Visual Inspection<br/>👁️ Automated + Manual<br/>Particles, cracks, fill level<br/>100% inspection]
+        LABEL[Labeling System<br/>🏷️ 2D barcode serialization<br/>Track & trace<br/>Regulatory compliance]
+        PACK[Secondary Packaging<br/>📦 Carton, case pack<br/>Temperature indicators<br/>Tamper-evident]
+    end
+
+    DS --> POOL
+    POOL --> FILTER
+    DEPYR --> FILLING
+    STOPPER --> STOPPER_PLACE
+    FILTER --> FILLING
+    FILLING --> STOPPER_PLACE
+    STOPPER_PLACE --> CAPPING
+    CAPPING --> LYOPH
+    LYOPH --> BACKFILL
+    BACKFILL --> INSPECT
+    CAPPING -.Liquid Fill.-> INSPECT
+    INSPECT --> LABEL
+    LABEL --> PACK
+
+    style DS fill:#e3f2fd
+    style POOL fill:#b3e5fc
+    style FILTER fill:#81d4fa
+    style DEPYR fill:#ffccbc
+    style STOPPER fill:#ffab91
+    style FILLING fill:#ef9a9a
+    style STOPPER_PLACE fill:#f48fb1
+    style CAPPING fill:#ce93d8
+    style LYOPH fill:#b39ddb
+    style BACKFILL fill:#9fa8da
+    style INSPECT fill:#90caf9
+    style LABEL fill:#80deea
+    style PACK fill:#80cbc4
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Filling Equipment</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>💉 Aseptic Filling Machine</h3>
+            <ul>
+                <li><strong>Model:</strong> Optima Inova, Groninger, Bausch+Ströbel</li>
+                <li><strong>Technology:</strong> Rotary piston or peristaltic pump</li>
+                <li><strong>Speed:</strong> 200-600 vials/min (depends on format)</li>
+                <li><strong>Fill Volume:</strong> 0.5mL - 50mL (programmable)</li>
+                <li><strong>Accuracy:</strong> ±2% (for volumes >1mL)</li>
+                <li><strong>Environment:</strong> Isolator (Grade A) or RABS</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🏠 Isolator/RABS System</h3>
+            <ul>
+                <li><strong>Technology:</strong> Barrier isolation or RABS (Grade A)</li>
+                <li><strong>HEPA:</strong> 0.3μm filtration, >99.995% efficiency</li>
+                <li><strong>Airflow:</strong> Unidirectional laminar flow (ISO 5)</li>
+                <li><strong>Pressure:</strong> Positive pressure (50-100 Pa)</li>
+                <li><strong>Sterilization:</strong> VHP (vaporized hydrogen peroxide)</li>
+                <li><strong>Monitoring:</strong> Particle count, viable air sampling</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔥 Depyrogenation Tunnel</h3>
+            <ul>
+                <li><strong>Function:</strong> Dry heat sterilization + depyrogenation</li>
+                <li><strong>Temperature:</strong> 250-350°C for 20-60 minutes</li>
+                <li><strong>Zones:</strong> Heating → Sterilization → Cooling</li>
+                <li><strong>Capacity:</strong> 10,000-50,000 vials/hour</li>
+                <li><strong>Validation:</strong> Endotoxin challenge (3-log reduction)</li>
+                <li><strong>Monitoring:</strong> Temperature probes, tunnel mapping</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔌 Stopper/Cap Placement</h3>
+            <ul>
+                <li><strong>Stopper Bowl:</strong> Automated feeding system</li>
+                <li><strong>Orientation:</strong> Vision system alignment</li>
+                <li><strong>Placement:</strong> Vacuum or mechanical insertion</li>
+                <li><strong>Crimper:</strong> Aluminum overseal application</li>
+                <li><strong>Torque:</strong> Controlled crimping force</li>
+                <li><strong>Inspection:</strong> Cap presence/alignment sensors</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Lyophilization</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>❄️ Freeze Dryer (Lyophilizer)</h3>
+            <ul>
+                <li><strong>Model:</strong> IMA Life, SP Scientific, Telstar</li>
+                <li><strong>Capacity:</strong> 10,000-100,000 vials per batch</li>
+                <li><strong>Shelves:</strong> 10-30 shelves, hydraulic system</li>
+                <li><strong>Temperature Range:</strong> -55°C to +60°C</li>
+                <li><strong>Vacuum:</strong> <100 mTorr (0.13 mbar)</li>
+                <li><strong>Cycle Time:</strong> 48-120 hours (product dependent)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔧 Lyophilization Components</h3>
+            <ul>
+                <li><strong>Condenser:</strong> -60°C to -80°C (ice collection)</li>
+                <li><strong>Vacuum Pump:</strong> Rotary vane or scroll pump</li>
+                <li><strong>Heating System:</strong> Silicone oil or electric shelves</li>
+                <li><strong>Control:</strong> SCADA with recipe management</li>
+                <li><strong>Loading:</strong> Automated loading/unloading systems</li>
+                <li><strong>Stoppering:</strong> In-situ stoppering under vacuum</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📊 Lyophilization Process</h3>
+            <ul>
+                <li><strong>Freezing:</strong> -45°C for 2-4 hours</li>
+                <li><strong>Primary Drying:</strong> -30°C to -10°C, 10-40 hours</li>
+                <li><strong>Secondary Drying:</strong> +10°C to +25°C, 5-20 hours</li>
+                <li><strong>Target:</strong> <1-3% residual moisture</li>
+                <li><strong>Monitoring:</strong> Pirani gauge, comparative pressure</li>
+                <li><strong>Endpoint:</strong> Stable Pirani reading, product temp</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Equipment Specifications - Inspection & Packaging</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>👁️ Automated Visual Inspection (AVI)</h3>
+            <ul>
+                <li><strong>System:</strong> Eisai, Stevanato, Brevetti CEA</li>
+                <li><strong>Technology:</strong> High-resolution cameras (360° view)</li>
+                <li><strong>Speed:</strong> 300-600 vials/min</li>
+                <li><strong>Detection:</strong> Particles, cracks, fill level, color</li>
+                <li><strong>Algorithms:</strong> AI/ML for defect classification</li>
+                <li><strong>Reject Rate:</strong> Typically 0.5-2% false rejects</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔍 Manual Visual Inspection</h3>
+            <ul>
+                <li><strong>Purpose:</strong> 100% inspection backup or niche products</li>
+                <li><strong>Light Box:</strong> White + black background inspection</li>
+                <li><strong>Trained Operators:</strong> Qualification program</li>
+                <li><strong>Speed:</strong> 30-60 units/min per inspector</li>
+                <li><strong>Defects:</strong> Particles, cracks, cosmetic defects</li>
+                <li><strong>Ergonomics:</strong> Rotation schedule, breaks</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🏷️ Labeling & Serialization</h3>
+            <ul>
+                <li><strong>System:</strong> Antares Vision, Optel, Laetus</li>
+                <li><strong>Technology:</strong> 2D DataMatrix barcode printing</li>
+                <li><strong>Serialization:</strong> Unique product identifier (UPI)</li>
+                <li><strong>Track & Trace:</strong> DSCSA, EU FMD compliance</li>
+                <li><strong>Aggregation:</strong> Vial → carton → case → pallet</li>
+                <li><strong>Verification:</strong> 100% barcode read verification</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📦 Secondary Packaging</h3>
+            <ul>
+                <li><strong>Cartoning:</strong> Automated case packer</li>
+                <li><strong>Case Packing:</strong> Robotic or manual</li>
+                <li><strong>Palletizing:</strong> Automated robotic systems</li>
+                <li><strong>Indicators:</strong> Temperature, tilt, shock</li>
+                <li><strong>Labeling:</strong> Shipping labels, compliance markings</li>
+                <li><strong>Storage:</strong> 2-8°C cold room or -20°C freezer</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Cleanroom Classification & Monitoring</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "Cleanroom Zones"
+        GRADEA[Grade A - ISO 5<br/>✨ Aseptic Operations<br/>Filling, stopper placement<br/><3,520 particles/m³ >0.5μm<br/><1 CFU/m³]
+        GRADEB[Grade B - ISO 7<br/>🔹 Background to Grade A<br/>Isolator/RABS surrounding<br/><352,000 particles/m³<br/><10 CFU/m³]
+        GRADEC[Grade C - ISO 8<br/>🔸 Less Critical Steps<br/>Compounding, staging<br/><3.52M particles/m³<br/><100 CFU/m³]
+        GRADED[Grade D - ISO 9<br/>◻️ Support Areas<br/>Gowning, airlock<br/><35.2M particles/m³<br/><200 CFU/m³]
+    end
+
+    subgraph "Environmental Monitoring"
+        PARTICLE[Particle Counters<br/>📊 Real-time monitoring<br/>0.5μm, 5.0μm<br/>Alarm limits]
+        VIABLE[Viable Air Sampling<br/>🧫 SAS sampler<br/>TSA plates<br/>CFU enumeration]
+        SURFACE[Surface Monitoring<br/>🧪 Contact plates<br/>Swabs for cleaning<br/>Pre/post-operation]
+        PERSONNEL[Personnel Monitoring<br/>👤 Fingertip plates<br/>Gown qualification<br/>Aseptic technique]
+    end
+
+    GRADEA --> GRADEB
+    GRADEB --> GRADEC
+    GRADEC --> GRADED
+
+    PARTICLE --> GRADEA
+    PARTICLE --> GRADEB
+    VIABLE --> GRADEA
+    VIABLE --> GRADEB
+    SURFACE --> GRADEA
+    PERSONNEL --> GRADEA
+
+    style GRADEA fill:#e8f5e9
+    style GRADEB fill:#fff3e0
+    style GRADEC fill:#ffe0b2
+    style GRADED fill:#ffccbc
+    style PARTICLE fill:#e1f5fe
+    style VIABLE fill:#f3e5f5
+    style SURFACE fill:#fce4ec
+    style PERSONNEL fill:#f1f8e9
+        </div>
+    </div>
+
+    <h2>Critical Quality Attributes - Drug Product</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph LR
+    subgraph "Container Closure Integrity"
+        CCI[CCI Testing<br/>🔬 Laser-based CCIT<br/>Helium leak test<br/>Dye ingress study]
+        SEAL[Seal Quality<br/>🔧 Crimp force<br/>Stopper positioning<br/>Dimensional checks]
+    end
+
+    subgraph "Product Quality"
+        APPEAR[Appearance<br/>👁️ Color, clarity<br/>Particulates<br/>Cake structure (lyo)]
+        POTENCY[Potency<br/>⭐ ELISA, binding assay<br/>90-110% of label claim<br/>Stability indicating]
+        PURITY[Purity<br/>🔬 SEC-HPLC<br/>Aggregates, fragments<br/>>95% monomer]
+        STERILITY[Sterility<br/>✅ 14-day incubation<br/>TSB + FTM media<br/>No growth]
+    end
+
+    subgraph "Release Testing"
+        ENDO[Endotoxin<br/>🦠 LAL test<br/><5 EU/vial<br/>Kinetic chromogenic]
+        FILL[Fill Volume<br/>📏 Gravimetric<br/>Weight variation<br/>NMT 2% deviation]
+        PH[pH<br/>📊 Target ±0.5<br/>USP <791><br/>Electrode method]
+    end
+
+    CCI --> STERILITY
+    SEAL --> CCI
+    APPEAR --> POTENCY
+    POTENCY --> PURITY
+    PURITY --> STERILITY
+    ENDO --> STERILITY
+    FILL --> STERILITY
+    PH --> STERILITY
+
+    style CCI fill:#ffccbc
+    style APPEAR fill:#c8e6c9
+    style POTENCY fill:#fff9c4
+    style STERILITY fill:#f8bbd0
+        </div>
+    </div>
+
+    <h2>Analytical Instruments - Fill/Finish Quality Control</h2>
+    <div class="equipment-grid">
+        <div class="equipment-card">
+            <h3>🔬 Potency & Purity Testing</h3>
+            <ul>
+                <li><strong>ELISA Reader:</strong> BioTek Synergy, Molecular Devices</li>
+                <li><strong>SEC-HPLC:</strong> Agilent 1260/1290 HPLC system</li>
+                <li><strong>CE-SDS:</strong> Sciex PA800 Plus capillary electrophoresis</li>
+                <li><strong>Biacore:</strong> Surface plasmon resonance (binding)</li>
+                <li><strong>UV-Vis:</strong> Protein concentration (A280)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🦠 Microbiological Testing</h3>
+            <ul>
+                <li><strong>LAL Test:</strong> Charles River Endosafe (endotoxin)</li>
+                <li><strong>Sterility Test:</strong> BACTEC or Milliflex Rapid</li>
+                <li><strong>Bioburden:</strong> Membrane filtration, TSA plates</li>
+                <li><strong>Viable Air:</strong> SAS Super 180 air sampler</li>
+                <li><strong>Incubators:</strong> 20-25°C and 30-35°C (sterility)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>📏 Physical Testing</h3>
+            <ul>
+                <li><strong>pH Meter:</strong> Mettler Toledo SevenCompact</li>
+                <li><strong>Osmometer:</strong> Advanced Instruments 2020</li>
+                <li><strong>Particle Counter:</strong> HIAC Royco (sub-visible)</li>
+                <li><strong>Analytical Balance:</strong> Mettler XPE (fill weight)</li>
+                <li><strong>Karl Fischer:</strong> Moisture content (lyophilized)</li>
+            </ul>
+        </div>
+
+        <div class="equipment-card">
+            <h3>🔧 Container Closure Testing</h3>
+            <ul>
+                <li><strong>CCIT:</strong> PTI VeriPac (laser-based headspace)</li>
+                <li><strong>Helium Leak:</strong> Vacuum decay method</li>
+                <li><strong>Dye Ingress:</strong> Methylene blue penetration</li>
+                <li><strong>Crimp Force:</strong> Torque tester</li>
+                <li><strong>Dimensional:</strong> Calipers, height gauge</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="key-points">
+        <h3>🎯 Key Success Factors</h3>
+        <ul>
+            <li><strong>Aseptic Processing:</strong> Grade A environment for filling, validated VHP sterilization, environmental monitoring</li>
+            <li><strong>Personnel Training:</strong> Media fill qualification (3 consecutive runs, 0 contamination), annual requalification</li>
+            <li><strong>Equipment Validation:</strong> Installation (IQ), Operational (OQ), Performance Qualification (PQ)</li>
+            <li><strong>Container Closure Integrity:</strong> Non-destructive CCIT testing, sterility assurance level (SAL) 10⁻⁶</li>
+            <li><strong>Fill Accuracy:</strong> Gravimetric verification, statistical process control (CPK >1.33)</li>
+            <li><strong>Serialization Compliance:</strong> FDA DSCSA, EU FMD requirements, 100% verification</li>
+            <li><strong>Lyophilization Optimization:</strong> Freeze-drying microscopy, DSC for formulation development</li>
+            <li><strong>Inspection Sensitivity:</strong> AVI validation with spiked defects, 95% detection rate for critical defects</li>
+        </ul>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>
