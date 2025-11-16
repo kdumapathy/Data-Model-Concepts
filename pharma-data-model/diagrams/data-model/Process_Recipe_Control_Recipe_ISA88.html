@@ -114,23 +114,23 @@
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram1">
 graph TB
-    subgraph "Procedure Level"
+    subgraph ProcedureLevel["Procedure Level"]
         PROCEDURE[Procedure<br/>📖 Complete Manufacturing Process<br/>PROC-MAB-001<br/>mAb Production]
     end
 
-    subgraph "Unit Procedure Level"
+    subgraph UnitProcLevel["Unit Procedure Level"]
         UP1[Unit Procedure<br/>📑 Cell Culture<br/>UP-CULTURE-001<br/>Seed → Production]
         UP2[Unit Procedure<br/>📑 Harvest<br/>UP-HARVEST-001<br/>Centrifuge → Filter]
         UP3[Unit Procedure<br/>📑 Protein A Capture<br/>UP-PROTA-001<br/>Load → Wash → Elute]
     end
 
-    subgraph "Operation Level"
+    subgraph OperationLevel["Operation Level"]
         OP1[Operation<br/>⚙️ Seed Train Expansion<br/>OP-SEED-001<br/>Flask → WAVE → Seed BR]
         OP2[Operation<br/>⚙️ Production Culture<br/>OP-PROD-001<br/>10 days fed-batch]
         OP3[Operation<br/>⚙️ Column Loading<br/>OP-LOAD-001<br/>Load at 300 cm/hr]
     end
 
-    subgraph "Phase Level"
+    subgraph PhaseLevel["Phase Level"]
         PH1[Phase<br/>🔹 Inoculation<br/>PH-INOC-001<br/>Transfer seed to BR]
         PH2[Phase<br/>🔹 Fed-Batch Culture<br/>PH-FED-001<br/>Day 0-10 culture]
         PH3[Phase<br/>🔹 Column Equilibration<br/>PH-EQUIL-001<br/>Buffer prep]
@@ -347,19 +347,19 @@ erDiagram
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram3">
 graph LR
-    subgraph "Recipe Development"
+    subgraph RecipeDev["Recipe Development"]
         DRAFT[Draft Master Recipe<br/>📝 Process development<br/>Lab-scale trials<br/>Version 0.1]
         REVIEW[Recipe Review<br/>🔍 Technical review<br/>QA review<br/>Regulatory review]
         APPROVE[Approved Master Recipe<br/>✅ Approved for use<br/>Version 1.0<br/>GMP release]
     end
 
-    subgraph "Recipe Instantiation"
+    subgraph RecipeInstant["Recipe Instantiation"]
         SCHEDULE[Schedule Production<br/>📅 Batch B-12345<br/>Product XYZ<br/>Equipment BR-10KL-001]
         CREATE_CR[Create Control Recipe<br/>⚙️ Copy master recipe<br/>Assign equipment<br/>Set parameters]
         RELEASE[Release Control Recipe<br/>🚀 Ready for execution<br/>Electronic batch record]
     end
 
-    subgraph "Recipe Execution"
+    subgraph RecipeExec["Recipe Execution"]
         EXECUTE[Execute Batch<br/>▶️ Run phases<br/>Monitor parameters<br/>Record actuals]
         COMPLETE[Batch Complete<br/>✅ All phases done<br/>Data recorded<br/>eBR signed]
         REVIEW_BATCH[Batch Review<br/>📊 Deviation review<br/>Quality review<br/>Batch disposition]
@@ -412,18 +412,18 @@ graph LR
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram4">
 graph TB
-    subgraph "Master Recipe: mAb Production Culture"
+    subgraph MasterRecipe["Master Recipe: mAb Production Culture"]
         RCP[Recipe: PROD-CULTURE-001<br/>📖 10-day fed-batch<br/>Version 2.0]
     end
 
-    subgraph "Recipe Phases"
+    subgraph RecipePhases["Recipe Phases"]
         P1[Phase 1: Inoculation<br/>🔹 Transfer seed culture<br/>Duration: 2 hours<br/>Temp: 37°C ± 0.5]
         P2[Phase 2: Batch Phase<br/>🔹 Day 0-3<br/>No feeding<br/>Monitor VCD, glucose]
         P3[Phase 3: Fed-Batch Phase<br/>🔹 Day 3-10<br/>Glucose feed on demand<br/>Maintain pH 7.0 ± 0.1]
         P4[Phase 4: Harvest<br/>🔹 Cool to 4°C<br/>Transfer to harvest tank]
     end
 
-    subgraph "Critical Parameters"
+    subgraph CriticalParams["Critical Parameters"]
         CPP1[CPP: Temperature<br/>37.0 ± 0.5°C<br/>Critical]
         CPP2[CPP: pH<br/>7.0 ± 0.1<br/>Critical]
         CPP3[CPP: Dissolved Oxygen<br/>40 ± 5% saturation<br/>Critical]
