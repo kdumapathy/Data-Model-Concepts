@@ -109,40 +109,40 @@
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram1">
 graph TB
-    subgraph "Enterprise Level"
+    subgraph EnterpriseLevel["Enterprise Level"]
         ENTERPRISE[Enterprise<br/>🏢 Global Organization<br/>Multiple Sites Worldwide]
     end
 
-    subgraph "Site Level"
+    subgraph SiteLevel["Site Level"]
         SITE1[Site<br/>🏭 Manufacturing Site<br/>Location: Cambridge, MA<br/>Site ID: SITE-001]
         SITE2[Site<br/>🏭 Manufacturing Site<br/>Location: Singapore<br/>Site ID: SITE-002]
     end
 
-    subgraph "Area Level - Biological Production"
+    subgraph AreaLevel["Area Level - Biological Production"]
         AREA1[Area<br/>📍 Upstream Manufacturing<br/>Cell Culture Suite<br/>AREA-US-001]
         AREA2[Area<br/>📍 Downstream Manufacturing<br/>Purification Suite<br/>AREA-DS-001]
         AREA3[Area<br/>📍 Fill/Finish<br/>Aseptic Fill Suite<br/>AREA-FF-001]
     end
 
-    subgraph "Process Cell Level"
+    subgraph ProcessCellLevel["Process Cell Level"]
         PC1[Process Cell<br/>⚙️ Bioreactor Farm<br/>PC-BIOREACTOR-01<br/>4 Production Bioreactors]
         PC2[Process Cell<br/>⚙️ Chromatography Skid<br/>PC-CHROM-01<br/>Protein A + Polish Steps]
         PC3[Process Cell<br/>⚙️ Filling Line<br/>PC-FILL-01<br/>Vial Filling Line #1]
     end
 
-    subgraph "Unit Level"
+    subgraph UnitLevel["Unit Level"]
         UNIT1[Unit<br/>🔧 Production Bioreactor<br/>UNIT-BR-10KL-001<br/>10,000L STR]
         UNIT2[Unit<br/>🔧 Protein A Column<br/>UNIT-PROTA-300L-001<br/>300L Column System]
         UNIT3[Unit<br/>🔧 Filling Machine<br/>UNIT-FILLER-001<br/>Optima Inova]
     end
 
-    subgraph "Equipment Module Level"
+    subgraph EquipModLevel["Equipment Module Level"]
         EM1[Equipment Module<br/>📦 Agitation System<br/>EM-AGIT-001<br/>Top-drive impeller]
         EM2[Equipment Module<br/>📦 Temperature Control<br/>EM-TEMP-001<br/>Jacket heating/cooling]
         EM3[Equipment Module<br/>📦 pH Control Loop<br/>EM-PH-001<br/>Acid/base dosing]
     end
 
-    subgraph "Control Module Level"
+    subgraph ControlModLevel["Control Module Level"]
         CM1[Control Module<br/>🎛️ pH Sensor<br/>CM-PH-001<br/>Mettler Toledo InPro]
         CM2[Control Module<br/>🎛️ DO Sensor<br/>CM-DO-001<br/>Optical DO probe]
         CM3[Control Module<br/>🎛️ Base Pump<br/>CM-PUMP-001<br/>Peristaltic pump]

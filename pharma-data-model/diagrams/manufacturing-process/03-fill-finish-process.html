@@ -150,29 +150,29 @@
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram1">
 graph TD
-    subgraph "Drug Substance Preparation"
+    subgraph DrugSubPrep["Drug Substance Preparation"]
         DS[Drug Substance<br/>🧊 Thaw frozen DS<br/>-20°C to 2-8°C<br/>Controlled thawing]
         POOL[Compounding Tank<br/>⚗️ Pool multiple bags<br/>500L vessel<br/>Homogenization]
         FILTER[Final Sterile Filtration<br/>✨ 0.2μm dual redundant<br/>Pre-use integrity test<br/>Bioburden reduction]
     end
 
-    subgraph "Container Washing & Sterilization"
+    subgraph ContainerWash["Container Washing & Sterilization"]
         DEPYR[Depyrogenation Tunnel<br/>🔥 Glass vials/syringes<br/>300°C for 30 min<br/>Endotoxin removal]
         STOPPER[Stopper Washing<br/>💧 WFI + steam<br/>Elastomeric closures<br/>Automated system]
     end
 
-    subgraph "Aseptic Filling Line"
+    subgraph AsepticFill["Aseptic Filling Line"]
         FILLING[Filling Machine<br/>💉 Isolator/RABS<br/>Grade A environment<br/>Peristaltic/Time-Pressure]
         STOPPER_PLACE[Stopper Placement<br/>🔌 Automated<br/>Partial insertion<br/>Grade A zone]
         CAPPING[Capping/Crimping<br/>🔧 Aluminum seal<br/>Automated crimper<br/>Grade B zone]
     end
 
-    subgraph "Lyophilization (Optional)"
+    subgraph Lyophilization["Lyophilization (Optional)"]
         LYOPH[Lyophilizer<br/>❄️ Freeze-drying<br/>-45°C to +25°C cycle<br/>48-72 hour process]
         BACKFILL[Nitrogen Backfill<br/>🌬️ Inert atmosphere<br/>Grade A chamber<br/>Moisture protection]
     end
 
-    subgraph "Inspection & Packaging"
+    subgraph InspectPack["Inspection & Packaging"]
         INSPECT[Visual Inspection<br/>👁️ Automated + Manual<br/>Particles, cracks, fill level<br/>100% inspection]
         LABEL[Labeling System<br/>🏷️ 2D barcode serialization<br/>Track & trace<br/>Regulatory compliance]
         PACK[Secondary Packaging<br/>📦 Carton, case pack<br/>Temperature indicators<br/>Tamper-evident]
@@ -359,14 +359,14 @@ graph TD
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram2">
 graph TB
-    subgraph "Cleanroom Zones"
+    subgraph CleanroomZones["Cleanroom Zones"]
         GRADEA[Grade A - ISO 5<br/>✨ Aseptic Operations<br/>Filling, stopper placement<br/><3,520 particles/m³ >0.5μm<br/><1 CFU/m³]
         GRADEB[Grade B - ISO 7<br/>🔹 Background to Grade A<br/>Isolator/RABS surrounding<br/><352,000 particles/m³<br/><10 CFU/m³]
         GRADEC[Grade C - ISO 8<br/>🔸 Less Critical Steps<br/>Compounding, staging<br/><3.52M particles/m³<br/><100 CFU/m³]
         GRADED[Grade D - ISO 9<br/>◻️ Support Areas<br/>Gowning, airlock<br/><35.2M particles/m³<br/><200 CFU/m³]
     end
 
-    subgraph "Environmental Monitoring"
+    subgraph EnvMonitor["Environmental Monitoring"]
         PARTICLE[Particle Counters<br/>📊 Real-time monitoring<br/>0.5μm, 5.0μm<br/>Alarm limits]
         VIABLE[Viable Air Sampling<br/>🧫 SAS sampler<br/>TSA plates<br/>CFU enumeration]
         SURFACE[Surface Monitoring<br/>🧪 Contact plates<br/>Swabs for cleaning<br/>Pre/post-operation]
@@ -405,19 +405,19 @@ graph TB
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram3">
 graph LR
-    subgraph "Container Closure Integrity"
+    subgraph ContainerClosure["Container Closure Integrity"]
         CCI[CCI Testing<br/>🔬 Laser-based CCIT<br/>Helium leak test<br/>Dye ingress study]
         SEAL[Seal Quality<br/>🔧 Crimp force<br/>Stopper positioning<br/>Dimensional checks]
     end
 
-    subgraph "Product Quality"
+    subgraph ProductQuality["Product Quality"]
         APPEAR[Appearance<br/>👁️ Color, clarity<br/>Particulates<br/>Cake structure (lyo)]
         POTENCY[Potency<br/>⭐ ELISA, binding assay<br/>90-110% of label claim<br/>Stability indicating]
         PURITY[Purity<br/>🔬 SEC-HPLC<br/>Aggregates, fragments<br/>>95% monomer]
         STERILITY[Sterility<br/>✅ 14-day incubation<br/>TSB + FTM media<br/>No growth]
     end
 
-    subgraph "Release Testing"
+    subgraph ReleaseTest["Release Testing"]
         ENDO[Endotoxin<br/>🦠 LAL test<br/><5 EU/vial<br/>Kinetic chromogenic]
         FILL[Fill Volume<br/>📏 Gravimetric<br/>Weight variation<br/>NMT 2% deviation]
         PH[pH<br/>📊 Target ±0.5<br/>USP <791><br/>Electrode method]

@@ -149,19 +149,19 @@
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram1">
 graph TB
-    subgraph "Cell Banking Facility"
+    subgraph CellBanking["Cell Banking Facility"]
         MCB[Master Cell Bank<br/>🧪 Cryogenic Storage<br/>-196°C LN2 Tanks]
         WCB[Working Cell Bank<br/>🧊 Controlled Rate Freezer<br/>LN2 Dewars]
     end
 
-    subgraph "Seed Train - Scale Up"
+    subgraph SeedTrain["Seed Train - Scale Up"]
         SHAKE[Shake Flask<br/>🔬 125mL-2L<br/>Orbital Shaker Incubator<br/>37°C, 5% CO2, 125 RPM]
         SPIN1[Spinner Flask<br/>⚗️ 3-6L<br/>Magnetic Stirrer<br/>Temperature Controlled]
         WAVE[WAVE Bioreactor<br/>🌊 25-50L<br/>Rocking Platform<br/>Single-Use Bag]
         SEED[Seed Bioreactor<br/>⚙️ 100-500L<br/>Stirred Tank<br/>pH/DO Control]
     end
 
-    subgraph "Production Scale"
+    subgraph ProdScale["Production Scale"]
         PROD[Production Bioreactor<br/>🏭 2,000-20,000L<br/>Stainless Steel STR<br/>Automated Control System]
     end
 
@@ -228,21 +228,21 @@ graph TB
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram2">
 graph LR
-    subgraph "Production Bioreactor System"
+    subgraph ProdBioSys["Production Bioreactor System"]
         VESSEL[Production Vessel<br/>🏭 10,000L STR<br/>Stainless Steel 316L<br/>Jacketed Design]
 
-        subgraph "Control Systems"
+        subgraph ControlSys["Control Systems"]
             DCS[DCS - DeltaV<br/>💻 Process Control<br/>pH, DO, Temp, RPM]
             MES[MES - Syncade<br/>📊 Batch Management<br/>Electronic Batch Record]
             SCADA[SCADA - iFix<br/>📈 Data Historian<br/>Real-time Monitoring]
         end
 
-        subgraph "Sensing & Actuation"
+        subgraph SensingActuation["Sensing & Actuation"]
             SENSORS[Online Sensors<br/>📡 pH, DO, CO2<br/>Biomass, Glucose<br/>Lactate, Osmolality]
             PUMPS[Dosing Pumps<br/>⚡ Peristaltic/Diaphragm<br/>Base, Acid, Glucose<br/>Antifoam, Gas Mix]
         end
 
-        subgraph "Utilities"
+        subgraph Utilities["Utilities"]
             WATER[Water for Injection<br/>💧 WFI System<br/>80°C Distribution]
             STEAM[Clean Steam<br/>♨️ SIP System<br/>121°C Sterilization]
             GAS[Gas Mixing<br/>🌬️ Air, O2, N2, CO2<br/>Mass Flow Controllers]
@@ -347,7 +347,7 @@ graph LR
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram3">
 graph TB
-    subgraph "Critical Process Parameters (CPPs)"
+    subgraph CPPs["Critical Process Parameters (CPPs)"]
         TEMP[Temperature<br/>📊 36.5-37.5°C<br/>±0.5°C tolerance]
         PH[pH<br/>📊 6.8-7.2<br/>±0.1 control]
         DO[Dissolved Oxygen<br/>📊 30-50% saturation<br/>Cascade control]
@@ -355,7 +355,7 @@ graph TB
         OSMO[Osmolality<br/>📊 280-350 mOsm/kg<br/>Feed strategy]
     end
 
-    subgraph "In-Process Controls (IPCs)"
+    subgraph IPCs["In-Process Controls (IPCs)"]
         VCD[Viable Cell Density<br/>🔬 0.5-20 × 10⁶ cells/mL<br/>Daily sampling]
         VIAB[Viability<br/>🔬 >90% target<br/>Trypan blue exclusion]
         GLUC[Glucose<br/>🔬 2-8 g/L<br/>Feed to demand]
@@ -363,7 +363,7 @@ graph TB
         AMM[Ammonia<br/>🔬 <5 mM<br/>Toxicity monitor]
     end
 
-    subgraph "Critical Quality Attributes (CQAs)"
+    subgraph CQAs["Critical Quality Attributes (CQAs)"]
         TITER[Product Titer<br/>⭐ 1-10 g/L<br/>ELISA quantification]
         GLYCO[Glycosylation<br/>⭐ N-glycan profile<br/>LC-MS analysis]
         AGG[Aggregation<br/>⭐ <5% HMWS<br/>SEC-HPLC]
