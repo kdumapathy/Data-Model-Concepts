@@ -86,7 +86,7 @@ Comprehensive markdown reference document covering:
 - Conceptual process flow
 - Conceptual analytical model
 - Integrated conceptual model
-- Batch genealogy (SAP GBT)
+- Batch genealogy (GBT)
 - Process star schema
 - Analytical star schema
 - Complete conceptual ERD
@@ -173,7 +173,7 @@ Each manufacturing process diagram includes:
 - Kimball star schema design
 - Conformed dimensions
 - Manufacturing and analytical fact tables
-- Batch genealogy with SAP GBT
+- Batch genealogy with GBT
 - 21 CFR Part 11 compliance
 
 #### Technology Stack

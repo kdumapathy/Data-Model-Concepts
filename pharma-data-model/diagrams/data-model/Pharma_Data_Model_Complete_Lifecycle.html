@@ -361,7 +361,7 @@
                 <li><strong>Pure Star Schema:</strong> All dimensions independent (no snowflaking)</li>
                 <li><strong>Material Types Include Proteins:</strong> Therapeutic proteins, antibodies, and biologics tracked as material_type in Material</li>
                 <li><strong>8 Conformed Dimensions:</strong> Material, Batch, Sample, Manufacturer, Specification, Notification, Document, Source System</li>
-                <li><strong>SAP GBT Batch Genealogy:</strong> Complete traceability with batch splits, merges, input/output lots, and transformations</li>
+                <li><strong>GBT Batch Genealogy:</strong> Complete traceability with batch splits, merges, input/output lots, and transformations</li>
                 <li><strong>Self-Join Hierarchies:</strong> Material lineage (Vector→Cell Line→MCB→WCB), Batch genealogy, Process decomposition</li>
                 <li><strong>Bridge Tables:</strong> Batch-to-batch many-to-many, Material genealogy multi-parent scenarios</li>
             </ul>
@@ -839,18 +839,18 @@ graph TB
         <div class="tooltip-info">
             <strong>Material Traceability:</strong> Complete lineage from DNA construct to finished drug product<br/>
             <strong>Process Execution:</strong> Manufacturing events with equipment, parameters, and yields<br/>
-            <strong>Batch Genealogy:</strong> SAP GBT-style tracking of batch relationships, splits, merges, transformations<br/>
+            <strong>Batch Genealogy:</strong> GBT-style tracking of batch relationships, splits, merges, transformations<br/>
             <strong>Quality Testing:</strong> Sampling, testing, results, and investigations<br/>
             <strong>Governance:</strong> Specifications, documentation, events, and system integration
         </div>
 
-        <!-- SAP GBT BATCH GENEALOGY SECTION -->
-        <h2 id="batch-genealogy">🧬 SAP GBT Batch Genealogy Architecture</h2>
+        <!-- GBT BATCH GENEALOGY SECTION -->
+        <h2 id="batch-genealogy">🧬 GBT Batch Genealogy Architecture</h2>
         
         <div class="genealogy-section">
-            <h3>🎯 SAP Genealogy Batch Tree (GBT) Overview</h3>
+            <h3>🎯 Genealogy Batch Tree (GBT) Overview</h3>
             <p style="line-height: 1.8;">
-                <strong>SAP GBT</strong> provides complete forward and backward traceability of batches through:
+                <strong>GBT</strong> provides complete forward and backward traceability of batches through:
             </p>
             <ul style="line-height: 2;">
                 <li><strong>Batch Relationships:</strong> Parent-child hierarchies (splits, consolidations)</li>
@@ -1291,7 +1291,7 @@ erDiagram
 
         <div class="tooltip-info">
             <strong>Manufacturing Process Results:</strong> Manufacturing events with yields and parameters. Grain: One row per process execution event.<br/>
-            <strong>Batch:</strong> Production batches with SAP GBT genealogy (self-join for splits/merges). Grain: One row per batch version.<br/>
+            <strong>Batch:</strong> Production batches with GBT genealogy (self-join for splits/merges). Grain: One row per batch version.<br/>
             <strong>Material:</strong> Materials including proteins as material_type (Expression Vector→Cell Line→MCB→WCB→Therapeutic Protein). Self-join for lineage. Grain: One row per material version.<br/>
             <strong>Local Process Hierarchy:</strong> Site-specific process steps with self-join. Grain: One row per local process step version.<br/>
             <strong>Common Process Hierarchy:</strong> Standard industry process taxonomy with self-join. Grain: One row per standard process version.
@@ -1553,12 +1553,12 @@ erDiagram
         <h2 id="complete-erd">🗂️ Complete Integrated ERD - Both Stars with Genealogy</h2>
         
         <div class="description">
-            <strong>Complete Enterprise View:</strong> Both manufacturing and analytical stars connected through 8 conformed dimensions, with SAP GBT genealogy and material lineage.
+            <strong>Complete Enterprise View:</strong> Both manufacturing and analytical stars connected through 8 conformed dimensions, with GBT genealogy and material lineage.
             <br/><br/>
             <strong>Total Entities:</strong> 2 Facts + 16 Dimensions + 2 Bridges = 20 Entities<br/>
             <strong>Conformed Dimensions:</strong> 8 (Material, Batch, Sample, Manufacturer, Specification, Notification, Document, Source System)<br/>
             <strong>Self-Join Hierarchies:</strong> 4 (Material, Batch, Local Process, Common Process)<br/>
-            <strong>Genealogy Support:</strong> SAP GBT with batch splits, merges, material lots, transformations
+            <strong>Genealogy Support:</strong> GBT with batch splits, merges, material lots, transformations
         </div>
         <div style="text-align: right; margin: 15px 0;">
             <a href="Pharma_Data_Model_Diagram_7_Complete_Conceptual_ERD.html" target="_blank" 
@@ -2170,7 +2170,7 @@ graph TB
                     <td><span class="badge badge-conformed">CONFORMED</span> <span class="badge badge-genealogy">GENEALOGY</span></td>
                     <td>One row per batch version</td>
                     <td>✅ Yes (genealogy)</td>
-                    <td>Production batches with SAP GBT genealogy. Self-join: Parent→Child batches (splits, merges, rework)</td>
+                    <td>Production batches with GBT genealogy. Self-join: Parent→Child batches (splits, merges, rework)</td>
                 </tr>
                 <tr>
                     <td><strong>Sample</strong></td>
@@ -2355,7 +2355,7 @@ graph TB
             <ul style="line-height: 1.8;">
                 <li><strong>Kimball Bus Architecture:</strong> Two star schemas with 8 conformed dimensions</li>
                 <li><strong>Pure Star Schema Design:</strong> No snowflaking - optimized for query performance</li>
-                <li><strong>SAP GBT Batch Genealogy:</strong> Industry-standard traceability patterns</li>
+                <li><strong>GBT Batch Genealogy:</strong> Industry-standard traceability patterns</li>
                 <li><strong>Self-Join Hierarchies:</strong> Material lineage, batch genealogy, process decomposition</li>
                 <li><strong>Bridge Tables:</strong> Handle complex many-to-many relationships</li>
                 <li><strong>Slowly Changing Dimensions:</strong> Type 1 and Type 2 support for historical tracking</li>
