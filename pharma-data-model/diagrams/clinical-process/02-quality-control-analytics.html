@@ -458,14 +458,14 @@ graph TB
     <div class="diagram-container">
         <div class="mermaid" id="mermaidDiagram2">
 graph LR
-    subgraph "LIMS Core Functions"
+    subgraph LIMSCore["LIMS Core Functions"]
         SAMPLE[Sample Management<br/>📋 Barcode registration<br/>Sample tracking<br/>Chain of custody<br/>Storage location]
         TEST[Test Assignment<br/>📊 Automated workflows<br/>Method assignment<br/>Test schedules<br/>Analyst assignment]
         RESULT[Result Entry<br/>✅ Manual entry<br/>Instrument integration<br/>Calculations<br/>Review/approval]
         SPEC[Specification Check<br/>🎯 Pass/fail determination<br/>Trending analysis<br/>OOS investigation<br/>Statistical analysis]
     end
 
-    subgraph "LIMS Integration"
+    subgraph LIMSIntegration["LIMS Integration"]
         INSTRUMENT[Instrument Integration<br/>🔬 HPLC, MS, readers<br/>Automated data transfer<br/>Reduce transcription errors]
         ERP[ERP Integration<br/>💼 SAP, Oracle<br/>Batch release status<br/>Inventory management]
         BI[Business Intelligence<br/>📈 Dashboards, KPIs<br/>Query rates, TAT<br/>OOS trends]
