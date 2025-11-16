@@ -388,18 +388,18 @@ graph TD
         </div>
         <div class="mermaid" id="mermaidDiagram2">
 graph LR
-    subgraph "Process Inputs"
+    subgraph ProcessInputs["Process Inputs"]
         INPUT[Cell Culture Harvest<br/>📊 2-8 g/L titer<br/>10,000L volume<br/>40-80 kg product]
     end
 
-    subgraph "Step Recovery & Purity"
+    subgraph StepRecovery["Step Recovery & Purity"]
         CAPTURE[Protein A Capture<br/>⭐ 95% yield<br/>98% purity<br/>36-76 kg]
         CEX_STEP[CEX Polish<br/>⭐ 90% yield<br/>99% purity<br/>32-68 kg]
         AEX_STEP[AEX Polish<br/>⭐ 95% yield<br/>99.5% purity<br/>30-65 kg]
         VIRAL[Viral Clearance<br/>⭐ 90% yield<br/>99.5% purity<br/>27-58 kg]
     end
 
-    subgraph "Final Output"
+    subgraph FinalOutput["Final Output"]
         OUTPUT[Drug Substance<br/>✅ 50-70% overall yield<br/>>99.5% purity<br/>20-56 kg at 100 mg/mL]
     end
 
@@ -519,7 +519,7 @@ graph LR
         function updateZoom1() {
             const diagram = document.getElementById('mermaidDiagram1');
             diagram.style.transform = `scale(${currentZoom1})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
         }
 
@@ -548,7 +548,7 @@ graph LR
         function updateZoom2() {
             const diagram = document.getElementById('mermaidDiagram2');
             diagram.style.transform = `scale(${currentZoom2})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
         }
     </script>

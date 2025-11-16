@@ -376,32 +376,32 @@ erDiagram
         </div>
         <div class="mermaid" id="mermaidDiagram2">
 graph TB
-    subgraph "Recipe Design & Approval"
+    subgraph RecipeDesign["Recipe Design & Approval"]
         MR["Master Recipe<br/>📖 RCP-MAB-001 v2.0<br/>10-day fed-batch<br/>Status: Approved"]
         RP["Recipe Parameters<br/>📊 pH: 7.0 ± 0.1 (CPP)<br/>Temp: 37 ± 0.5°C (CPP)<br/>DO: 40 ± 5% (CPP)"]
         RPHASE["Recipe Phases<br/>🔹 4 phases defined<br/>Inoculation → Batch<br/>→ Fed-Batch → Harvest"]
     end
 
-    subgraph "Production Planning"
+    subgraph ProductionPlanning["Production Planning"]
         BATCH["Batch B-12345<br/>📦 Product: XYZ-mAb<br/>Size: 10,000L<br/>Scheduled: 2025-12-01"]
         CR["Control Recipe<br/>⚙️ CR-12345<br/>Based on: RCP-MAB-001<br/>Equipment: BR-10KL-001"]
         ASSIGN["Equipment Assignment<br/>🏭 BR-10KL-001 assigned<br/>Qualification: Valid<br/>Calibration: Current"]
     end
 
-    subgraph "Batch Execution"
+    subgraph BatchExecution["Batch Execution"]
         EX1["Execute Phase 1<br/>▶️ Inoculation<br/>Equipment: BR-10KL-001<br/>Operator: JSmith<br/>Start: 2025-12-01 08:00"]
         EX2["Execute Phase 2<br/>▶️ Batch Phase Day 0-3<br/>Monitor: pH, Temp, DO<br/>Record: Every 15 min"]
         EX3["Execute Phase 3<br/>▶️ Fed-Batch Day 3-10<br/>Glucose feed on-demand<br/>CPP control active"]
         EX4["Execute Phase 4<br/>▶️ Harvest<br/>Cool to 4°C<br/>Transfer complete"]
     end
 
-    subgraph "Data Capture"
+    subgraph DataCapture["Data Capture"]
         PV1["Parameter Values<br/>📈 10,000+ data points<br/>Actual vs Target<br/>All In-Spec"]
         EU1["Equipment Usage<br/>⏱️ Runtime: 240 hours<br/>Utilization: 95%<br/>No downtime"]
         MU1["Material Usage<br/>📦 WCB Lot: L-12345<br/>Media Lot: M-67890<br/>All consumed"]
     end
 
-    subgraph "Batch Completion"
+    subgraph BatchCompletion["Batch Completion"]
         COMP["Batch Complete<br/>✅ All phases done<br/>Status: Complete<br/>End: 2025-12-11"]
         REVIEW["Batch Disposition<br/>🔍 Review deviations<br/>QA approval<br/>Release decision"]
         EBR["Electronic Batch Record<br/>📋 Complete traceability<br/>21 CFR Part 11<br/>Inspection ready"]
