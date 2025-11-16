@@ -31,6 +31,7 @@
             padding: 30px;
             margin: 20px 0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: auto;
         }
         .equipment-grid {
             display: grid;
@@ -85,8 +86,10 @@
             color: #34495e;
         }
         .mermaid {
-            transform-origin: center center;
+            transform-origin: top left;
             transition: transform 0.3s ease;
+            display: inline-block;
+            min-width: 100%;
         }
         .zoom-controls {
             text-align: center;
@@ -143,31 +146,31 @@
         </div>
         <div class="mermaid" id="mermaidDiagram1">
 graph TB
-    subgraph "Pre-Clinical & IND Preparation"
+    subgraph PreClinical["Pre-Clinical and IND Preparation"]
         PRECLIN[Pre-Clinical Studies<br/>🔬 Animal PK/PD<br/>Toxicology studies<br/>GLP compliance]
         CMC[CMC Package<br/>📋 Manufacturing process<br/>Analytical methods<br/>Stability data]
         IND[IND Submission<br/>📄 FDA/EMA filing<br/>Clinical protocol<br/>Investigator brochure]
     end
 
-    subgraph "Phase 1 - First in Human"
-        P1_DESIGN[Phase 1 Design<br/>📊 Dose escalation (3+3)<br/>SAD/MAD studies<br/>n=20-100 healthy volunteers]
+    subgraph Phase1["Phase 1 - First in Human"]
+        P1_DESIGN[Phase 1 Design<br/>📊 Dose escalation 3+3<br/>SAD/MAD studies<br/>n=20-100 healthy volunteers]
         P1_CONDUCT[Phase 1 Conduct<br/>🏥 Clinical Research Unit<br/>Intensive PK/PD sampling<br/>Safety monitoring]
         P1_DATA[Phase 1 Data<br/>📈 PK parameters<br/>MTD determination<br/>Safety database]
     end
 
-    subgraph "Phase 2 - Proof of Concept"
+    subgraph Phase2["Phase 2 - Proof of Concept"]
         P2_DESIGN[Phase 2 Design<br/>📊 Randomized placebo-controlled<br/>Dose ranging<br/>n=100-300 patients]
         P2_CONDUCT[Phase 2 Conduct<br/>🏥 Multi-site trials<br/>Efficacy endpoints<br/>Biomarker analysis]
         P2_DATA[Phase 2 Data<br/>📈 Efficacy signals<br/>Dose selection<br/>Expanded safety]
     end
 
-    subgraph "Phase 3 - Pivotal Trials"
+    subgraph Phase3["Phase 3 - Pivotal Trials"]
         P3_DESIGN[Phase 3 Design<br/>📊 Large RCTs<br/>Primary endpoints<br/>n=1,000-3,000 patients]
         P3_CONDUCT[Phase 3 Conduct<br/>🏥 Global multi-center<br/>GCP compliance<br/>Data monitoring]
         P3_DATA[Phase 3 Data<br/>📈 Statistical significance<br/>Regulatory submission<br/>Safety database]
     end
 
-    subgraph "Regulatory Approval"
+    subgraph Regulatory["Regulatory Approval"]
         BLA[BLA/MAA Submission<br/>📋 eCTD format<br/>Clinical study reports<br/>Safety summaries]
         APPROVAL[Regulatory Approval<br/>✅ FDA/EMA review<br/>Advisory committee<br/>Marketing authorization]
     end
@@ -378,21 +381,21 @@ graph TB
         </div>
         <div class="mermaid" id="mermaidDiagram2">
 graph TB
-    subgraph "Phase 1 - Safety & PK"
+    subgraph Phase1PK["Phase 1 - Safety and PK"]
         P1_SAFETY[Safety Endpoints<br/>⚠️ Adverse events<br/>Vital signs, labs<br/>ECG abnormalities<br/>Dose-limiting toxicity]
         P1_PK[PK Endpoints<br/>📊 Cmax, Tmax, AUC<br/>Half-life, clearance<br/>Volume of distribution<br/>Dose proportionality]
         P1_PD[PD Endpoints<br/>🔬 Target engagement<br/>Biomarker modulation<br/>Receptor occupancy<br/>Mechanism validation]
     end
 
-    subgraph "Phase 2 - Efficacy Signals"
-        P2_EFFICACY[Efficacy Endpoints<br/>⭐ Disease-specific measures<br/>ORR (oncology)<br/>HbA1c (diabetes)<br/>ADAS-Cog (Alzheimer's)]
+    subgraph Phase2Efficacy["Phase 2 - Efficacy Signals"]
+        P2_EFFICACY[Efficacy Endpoints<br/>⭐ Disease-specific measures<br/>ORR oncology<br/>HbA1c diabetes<br/>ADAS-Cog Alzheimer]
         P2_SAFETY[Safety Endpoints<br/>⚠️ Expanded safety data<br/>AE frequency<br/>Laboratory trends<br/>Immunogenicity]
         P2_DOSE[Dose Selection<br/>📊 Dose-response modeling<br/>Optimal biological dose<br/>Benefit-risk assessment]
     end
 
-    subgraph "Phase 3 - Confirmatory"
-        P3_PRIMARY[Primary Endpoints<br/>🎯 Pre-specified outcomes<br/>Overall survival (OS)<br/>Progression-free survival<br/>Clinical response rate]
-        P3_SECONDARY[Secondary Endpoints<br/>📈 Quality of life (QoL)<br/>Duration of response<br/>Time to progression<br/>Biomarker subgroup]
+    subgraph Phase3Confirm["Phase 3 - Confirmatory"]
+        P3_PRIMARY[Primary Endpoints<br/>🎯 Pre-specified outcomes<br/>Overall survival OS<br/>Progression-free survival<br/>Clinical response rate]
+        P3_SECONDARY[Secondary Endpoints<br/>📈 Quality of life QoL<br/>Duration of response<br/>Time to progression<br/>Biomarker subgroup]
         P3_SAFETY[Safety Endpoints<br/>⚠️ Large safety database<br/>Rare AE detection<br/>Long-term effects<br/>Special populations]
     end
 

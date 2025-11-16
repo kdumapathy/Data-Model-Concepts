@@ -33,15 +33,14 @@
             margin: 30px 0;
             border-radius: 15px;
             border: 3px solid #e9ecef;
-            overflow-x: auto;
+            overflow: auto;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
         .mermaid {
-            display: flex;
-            justify-content: center;
-            min-height: 600px;
-            transform-origin: center center;
+            transform-origin: top left;
             transition: transform 0.3s ease;
+            display: inline-block;
+            min-width: 100%;
         }
         .print-button {
             text-align: center;
@@ -122,7 +121,7 @@
 graph LR
     %% Conceptual Business Process Flow
     
-    CB[Cell Banking<br/>💉 Vector → Cell Line → MCB → WCB]
+    CB[Cell Banking<br/>💉 Vector to Cell Line to MCB to WCB]
     CC[Cell Culture<br/>🧫 Seed Train & Production]
     HARV[Harvest<br/>⚗️ Cell Separation]
     PURIF[Purification<br/>🔬 Chromatography & Filtration]

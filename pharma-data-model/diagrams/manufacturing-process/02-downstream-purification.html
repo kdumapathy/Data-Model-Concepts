@@ -31,6 +31,7 @@
             padding: 30px;
             margin: 20px 0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: auto;
         }
         .equipment-grid {
             display: grid;
@@ -118,9 +119,10 @@
             text-align: center;
         }
         .mermaid {
-            overflow: auto;
+            transform-origin: top left;
             transition: transform 0.3s ease;
-            cursor: move;
+            display: inline-block;
+            min-width: 100%;
             border: 1px solid #dee2e6;
             border-radius: 4px;
             padding: 10px;
@@ -151,27 +153,27 @@
         </div>
         <div class="mermaid" id="mermaidDiagram1">
 graph TD
-    subgraph "Harvest & Clarification"
+    subgraph HarvestClarif["Harvest and Clarification"]
         BIOREACTOR[Production Bioreactor<br/>🏭 10,000L<br/>Product in supernatant]
-        CENT[Disk-Stack Centrifuge<br/>⚙️ Alfa Laval BTPX<br/>8,000-10,000 RPM<br/>Remove cells & debris]
-        DEPTH[Depth Filtration<br/>📄 Pall SUPRAcap<br/>0.6μm → 0.2μm<br/>Clarify cell-free broth]
+        CENT[Disk-Stack Centrifuge<br/>⚙️ Alfa Laval BTPX<br/>8,000-10,000 RPM<br/>Remove cells and debris]
+        DEPTH[Depth Filtration<br/>📄 Pall SUPRAcap<br/>0.6um to 0.2um<br/>Clarify cell-free broth]
     end
 
-    subgraph "Capture Chromatography"
-        PROTAINA[Protein A Affinity<br/>🧲 GE MabSelect SuRe<br/>300L column, 30 cm bed<br/>Capture mAb (>95%)]
-        VIINACT1[Viral Inactivation 1<br/>⚗️ Low pH Hold<br/>pH 3.5, 60 min, RT<br/>Log reduction >4]
+    subgraph CaptureChrom["Capture Chromatography"]
+        PROTAINA[Protein A Affinity<br/>🧲 GE MabSelect SuRe<br/>300L column, 30 cm bed<br/>Capture mAb greater than 95%]
+        VIINACT1[Viral Inactivation 1<br/>⚗️ Low pH Hold<br/>pH 3.5, 60 min, RT<br/>Log reduction greater than 4]
     end
 
-    subgraph "Polishing Chromatography"
-        CEX[Cation Exchange<br/>➕ Poros XS or Capto S<br/>Remove aggregates & HCP<br/>Bind-elute mode]
+    subgraph PolishChrom["Polishing Chromatography"]
+        CEX[Cation Exchange<br/>➕ Poros XS or Capto S<br/>Remove aggregates and HCP<br/>Bind-elute mode]
         AEX[Anion Exchange<br/>➖ Poros HQ or Q Sepharose<br/>Remove DNA, viruses, HCP<br/>Flow-through mode]
-        NANOFILT[Nanofiltration<br/>🦠 Planova 20N (20 nm)<br/>Viral removal filter<br/>LRV >4 for viruses]
+        NANOFILT[Nanofiltration<br/>🦠 Planova 20N 20 nm<br/>Viral removal filter<br/>LRV greater than 4 for viruses]
     end
 
-    subgraph "Concentration & Formulation"
-        UF[Ultrafiltration/Diafiltration<br/>🔄 30 kDa MWCO<br/>Pellicon or Sartocon<br/>Concentrate & buffer exchange]
+    subgraph ConcFormulation["Concentration and Formulation"]
+        UF[Ultrafiltration/Diafiltration<br/>🔄 30 kDa MWCO<br/>Pellicon or Sartocon<br/>Concentrate and buffer exchange]
         FORMULATION[Formulation Tank<br/>💊 Final Drug Substance<br/>Target concentration 50-150 mg/mL<br/>Formulation buffer]
-        STERILE[Sterile Filtration<br/>✨ 0.2μm Sartopore<br/>Dual redundant filters<br/>Terminal bioburden reduction]
+        STERILE[Sterile Filtration<br/>✨ 0.2um Sartopore<br/>Dual redundant filters<br/>Terminal bioburden reduction]
     end
 
     BIOREACTOR --> CENT
