@@ -31,6 +31,7 @@
             padding: 30px;
             margin: 20px 0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: auto;
         }
         .equipment-grid {
             display: grid;
@@ -84,6 +85,48 @@
             margin: 8px 0;
             color: #34495e;
         }
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .zoom-controls button {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .zoom-controls button:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        .zoom-controls button:active {
+            transform: scale(0.95);
+        }
+        .zoom-level {
+            font-weight: bold;
+            color: #495057;
+            min-width: 80px;
+            text-align: center;
+        }
+        .mermaid {
+            transform-origin: top left;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            min-width: 100%;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -102,29 +145,35 @@
 
     <h2>Complete Downstream Process Flow</h2>
     <div class="diagram-container">
-        <div class="mermaid">
+        <div class="zoom-controls">
+            <button onclick="zoomOut1()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevel1">100%</span>
+            <button onclick="zoomIn1()">Zoom In (+)</button>
+            <button onclick="resetZoom1()">Reset</button>
+        </div>
+        <div class="mermaid" id="mermaidDiagram1">
 graph TD
-    subgraph "Harvest & Clarification"
+    subgraph HarvestClarif["Harvest and Clarification"]
         BIOREACTOR[Production Bioreactor<br/>🏭 10,000L<br/>Product in supernatant]
-        CENT[Disk-Stack Centrifuge<br/>⚙️ Alfa Laval BTPX<br/>8,000-10,000 RPM<br/>Remove cells & debris]
-        DEPTH[Depth Filtration<br/>📄 Pall SUPRAcap<br/>0.6μm → 0.2μm<br/>Clarify cell-free broth]
+        CENT[Disk-Stack Centrifuge<br/>⚙️ Alfa Laval BTPX<br/>8,000-10,000 RPM<br/>Remove cells and debris]
+        DEPTH[Depth Filtration<br/>📄 Pall SUPRAcap<br/>0.6um to 0.2um<br/>Clarify cell-free broth]
     end
 
-    subgraph "Capture Chromatography"
-        PROTAINA[Protein A Affinity<br/>🧲 GE MabSelect SuRe<br/>300L column, 30 cm bed<br/>Capture mAb (>95%)]
-        VIINACT1[Viral Inactivation 1<br/>⚗️ Low pH Hold<br/>pH 3.5, 60 min, RT<br/>Log reduction >4]
+    subgraph CaptureChrom["Capture Chromatography"]
+        PROTAINA[Protein A Affinity<br/>🧲 GE MabSelect SuRe<br/>300L column, 30 cm bed<br/>Capture mAb greater than 95%]
+        VIINACT1[Viral Inactivation 1<br/>⚗️ Low pH Hold<br/>pH 3.5, 60 min, RT<br/>Log reduction greater than 4]
     end
 
-    subgraph "Polishing Chromatography"
-        CEX[Cation Exchange<br/>➕ Poros XS or Capto S<br/>Remove aggregates & HCP<br/>Bind-elute mode]
+    subgraph PolishChrom["Polishing Chromatography"]
+        CEX[Cation Exchange<br/>➕ Poros XS or Capto S<br/>Remove aggregates and HCP<br/>Bind-elute mode]
         AEX[Anion Exchange<br/>➖ Poros HQ or Q Sepharose<br/>Remove DNA, viruses, HCP<br/>Flow-through mode]
-        NANOFILT[Nanofiltration<br/>🦠 Planova 20N (20 nm)<br/>Viral removal filter<br/>LRV >4 for viruses]
+        NANOFILT[Nanofiltration<br/>🦠 Planova 20N 20 nm<br/>Viral removal filter<br/>LRV greater than 4 for viruses]
     end
 
-    subgraph "Concentration & Formulation"
-        UF[Ultrafiltration/Diafiltration<br/>🔄 30 kDa MWCO<br/>Pellicon or Sartocon<br/>Concentrate & buffer exchange]
+    subgraph ConcFormulation["Concentration and Formulation"]
+        UF[Ultrafiltration/Diafiltration<br/>🔄 30 kDa MWCO<br/>Pellicon or Sartocon<br/>Concentrate and buffer exchange]
         FORMULATION[Formulation Tank<br/>💊 Final Drug Substance<br/>Target concentration 50-150 mg/mL<br/>Formulation buffer]
-        STERILE[Sterile Filtration<br/>✨ 0.2μm Sartopore<br/>Dual redundant filters<br/>Terminal bioburden reduction]
+        STERILE[Sterile Filtration<br/>✨ 0.2um Sartopore<br/>Dual redundant filters<br/>Terminal bioburden reduction]
     end
 
     BIOREACTOR --> CENT
@@ -331,7 +380,13 @@ graph TD
 
     <h2>Purification Performance Metrics</h2>
     <div class="diagram-container">
-        <div class="mermaid">
+        <div class="zoom-controls">
+            <button onclick="zoomOut2()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevel2">100%</span>
+            <button onclick="zoomIn2()">Zoom In (+)</button>
+            <button onclick="resetZoom2()">Reset</button>
+        </div>
+        <div class="mermaid" id="mermaidDiagram2">
 graph LR
     subgraph "Process Inputs"
         INPUT[Cell Culture Harvest<br/>📊 2-8 g/L titer<br/>10,000L volume<br/>40-80 kg product]
@@ -435,6 +490,67 @@ graph LR
             },
             securityLevel: 'loose'
         });
+
+        // Zoom functionality for diagram 1
+        let currentZoom1 = 1;
+        const zoomStep = 0.1;
+        const minZoom = 0.5;
+        const maxZoom = 3;
+
+        function zoomIn1() {
+            if (currentZoom1 < maxZoom) {
+                currentZoom1 += zoomStep;
+                updateZoom1();
+            }
+        }
+
+        function zoomOut1() {
+            if (currentZoom1 > minZoom) {
+                currentZoom1 -= zoomStep;
+                updateZoom1();
+            }
+        }
+
+        function resetZoom1() {
+            currentZoom1 = 1;
+            updateZoom1();
+        }
+
+        function updateZoom1() {
+            const diagram = document.getElementById('mermaidDiagram1');
+            diagram.style.transform = `scale(${currentZoom1})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
+        }
+
+        // Zoom functionality for diagram 2
+        let currentZoom2 = 1;
+
+        function zoomIn2() {
+            if (currentZoom2 < maxZoom) {
+                currentZoom2 += zoomStep;
+                updateZoom2();
+            }
+        }
+
+        function zoomOut2() {
+            if (currentZoom2 > minZoom) {
+                currentZoom2 -= zoomStep;
+                updateZoom2();
+            }
+        }
+
+        function resetZoom2() {
+            currentZoom2 = 1;
+            updateZoom2();
+        }
+
+        function updateZoom2() {
+            const diagram = document.getElementById('mermaidDiagram2');
+            diagram.style.transform = `scale(${currentZoom2})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
+        }
     </script>
 </body>
 </html>

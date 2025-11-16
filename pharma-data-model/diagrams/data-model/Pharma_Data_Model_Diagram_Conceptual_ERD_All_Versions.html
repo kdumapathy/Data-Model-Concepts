@@ -54,13 +54,14 @@
             margin: 20px 0;
             border-radius: 15px;
             border: 3px solid #e9ecef;
-            overflow-x: auto;
+            overflow: auto;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
         .mermaid {
-            display: block;
-            width: 100%;
-            min-height: 400px;
+            transform-origin: top left;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            min-width: 100%;
         }
         .mermaid svg {
             max-width: 100%;
@@ -121,6 +122,47 @@
                 page-break-after: always;
             }
         }
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .zoom-controls button {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .zoom-controls button:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        .zoom-controls button:active {
+            transform: scale(0.95);
+        }
+        .zoom-level {
+            font-weight: bold;
+            color: #495057;
+            min-width: 80px;
+            text-align: center;
+        }
+        .mermaid {
+            overflow: auto;
+            transition: transform 0.3s ease;
+            cursor: move;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -153,7 +195,13 @@
                 Shows complete lineage including Production Order and Transformation entities.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut1()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel1">100%</span>
+                    <button onclick="zoomIn1()">Zoom In (+)</button>
+                    <button onclick="resetZoom1()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram1">
 erDiagram
     %% COMPLETE ENTERPRISE DATA MODEL
     
@@ -251,7 +299,13 @@ erDiagram
                 Clean star schema showing process hierarchies and conformed dimensions.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut2()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel2">100%</span>
+                    <button onclick="zoomIn2()">Zoom In (+)</button>
+                    <button onclick="resetZoom2()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram2">
 erDiagram
     %% MANUFACTURING PROCESS STAR SCHEMA
     
@@ -299,7 +353,13 @@ erDiagram
                 Pure star schema for testing and quality control analytics.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut3()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel3">100%</span>
+                    <button onclick="zoomIn3()">Zoom In (+)</button>
+                    <button onclick="resetZoom3()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram3">
 erDiagram
     %% ANALYTICAL RESULTS STAR SCHEMA
     
@@ -351,7 +411,13 @@ erDiagram
                 Clean star schema focused on material lineage tracking.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut4()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel4">100%</span>
+                    <button onclick="zoomIn4()">Zoom In (+)</button>
+                    <button onclick="resetZoom4()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram4">
 erDiagram
     %% SIMPLIFIED GENEALOGY STAR SCHEMA
     
@@ -399,7 +465,13 @@ erDiagram
                 Comprehensive lineage with manufacturing execution context.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut5()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel5">100%</span>
+                    <button onclick="zoomIn5()">Zoom In (+)</button>
+                    <button onclick="resetZoom5()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram5">
 erDiagram
     %% COMPLETE GENEALOGY STAR SCHEMA
     
@@ -452,7 +524,13 @@ erDiagram
                 Excludes genealogy for cleaner manufacturing and testing analytics view.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut6()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel6">100%</span>
+                    <button onclick="zoomIn6()">Zoom In (+)</button>
+                    <button onclick="resetZoom6()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram6">
 erDiagram
     %% DUAL STAR SCHEMA - PROCESS + ANALYTICAL
     
@@ -525,7 +603,13 @@ erDiagram
                 Balanced view for most analytical use cases.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut7()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel7">100%</span>
+                    <button onclick="zoomIn7()">Zoom In (+)</button>
+                    <button onclick="resetZoom7()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram7">
 erDiagram
     %% SIMPLIFIED FULL ENTERPRISE MODEL
     
@@ -619,7 +703,13 @@ erDiagram
                 Single fact with only core conformed dimensions. Cleanest star schema showing fundamental dimensional model pattern.
             </div>
             <div class="diagram-container">
-                <div class="mermaid">
+                <div class="zoom-controls">
+                    <button onclick="zoomOut8()">Zoom Out (-)</button>
+                    <span class="zoom-level" id="zoomLevel8">100%</span>
+                    <button onclick="zoomIn8()">Zoom In (+)</button>
+                    <button onclick="resetZoom8()">Reset</button>
+                </div>
+                <div class="mermaid" id="mermaidDiagram8">
 erDiagram
     %% MINIMAL STAR SCHEMA - CORE DIMENSIONS
     
@@ -655,6 +745,235 @@ erDiagram
                 fontSize: '16px'
             }
         });
+
+        // Zoom functionality for diagrams
+        const zoomStep = 0.1;
+        const minZoom = 0.5;
+        const maxZoom = 3;
+
+        let currentZoom1 = 1;
+
+        function zoomIn1() {
+            if (currentZoom1 < maxZoom) {
+                currentZoom1 += zoomStep;
+                updateZoom1();
+            }
+        }
+
+        function zoomOut1() {
+            if (currentZoom1 > minZoom) {
+                currentZoom1 -= zoomStep;
+                updateZoom1();
+            }
+        }
+
+        function resetZoom1() {
+            currentZoom1 = 1;
+            updateZoom1();
+        }
+
+        function updateZoom1() {
+            const diagram = document.getElementById('mermaidDiagram1');
+            diagram.style.transform = `scale(${currentZoom1})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
+        }
+
+        let currentZoom2 = 1;
+
+        function zoomIn2() {
+            if (currentZoom2 < maxZoom) {
+                currentZoom2 += zoomStep;
+                updateZoom2();
+            }
+        }
+
+        function zoomOut2() {
+            if (currentZoom2 > minZoom) {
+                currentZoom2 -= zoomStep;
+                updateZoom2();
+            }
+        }
+
+        function resetZoom2() {
+            currentZoom2 = 1;
+            updateZoom2();
+        }
+
+        function updateZoom2() {
+            const diagram = document.getElementById('mermaidDiagram2');
+            diagram.style.transform = `scale(${currentZoom2})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
+        }
+
+        let currentZoom3 = 1;
+
+        function zoomIn3() {
+            if (currentZoom3 < maxZoom) {
+                currentZoom3 += zoomStep;
+                updateZoom3();
+            }
+        }
+
+        function zoomOut3() {
+            if (currentZoom3 > minZoom) {
+                currentZoom3 -= zoomStep;
+                updateZoom3();
+            }
+        }
+
+        function resetZoom3() {
+            currentZoom3 = 1;
+            updateZoom3();
+        }
+
+        function updateZoom3() {
+            const diagram = document.getElementById('mermaidDiagram3');
+            diagram.style.transform = `scale(${currentZoom3})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel3').textContent = `${Math.round(currentZoom3 * 100)}%`;
+        }
+
+        let currentZoom4 = 1;
+
+        function zoomIn4() {
+            if (currentZoom4 < maxZoom) {
+                currentZoom4 += zoomStep;
+                updateZoom4();
+            }
+        }
+
+        function zoomOut4() {
+            if (currentZoom4 > minZoom) {
+                currentZoom4 -= zoomStep;
+                updateZoom4();
+            }
+        }
+
+        function resetZoom4() {
+            currentZoom4 = 1;
+            updateZoom4();
+        }
+
+        function updateZoom4() {
+            const diagram = document.getElementById('mermaidDiagram4');
+            diagram.style.transform = `scale(${currentZoom4})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel4').textContent = `${Math.round(currentZoom4 * 100)}%`;
+        }
+
+        let currentZoom5 = 1;
+
+        function zoomIn5() {
+            if (currentZoom5 < maxZoom) {
+                currentZoom5 += zoomStep;
+                updateZoom5();
+            }
+        }
+
+        function zoomOut5() {
+            if (currentZoom5 > minZoom) {
+                currentZoom5 -= zoomStep;
+                updateZoom5();
+            }
+        }
+
+        function resetZoom5() {
+            currentZoom5 = 1;
+            updateZoom5();
+        }
+
+        function updateZoom5() {
+            const diagram = document.getElementById('mermaidDiagram5');
+            diagram.style.transform = `scale(${currentZoom5})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel5').textContent = `${Math.round(currentZoom5 * 100)}%`;
+        }
+
+        let currentZoom6 = 1;
+
+        function zoomIn6() {
+            if (currentZoom6 < maxZoom) {
+                currentZoom6 += zoomStep;
+                updateZoom6();
+            }
+        }
+
+        function zoomOut6() {
+            if (currentZoom6 > minZoom) {
+                currentZoom6 -= zoomStep;
+                updateZoom6();
+            }
+        }
+
+        function resetZoom6() {
+            currentZoom6 = 1;
+            updateZoom6();
+        }
+
+        function updateZoom6() {
+            const diagram = document.getElementById('mermaidDiagram6');
+            diagram.style.transform = `scale(${currentZoom6})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel6').textContent = `${Math.round(currentZoom6 * 100)}%`;
+        }
+
+        let currentZoom7 = 1;
+
+        function zoomIn7() {
+            if (currentZoom7 < maxZoom) {
+                currentZoom7 += zoomStep;
+                updateZoom7();
+            }
+        }
+
+        function zoomOut7() {
+            if (currentZoom7 > minZoom) {
+                currentZoom7 -= zoomStep;
+                updateZoom7();
+            }
+        }
+
+        function resetZoom7() {
+            currentZoom7 = 1;
+            updateZoom7();
+        }
+
+        function updateZoom7() {
+            const diagram = document.getElementById('mermaidDiagram7');
+            diagram.style.transform = `scale(${currentZoom7})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel7').textContent = `${Math.round(currentZoom7 * 100)}%`;
+        }
+
+        let currentZoom8 = 1;
+
+        function zoomIn8() {
+            if (currentZoom8 < maxZoom) {
+                currentZoom8 += zoomStep;
+                updateZoom8();
+            }
+        }
+
+        function zoomOut8() {
+            if (currentZoom8 > minZoom) {
+                currentZoom8 -= zoomStep;
+                updateZoom8();
+            }
+        }
+
+        function resetZoom8() {
+            currentZoom8 = 1;
+            updateZoom8();
+        }
+
+        function updateZoom8() {
+            const diagram = document.getElementById('mermaidDiagram8');
+            diagram.style.transform = `scale(${currentZoom8})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel8').textContent = `${Math.round(currentZoom8 * 100)}%`;
+        }
     </script>
 </body>
 </html>
