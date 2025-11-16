@@ -190,7 +190,7 @@ erDiagram
     PRODUCTION_ORDER["Production Order"]
     
     %% === BRIDGE TABLES ===
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === SELF-JOIN HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
@@ -199,8 +199,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
     
     %% === BRIDGE RELATIONSHIPS ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING RELATIONSHIPS ===
     MATERIAL ||--o{ BATCH : "used to produce"
@@ -367,15 +367,15 @@ erDiagram
     SOURCE_SYSTEM["Source System"]
     
     %% === BRIDGE TABLE ===
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
     MATERIAL ||--o| MATERIAL : "component of"
     
     %% === BRIDGE RELATIONSHIPS ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING RELATIONSHIPS ===
     MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
@@ -417,15 +417,15 @@ erDiagram
     PRODUCTION_ORDER["Production Order"]
     
     %% === BRIDGE TABLE ===
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
     MATERIAL ||--o| MATERIAL : "component of"
     
     %% === BRIDGE RELATIONSHIPS ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
     
     %% === SUPPORTING RELATIONSHIPS ===
     MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
@@ -560,7 +560,7 @@ erDiagram
     MATERIAL_LOT["Material Lot"]
     
     %% === BRIDGE TABLES ===
-    BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
+    BATCH_GENEALOGY["Batch Genealogy"]
     
     %% === HIERARCHIES ===
     BATCH ||--o| BATCH : "parent of"
@@ -569,8 +569,8 @@ erDiagram
     COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process"
     
     %% === BRIDGE RELATIONSHIPS ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "parent"
+    BATCH ||--o{ BATCH_GENEALOGY : "child in"
+    BATCH_GENEALOGY }o--|| BATCH : "parent"
     
     %% === SUPPORTING RELATIONSHIPS ===
     MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
