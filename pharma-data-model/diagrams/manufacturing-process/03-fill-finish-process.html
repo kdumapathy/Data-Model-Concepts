@@ -413,14 +413,14 @@ graph LR
     subgraph ProductQuality["Product Quality"]
         APPEAR[Appearance<br/>👁️ Color, clarity<br/>Particulates<br/>Cake structure (lyo)]
         POTENCY[Potency<br/>⭐ ELISA, binding assay<br/>90-110% of label claim<br/>Stability indicating]
-        PURITY[Purity<br/>🔬 SEC-HPLC<br/>Aggregates, fragments<br/>>95% monomer]
+        PURITY[Purity<br/>🔬 SEC-HPLC<br/>Aggregates, fragments<br/>&gt;95% monomer]
         STERILITY[Sterility<br/>✅ 14-day incubation<br/>TSB + FTM media<br/>No growth]
     end
 
     subgraph ReleaseTest["Release Testing"]
-        ENDO[Endotoxin<br/>🦠 LAL test<br/><5 EU/vial<br/>Kinetic chromogenic]
+        ENDO[Endotoxin<br/>🦠 LAL test<br/>&lt;5 EU/vial<br/>Kinetic chromogenic]
         FILL[Fill Volume<br/>📏 Gravimetric<br/>Weight variation<br/>NMT 2% deviation]
-        PH[pH<br/>📊 Target ±0.5<br/>USP <791><br/>Electrode method]
+        PH[pH<br/>📊 Target ±0.5<br/>USP &lt;791&gt;<br/>Electrode method]
     end
 
     CCI --> STERILITY
