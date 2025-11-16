@@ -48,6 +48,40 @@
             color: #2c3e50;
             margin-top: 0;
         }
+        .mermaid {
+            transform-origin: center center;
+            transition: transform 0.3s ease;
+        }
+        .zoom-controls {
+            text-align: center;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+        .zoom-controls button {
+            background: linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(72, 198, 239, 0.3);
+            transition: all 0.3s;
+            min-width: 45px;
+        }
+        .zoom-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 198, 239, 0.4);
+        }
+        .zoom-controls .zoom-level {
+            font-size: 1em;
+            color: #2c3e50;
+            font-weight: bold;
+            min-width: 60px;
+        }
     </style>
 </head>
 <body>
@@ -68,7 +102,13 @@
 
     <h2>Complete Integrated Data Model</h2>
     <div class="diagram-container">
-        <div class="mermaid">
+        <div class="zoom-controls">
+            <button onclick="zoomOut(1)">➖ Zoom Out</button>
+            <span class="zoom-level" id="zoomLevel1">100%</span>
+            <button onclick="zoomIn(1)">➕ Zoom In</button>
+            <button onclick="resetZoom(1)">🔄 Reset</button>
+        </div>
+        <div class="mermaid" id="mermaidDiagram1">
 erDiagram
     %% BATCH ENTITY (CENTRAL)
     BATCH["Batch"] {
@@ -325,7 +365,13 @@ erDiagram
 
     <h2>Manufacturing Execution Flow</h2>
     <div class="diagram-container">
-        <div class="mermaid">
+        <div class="zoom-controls">
+            <button onclick="zoomOut(2)">➖ Zoom Out</button>
+            <span class="zoom-level" id="zoomLevel2">100%</span>
+            <button onclick="zoomIn(2)">➕ Zoom In</button>
+            <button onclick="resetZoom(2)">🔄 Reset</button>
+        </div>
+        <div class="mermaid" id="mermaidDiagram2">
 graph TB
     subgraph "Recipe Design & Approval"
         MR["Master Recipe<br/>📖 RCP-MAB-001 v2.0<br/>10-day fed-batch<br/>Status: Approved"]
@@ -497,6 +543,36 @@ GROUP BY rp.phase_name, rp.phase_duration
             },
             securityLevel: 'loose'
         });
+
+        const zoomLevels = {1: 1.0, 2: 1.0};
+        const zoomStep = 0.1;
+        const minZoom = 0.5;
+        const maxZoom = 3.0;
+
+        function updateZoom(diagramNum) {
+            const diagram = document.getElementById(`mermaidDiagram${diagramNum}`);
+            diagram.style.transform = `scale(${zoomLevels[diagramNum]})`;
+            document.getElementById(`zoomLevel${diagramNum}`).textContent = `${Math.round(zoomLevels[diagramNum] * 100)}%`;
+        }
+
+        function zoomIn(diagramNum) {
+            if (zoomLevels[diagramNum] < maxZoom) {
+                zoomLevels[diagramNum] += zoomStep;
+                updateZoom(diagramNum);
+            }
+        }
+
+        function zoomOut(diagramNum) {
+            if (zoomLevels[diagramNum] > minZoom) {
+                zoomLevels[diagramNum] -= zoomStep;
+                updateZoom(diagramNum);
+            }
+        }
+
+        function resetZoom(diagramNum) {
+            zoomLevels[diagramNum] = 1.0;
+            updateZoom(diagramNum);
+        }
     </script>
 </body>
 </html>

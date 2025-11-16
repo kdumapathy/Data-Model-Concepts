@@ -84,6 +84,47 @@
             margin: 8px 0;
             color: #34495e;
         }
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .zoom-controls button {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .zoom-controls button:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        .zoom-controls button:active {
+            transform: scale(0.95);
+        }
+        .zoom-level {
+            font-weight: bold;
+            color: #495057;
+            min-width: 80px;
+            text-align: center;
+        }
+        .mermaid {
+            overflow: auto;
+            transition: transform 0.3s ease;
+            cursor: move;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +142,13 @@
 
     <h2>Phase 1: Cell Banking & Seed Train</h2>
     <div class="diagram-container">
-        <div class="mermaid">
+        <div class="zoom-controls">
+            <button onclick="zoomOut1()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevel1">100%</span>
+            <button onclick="zoomIn1()">Zoom In (+)</button>
+            <button onclick="resetZoom1()">Reset</button>
+        </div>
+        <div class="mermaid" id="mermaidDiagram1">
 graph TB
     subgraph "Cell Banking Facility"
         MCB[Master Cell Bank<br/>🧪 Cryogenic Storage<br/>-196°C LN2 Tanks]
@@ -174,7 +221,13 @@ graph TB
 
     <h2>Phase 2: Production Bioreactor</h2>
     <div class="diagram-container">
-        <div class="mermaid">
+        <div class="zoom-controls">
+            <button onclick="zoomOut2()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevel2">100%</span>
+            <button onclick="zoomIn2()">Zoom In (+)</button>
+            <button onclick="resetZoom2()">Reset</button>
+        </div>
+        <div class="mermaid" id="mermaidDiagram2">
 graph LR
     subgraph "Production Bioreactor System"
         VESSEL[Production Vessel<br/>🏭 10,000L STR<br/>Stainless Steel 316L<br/>Jacketed Design]
@@ -287,7 +340,13 @@ graph LR
 
     <h2>Process Parameters & Critical Quality Attributes</h2>
     <div class="diagram-container">
-        <div class="mermaid">
+        <div class="zoom-controls">
+            <button onclick="zoomOut3()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevel3">100%</span>
+            <button onclick="zoomIn3()">Zoom In (+)</button>
+            <button onclick="resetZoom3()">Reset</button>
+        </div>
+        <div class="mermaid" id="mermaidDiagram3">
 graph TB
     subgraph "Critical Process Parameters (CPPs)"
         TEMP[Temperature<br/>📊 36.5-37.5°C<br/>±0.5°C tolerance]
@@ -354,6 +413,96 @@ graph TB
             },
             securityLevel: 'loose'
         });
+
+        // Zoom functionality for diagram 1
+        let currentZoom1 = 1;
+        const zoomStep = 0.1;
+        const minZoom = 0.5;
+        const maxZoom = 3;
+
+        function zoomIn1() {
+            if (currentZoom1 < maxZoom) {
+                currentZoom1 += zoomStep;
+                updateZoom1();
+            }
+        }
+
+        function zoomOut1() {
+            if (currentZoom1 > minZoom) {
+                currentZoom1 -= zoomStep;
+                updateZoom1();
+            }
+        }
+
+        function resetZoom1() {
+            currentZoom1 = 1;
+            updateZoom1();
+        }
+
+        function updateZoom1() {
+            const diagram = document.getElementById('mermaidDiagram1');
+            diagram.style.transform = `scale(${currentZoom1})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
+        }
+
+        // Zoom functionality for diagram 2
+        let currentZoom2 = 1;
+
+        function zoomIn2() {
+            if (currentZoom2 < maxZoom) {
+                currentZoom2 += zoomStep;
+                updateZoom2();
+            }
+        }
+
+        function zoomOut2() {
+            if (currentZoom2 > minZoom) {
+                currentZoom2 -= zoomStep;
+                updateZoom2();
+            }
+        }
+
+        function resetZoom2() {
+            currentZoom2 = 1;
+            updateZoom2();
+        }
+
+        function updateZoom2() {
+            const diagram = document.getElementById('mermaidDiagram2');
+            diagram.style.transform = `scale(${currentZoom2})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
+        }
+
+        // Zoom functionality for diagram 3
+        let currentZoom3 = 1;
+
+        function zoomIn3() {
+            if (currentZoom3 < maxZoom) {
+                currentZoom3 += zoomStep;
+                updateZoom3();
+            }
+        }
+
+        function zoomOut3() {
+            if (currentZoom3 > minZoom) {
+                currentZoom3 -= zoomStep;
+                updateZoom3();
+            }
+        }
+
+        function resetZoom3() {
+            currentZoom3 = 1;
+            updateZoom3();
+        }
+
+        function updateZoom3() {
+            const diagram = document.getElementById('mermaidDiagram3');
+            diagram.style.transform = `scale(${currentZoom3})`;
+            diagram.style.transformOrigin = 'top center';
+            document.getElementById('zoomLevel3').textContent = `${Math.round(currentZoom3 * 100)}%`;
+        }
     </script>
 </body>
 </html>
