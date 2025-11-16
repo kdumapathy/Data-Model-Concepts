@@ -281,7 +281,7 @@ erDiagram
     BATCH }o--|| CONTROL_RECIPE : "executes via"
 
     %% RECIPE HIERARCHY
-    MASTER_RECIPE ||--o| MASTER_RECIPE : "composed of"
+    MASTER_RECIPE ||--o| MASTER_RECIPE : "parent procedure of"
     MASTER_RECIPE ||--o{ RECIPE_PHASE : "has phases"
     MASTER_RECIPE ||--o{ RECIPE_PARAMETER : "has parameters"
     MASTER_RECIPE ||--o{ RECIPE_MATERIAL : "requires materials"
@@ -293,16 +293,16 @@ erDiagram
     RECIPE_PARAMETER ||--o{ CONTROL_RECIPE_PARAMETER : "instantiated as"
 
     %% RECIPE EXECUTION
-    CONTROL_RECIPE ||--o{ RECIPE_EXECUTION : "executed via"
-    RECIPE_PHASE ||--o{ RECIPE_EXECUTION : "executed as"
-    BATCH ||--o{ RECIPE_EXECUTION : "performed on"
+    CONTROL_RECIPE ||--o{ RECIPE_EXECUTION : "defines procedure"
+    RECIPE_PHASE ||--o{ RECIPE_EXECUTION : "defines unit operation"
+    BATCH ||--o{ RECIPE_EXECUTION : "executed for"
 
     %% EXECUTION VALUES
     RECIPE_EXECUTION ||--o{ EXECUTION_PARAMETER_VALUE : "measured values"
     CONTROL_RECIPE_PARAMETER ||--o{ EXECUTION_PARAMETER_VALUE : "actual vs target"
 
     %% EQUIPMENT
-    EQUIPMENT_MASTER ||--o| EQUIPMENT_MASTER : "composed of"
+    EQUIPMENT_MASTER ||--o| EQUIPMENT_MASTER : "parent equipment of"
     EQUIPMENT_MASTER ||--o{ EQUIPMENT_CAPABILITY : "has capabilities"
     EQUIPMENT_MASTER ||--o{ RECIPE_EXECUTION : "used in"
     EQUIPMENT_MASTER ||--o{ EQUIPMENT_USAGE : "tracked via"
@@ -316,9 +316,9 @@ erDiagram
 
     %% MATERIALS
     MATERIAL ||--o{ RECIPE_MATERIAL : "required in recipe"
-    MATERIAL ||--o{ MATERIAL_LOT : "has lots"
-    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumed in"
-    BATCH ||--o{ BATCH_MATERIAL_USAGE : "consumes"
+    MATERIAL ||--o{ MATERIAL_LOT : "instantiated as lot"
+    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumed as lot"
+    BATCH ||--o{ BATCH_MATERIAL_USAGE : "utilized in batch"
     RECIPE_EXECUTION ||--o{ BATCH_MATERIAL_USAGE : "used during"
         </div>
     </div>
