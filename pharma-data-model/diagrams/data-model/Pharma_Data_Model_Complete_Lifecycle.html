@@ -347,12 +347,12 @@
         <!-- OVERVIEW -->
         <h2 id="overview">📊 Architecture Overview</h2>
         <div class="description">
-            <strong>Kimball Bus Architecture with SAP GBT Genealogy</strong><br/>
+            <strong>Kimball Bus Architecture with GBT Genealogy</strong><br/>
             Two star schemas connected through conformed dimensions with comprehensive batch genealogy tracking.
             <br/><br/>
             <strong>Process Star:</strong> Manufacturing execution, cell culture, bioreactor operations, yields, process parameters<br/>
             <strong>Analytical Star:</strong> Quality control testing, stability studies, method validation, test results<br/>
-            <strong>Batch Genealogy:</strong> SAP GBT-style traceability with splits, merges, transformations, and material lineage
+            <strong>Batch Genealogy:</strong> GBT-style traceability with splits, merges, transformations, and material lineage
         </div>
 
         <div class="highlight-box">
@@ -887,7 +887,7 @@ graph TB
         <div class="diagram-container">
             <div class="mermaid" id="mermaidDiagram4">
 erDiagram
-    %% SAP GBT Genealogy Model with Tooltips
+    %% GBT Genealogy Model with Tooltips
     
     BATCH["Batch"] {
         bigint batch_identity PK "Surrogate key"
@@ -1115,7 +1115,7 @@ erDiagram
         <div class="diagram-container">
             <div class="mermaid" id="mermaidDiagram5">
 erDiagram
-    %% PROCESS STAR SCHEMA with SAP GBT Genealogy
+    %% PROCESS STAR SCHEMA with GBT Genealogy
     
     MANUFACTURING_PROCESS_RESULTS["Manufacturing Process Results"] {
         bigint process_result_identity PK "Surrogate key"
@@ -1324,7 +1324,7 @@ erDiagram
         <div class="diagram-container">
             <div class="mermaid" id="mermaidDiagram6">
 erDiagram
-    %% ANALYTICAL STAR SCHEMA with SAP GBT Genealogy
+    %% ANALYTICAL STAR SCHEMA with GBT Genealogy
     
     ANALYTICAL_RESULTS["Analytical Results"] {
         bigint test_result_identity PK "Surrogate key"
