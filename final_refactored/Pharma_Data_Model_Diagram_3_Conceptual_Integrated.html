@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Conceptual Integrated Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 95%;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .diagram-container {
+            background: #ffffff;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+            border: 3px solid #e9ecef;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            min-height: 600px;
+        }
+        .print-button {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .print-button button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+        .print-button button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Conceptual Integrated Architecture</h1>
+        
+        <div class="print-button">
+            <button onclick="window.print()">🖨️ Print Diagram</button>
+        </div>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+graph TB
+    %% Conceptual Integrated Architecture
+    
+    subgraph MATERIALS [Material Traceability]
+        EV[Expression Vector<br/>🧬 Plasmid DNA]
+        CL[Cell Lines<br/>🦠 Transfected Cells]
+        MCB[Master Cell Bank<br/>🏦 Primary Stock]
+        WCB[Working Cell Bank<br/>💼 Production Stock]
+        RM[Raw Materials<br/>📦 Media, Buffers, Reagents]
+    end
+    
+    subgraph PROCESS [Process Execution]
+        PE[Manufacturing Steps<br/>⚙️ Execution Events]
+        PP[Process Parameters<br/>📊 Critical Attributes]
+        EQ[Equipment Usage<br/>🏭 Assets & Instruments]
+    end
+    
+    subgraph GENEALOGY [Batch Genealogy]
+        BG[Batch Tracking<br/>🏷️ Lot Numbers]
+        SPLIT[Batch Splits<br/>📊 1 → Many]
+        MERGE[Batch Pooling<br/>🔀 Many → 1]
+        TRANS[Transformations<br/>⚗️ Process Changes]
+        TRACE[Traceability Links<br/>🔗 Input/Output Lots]
+    end
+    
+    subgraph QUALITY [Quality Testing]
+        SAMP[Sample Collection<br/>🧪 Specimens]
+        TESTS[Test Execution<br/>🔬 QC Testing]
+        RESULTS[Test Results<br/>📈 Pass/Fail/OOS]
+        INVEST[Investigations<br/>🔍 Root Cause]
+    end
+    
+    subgraph GOVERNANCE [Governance & Compliance]
+        SPECS[Specifications<br/>📋 Acceptance Criteria]
+        DOCS[Documentation<br/>📄 Batch Records, COAs]
+        EVENTS[Quality Events<br/>⚠️ Deviations, CAPA]
+        SYS[Source Systems<br/>💾 LIMS, MES, ELN]
+    end
+    
+    EV --> CL --> MCB --> WCB
+    WCB --> PE
+    RM --> PE
+    
+    PE --> BG
+    BG --> SPLIT
+    BG --> MERGE
+    BG --> TRANS
+    TRANS --> TRACE
+    
+    BG --> SAMP
+    PE --> SAMP
+    SAMP --> TESTS
+    TESTS --> RESULTS
+    RESULTS --> INVEST
+    
+    SPECS -.-> PE
+    SPECS -.-> RESULTS
+    
+    PE --> DOCS
+    RESULTS --> DOCS
+    INVEST --> EVENTS
+    
+    PE -.-> SYS
+    TESTS -.-> SYS
+    DOCS -.-> SYS
+    
+    style MATERIALS fill:#e1f5ff
+    style PROCESS fill:#fff3e0
+    style GENEALOGY fill:#ffebee
+    style QUALITY fill:#f3e5f5
+    style GOVERNANCE fill:#f1f8e9
+        </div>
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                fontSize: '16px'
+            }
+        });
+    </script>
+</body>
+</html>

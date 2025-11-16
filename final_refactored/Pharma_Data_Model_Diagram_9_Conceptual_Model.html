@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Conceptual Model - High-Level Entity Relationships</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 95%;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .diagram-container {
+            background: #ffffff;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+            border: 3px solid #e9ecef;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            min-height: 600px;
+        }
+        .print-button {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .print-button button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+        .print-button button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Conceptual Model - High-Level Entity Relationships</h1>
+        
+        <div class="print-button">
+            <button onclick="window.print()">🖨️ Print Diagram</button>
+        </div>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+graph TB
+    %% Core Manufacturing Entities
+    subgraph Manufacturing["🏭 Manufacturing Process Domain"]
+        ProdOrder[Production Order<br/>📋 Manufacturing Execution]
+        Batch[Batch<br/>🏷️ Production Lots]
+        Material[Material<br/>📦 Raw Materials & Products]
+        Equipment[Equipment<br/>🏭 Bioreactors & Assets]
+        ProcessOp[Process Operation<br/>⚙️ Manufacturing Steps]
+        ProcessParams[Process Parameters<br/>📊 Temp, pH, Pressure]
+    end
+    
+    %% Core Analytical Entities
+    subgraph Analytical["🔬 Quality & Testing Domain"]
+        Sample[Sample<br/>🧪 Test Specimens]
+        Test[Test<br/>🔍 Quality Tests]
+        TestResult[Test Result<br/>📈 Measurements]
+        Specification[Specification<br/>📏 Quality Standards]
+        Method[Test Method<br/>🔬 Analytical Procedures]
+    end
+    
+    %% Batch Genealogy
+    subgraph Genealogy["🧬 Batch Genealogy & Traceability"]
+        BatchGenealogy[Batch Genealogy<br/>🔄 Parent-Child Tracking]
+        MaterialLot[Material Lot<br/>📦 Supplier Lots]
+        Transformation[Material Transformation<br/>🔄 Vector→Cell Line→MCB→WCB]
+        BatchMaterial[Batch Material Usage<br/>📝 Bill of Materials]
+    end
+    
+    %% Shared/Conformed Entities
+    subgraph Conformed["🌐 Shared Reference Data"]
+        Mfg[Manufacturer<br/>🏢 Suppliers & Partners]
+        Document[Document<br/>📄 SOPs, Protocols, Reports]
+        Notification[Notification<br/>🚨 Deviations & Events]
+        Source[Source System<br/>💾 ERP, LIMS, MES]
+    end
+    
+    %% Time Dimension
+    Time[Time<br/>📅 Date Hierarchy]
+    
+    %% Relationships - Manufacturing
+    ProdOrder --> Batch
+    ProdOrder --> ProcessOp
+    Batch --> Material
+    Batch --> Equipment
+    ProcessOp --> Equipment
+    ProcessOp --> ProcessParams
+    Batch --> Time
+    
+    %% Relationships - Analytical
+    Sample --> Batch
+    Sample --> Material
+    Test --> Sample
+    Test --> Method
+    TestResult --> Test
+    TestResult --> Specification
+    TestResult --> Time
+    
+    %% Relationships - Genealogy
+    Batch --> BatchGenealogy
+    BatchGenealogy --> Batch
+    Material --> MaterialLot
+    Material --> Transformation
+    Transformation --> Material
+    Batch --> BatchMaterial
+    BatchMaterial --> Material
+    BatchMaterial --> MaterialLot
+    
+    %% Relationships - Conformed
+    Material --> Mfg
+    Batch --> Mfg
+    Sample --> Mfg
+    ProdOrder --> Document
+    Test --> Document
+    Batch --> Notification
+    TestResult --> Notification
+    ProdOrder --> Source
+    Test --> Source
+    
+    %% Styling
+    classDef processClass fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+    classDef analyticalClass fill:#e1bee7,stroke:#7b1fa2,stroke-width:3px
+    classDef genealogyClass fill:#ffcdd2,stroke:#c62828,stroke-width:3px
+    classDef conformedClass fill:#fff9c4,stroke:#f57f17,stroke-width:3px
+    classDef timeClass fill:#b3e5fc,stroke:#0277bd,stroke-width:3px
+    
+    class ProdOrder,Batch,Material,Equipment,ProcessOp,ProcessParams processClass
+    class Sample,Test,TestResult,Specification,Method analyticalClass
+    class BatchGenealogy,MaterialLot,Transformation,BatchMaterial genealogyClass
+    class Mfg,Document,Notification,Source conformedClass
+    class Time timeClass
+</div>
+        </div>
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                fontSize: '16px'
+            }
+        });
+    </script>
+</body>
+</html>
