@@ -493,7 +493,7 @@ graph TB
         function updateZoom1() {
             const diagram = document.getElementById('mermaidDiagram1');
             diagram.style.transform = `scale(${currentZoom1})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
         }
 
@@ -522,7 +522,7 @@ graph TB
         function updateZoom2() {
             const diagram = document.getElementById('mermaidDiagram2');
             diagram.style.transform = `scale(${currentZoom2})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
         }
 
@@ -551,7 +551,7 @@ graph TB
         function updateZoom3() {
             const diagram = document.getElementById('mermaidDiagram3');
             diagram.style.transform = `scale(${currentZoom3})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel3').textContent = `${Math.round(currentZoom3 * 100)}%`;
         }
 
@@ -580,7 +580,7 @@ graph TB
         function updateZoom4() {
             const diagram = document.getElementById('mermaidDiagram4');
             diagram.style.transform = `scale(${currentZoom4})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel4').textContent = `${Math.round(currentZoom4 * 100)}%`;
         }
     </script>

@@ -392,7 +392,7 @@ erDiagram
         function updateZoom1() {
             const diagram = document.getElementById('mermaidDiagram1');
             diagram.style.transform = `scale(${currentZoom1})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel1').textContent = `${Math.round(currentZoom1 * 100)}%`;
         }
 
@@ -421,7 +421,7 @@ erDiagram
         function updateZoom2() {
             const diagram = document.getElementById('mermaidDiagram2');
             diagram.style.transform = `scale(${currentZoom2})`;
-            diagram.style.transformOrigin = 'top center';
+            diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel2').textContent = `${Math.round(currentZoom2 * 100)}%`;
         }
     </script>
