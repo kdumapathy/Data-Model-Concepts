@@ -425,5 +425,5 @@ vi diagrams/batchGenealogy.js
 
 For questions or support with dynamic diagram loading, refer to the main README or contact the development team.
 
-**Version**: 1.0  
-**Last Updated**: November 15, 2025
+**Version**: 1.0
+**Last Updated**: November 16, 2025
