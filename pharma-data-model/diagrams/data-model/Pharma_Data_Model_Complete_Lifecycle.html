@@ -897,15 +897,15 @@ erDiagram
     }
     
     %% Relationships
-    BATCH ||--o| BATCH : "derived from"
-    BATCH ||--o{ BATCH_GENEALOGY : "produces"
-    BATCH_GENEALOGY }o--|| BATCH : "sourced from"
-    
-    BATCH ||--o{ BATCH_MATERIAL_USAGE : "performed on"
-    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumes"
-    TRANSFORMATION ||--o{ BATCH_MATERIAL_USAGE : "transformed by"
-    
-    PRODUCTION_ORDER ||--o{ BATCH : "ordered via"
+    BATCH ||--o| BATCH : "parent batch of"
+    BATCH ||--o{ BATCH_GENEALOGY : "child batch in lineage"
+    BATCH_GENEALOGY }o--|| BATCH : "parent batch in lineage"
+
+    BATCH ||--o{ BATCH_MATERIAL_USAGE : "utilized in batch"
+    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumed as lot"
+    TRANSFORMATION ||--o{ BATCH_MATERIAL_USAGE : "processed by transformation"
+
+    PRODUCTION_ORDER ||--o{ BATCH : "manufactures batch"
             </div>
         </div>
 
@@ -1193,27 +1193,27 @@ erDiagram
     }
     
     %% Self-Join Hierarchies
-    BATCH ||--o| BATCH : "sourced from"
-    MATERIAL ||--o| MATERIAL : "parent_material (lineage)"
-    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step (decomposition)"
-    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process (taxonomy)"
-    
+    BATCH ||--o| BATCH : "parent batch of"
+    MATERIAL ||--o| MATERIAL : "child component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent operation of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent procedure of"
+
     %% Fact Relationships - LEFT: Process-Specific
-    LOCAL_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "local process"
-    COMMON_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "common process"
-    
+    LOCAL_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "defines unit operation"
+    COMMON_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "defines procedure"
+
     %% Fact Relationships - RIGHT: Conformed
-    MANUFACTURING_PROCESS_RESULTS }o--|| BATCH : "batch"
-    MANUFACTURING_PROCESS_RESULTS }o--|| SAMPLE : "sample"
-    MANUFACTURING_PROCESS_RESULTS }o--|| MATERIAL : "source material"
-    MANUFACTURING_PROCESS_RESULTS }o--|| MANUFACTURER : "manufacturer"
-    MANUFACTURING_PROCESS_RESULTS }o--|| SPECIFICATION : "specification"
-    MANUFACTURING_PROCESS_RESULTS }o--|| NOTIFICATION : "notification"
-    MANUFACTURING_PROCESS_RESULTS }o--|| DOCUMENT : "document"
-    MANUFACTURING_PROCESS_RESULTS }o--|| SOURCE_SYSTEM : "source system"
-    
+    MANUFACTURING_PROCESS_RESULTS }o--|| BATCH : "executed for"
+    MANUFACTURING_PROCESS_RESULTS }o--|| SAMPLE : "sampled from"
+    MANUFACTURING_PROCESS_RESULTS }o--|| MATERIAL : "consumed material"
+    MANUFACTURING_PROCESS_RESULTS }o--|| MANUFACTURER : "executed by manufacturer"
+    MANUFACTURING_PROCESS_RESULTS }o--|| SPECIFICATION : "evaluated against"
+    MANUFACTURING_PROCESS_RESULTS }o--|| NOTIFICATION : "generated notification"
+    MANUFACTURING_PROCESS_RESULTS }o--|| DOCUMENT : "recorded in"
+    MANUFACTURING_PROCESS_RESULTS }o--|| SOURCE_SYSTEM : "originated in"
+
     %% Supporting Relationships
-    MATERIAL ||--o{ BATCH : "source material"
+    MATERIAL ||--o{ BATCH : "input to batch"
             </div>
         </div>
 
@@ -1435,29 +1435,29 @@ erDiagram
     }
     
     %% Self-Join Hierarchies
-    BATCH ||--o| BATCH : "sourced from"
-    MATERIAL ||--o| MATERIAL : "parent material (lineage)"
-    
+    BATCH ||--o| BATCH : "parent batch of"
+    MATERIAL ||--o| MATERIAL : "child component of"
+
     %% Fact Relationships - LEFT: Conformed
-    BATCH ||--o{ ANALYTICAL_RESULTS : "batch"
-    SAMPLE ||--o{ ANALYTICAL_RESULTS : "sample"
-    MATERIAL ||--o{ ANALYTICAL_RESULTS : "source material"
-    MANUFACTURER ||--o{ ANALYTICAL_RESULTS : "manufacturer"
-    SPECIFICATION ||--o{ ANALYTICAL_RESULTS : "specification"
-    NOTIFICATION ||--o{ ANALYTICAL_RESULTS : "notification"
-    DOCUMENT ||--o{ ANALYTICAL_RESULTS : "document"
-    SOURCE_SYSTEM ||--o{ ANALYTICAL_RESULTS : "source system"
-    
+    BATCH ||--o{ ANALYTICAL_RESULTS : "analyzed by"
+    SAMPLE ||--o{ ANALYTICAL_RESULTS : "subjected to analysis"
+    MATERIAL ||--o{ ANALYTICAL_RESULTS : "material tested"
+    MANUFACTURER ||--o{ ANALYTICAL_RESULTS : "produced by"
+    SPECIFICATION ||--o{ ANALYTICAL_RESULTS : "compared to specification"
+    NOTIFICATION ||--o{ ANALYTICAL_RESULTS : "notified via"
+    DOCUMENT ||--o{ ANALYTICAL_RESULTS : "recorded in"
+    SOURCE_SYSTEM ||--o{ ANALYTICAL_RESULTS : "originated in"
+
     %% Fact Relationships - RIGHT: Analytical-Specific
-    ANALYTICAL_RESULTS }o--|| TEST : "test"
-    ANALYTICAL_RESULTS }o--|| TEST_LOCATION : "test location"
-    ANALYTICAL_RESULTS }o--|| ANALYTICAL_METHOD : "analytical method"
-    ANALYTICAL_RESULTS }o--|| CONDITION : "condition"
-    ANALYTICAL_RESULTS }o--|| TIMEPOINT : "timepoint"
-    ANALYTICAL_RESULTS }o--|| STUDY : "study"
-    
+    ANALYTICAL_RESULTS }o--|| TEST : "executes test method"
+    ANALYTICAL_RESULTS }o--|| TEST_LOCATION : "performed at location"
+    ANALYTICAL_RESULTS }o--|| ANALYTICAL_METHOD : "performed by method"
+    ANALYTICAL_RESULTS }o--|| CONDITION : "tested under conditions"
+    ANALYTICAL_RESULTS }o--|| TIMEPOINT : "collected at timepoint"
+    ANALYTICAL_RESULTS }o--|| STUDY : "conducted in study"
+
     %% Supporting Relationships
-    MATERIAL ||--o{ BATCH : "source material"
+    MATERIAL ||--o{ BATCH : "input to batch"
             </div>
         </div>
 

@@ -231,27 +231,27 @@ erDiagram
     }
     
     %% Self-Join Hierarchies
-    BATCH ||--o| BATCH : "sourced from"
-    MATERIAL ||--o| MATERIAL : "parent_material (lineage)"
-    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step (decomposition)"
-    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process (taxonomy)"
+    BATCH ||--o| BATCH : "parent batch of"
+    MATERIAL ||--o| MATERIAL : "child component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent operation of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent procedure of"
     
     %% Fact Relationships - LEFT: Process-Specific
-    LOCAL_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "local process"
-    COMMON_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "common process"
-    
+    LOCAL_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "defines unit operation"
+    COMMON_PROCESS_HIERARCHY ||--o{ MANUFACTURING_PROCESS_RESULTS : "defines procedure"
+
     %% Fact Relationships - RIGHT: Conformed
-    MANUFACTURING_PROCESS_RESULTS }o--|| BATCH : "batch"
-    MANUFACTURING_PROCESS_RESULTS }o--|| SAMPLE : "sample"
-    MANUFACTURING_PROCESS_RESULTS }o--|| MATERIAL : "source material"
-    MANUFACTURING_PROCESS_RESULTS }o--|| MANUFACTURER : "manufacturer"
-    MANUFACTURING_PROCESS_RESULTS }o--|| SPECIFICATION : "specification"
-    MANUFACTURING_PROCESS_RESULTS }o--|| NOTIFICATION : "notification"
-    MANUFACTURING_PROCESS_RESULTS }o--|| DOCUMENT : "document"
-    MANUFACTURING_PROCESS_RESULTS }o--|| SOURCE_SYSTEM : "source system"
-    
+    MANUFACTURING_PROCESS_RESULTS }o--|| BATCH : "executed for"
+    MANUFACTURING_PROCESS_RESULTS }o--|| SAMPLE : "sampled from"
+    MANUFACTURING_PROCESS_RESULTS }o--|| MATERIAL : "consumed material"
+    MANUFACTURING_PROCESS_RESULTS }o--|| MANUFACTURER : "executed by manufacturer"
+    MANUFACTURING_PROCESS_RESULTS }o--|| SPECIFICATION : "evaluated against"
+    MANUFACTURING_PROCESS_RESULTS }o--|| NOTIFICATION : "generated notification"
+    MANUFACTURING_PROCESS_RESULTS }o--|| DOCUMENT : "recorded in"
+    MANUFACTURING_PROCESS_RESULTS }o--|| SOURCE_SYSTEM : "originated in"
+
     %% Supporting Relationships
-    MATERIAL ||--o{ BATCH : "source material"
+    MATERIAL ||--o{ BATCH : "input to batch"
             </div>
         </div>
     </div>

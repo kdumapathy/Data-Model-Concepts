@@ -124,54 +124,54 @@ erDiagram
     BRIDGE_BATCH_GENEALOGY["Bridge Batch Genealogy"]
     
     %% === SELF-JOIN HIERARCHIES ===
-    BATCH ||--o| BATCH : "parent of"
-    MATERIAL ||--o| MATERIAL : "component of"
-    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
-    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
-    
+    BATCH ||--o| BATCH : "parent batch of"
+    MATERIAL ||--o| MATERIAL : "child component of"
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent operation of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent procedure of"
+
     %% === BRIDGE RELATIONSHIPS ===
-    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "is child in"
-    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "has parent"
+    BATCH ||--o{ BRIDGE_BATCH_GENEALOGY : "child batch in lineage"
+    BRIDGE_BATCH_GENEALOGY }o--|| BATCH : "parent batch in lineage"
     
     %% === SUPPORTING RELATIONSHIPS ===
-    MATERIAL ||--o{ BATCH : "used to produce"
-    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
-    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+    MATERIAL ||--o{ BATCH : "input to batch"
+    MATERIAL ||--o{ MATERIAL_LOT : "instantiated as lot"
+    PRODUCTION_ORDER ||--o{ BATCH : "manufactures batch"
     
     %% === PROCESS FACT RELATIONSHIPS ===
-    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step for"
-    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process for"
-    
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
-    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines unit operation"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines procedure"
+
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "executed for"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "sampled from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed material"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "executed by manufacturer"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "evaluated against"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "generated notification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "recorded in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "originated in"
     
     %% === ANALYTICAL FACT RELATIONSHIPS ===
-    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
-    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
-    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    BATCH ||--o{ FACT_ANALYTICAL : "analyzed by"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "subjected to analysis"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "material tested"
     MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
-    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "compared to specification"
     NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
     DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
     SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
-    
-    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
-    FACT_ANALYTICAL }o--|| TEST : "performs test"
-    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
-    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
-    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
-    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "performed by method"
+    FACT_ANALYTICAL }o--|| TEST : "executes test method"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "performed at location"
+    FACT_ANALYTICAL }o--|| CONDITION : "tested under conditions"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "collected at timepoint"
+    FACT_ANALYTICAL }o--|| STUDY : "conducted in study"
     
     %% === GENEALOGY FACT RELATIONSHIPS ===
-    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
-    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
-    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "utilized in batch"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed as lot"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "processed by transformation"
             </div>
         </div>
     </div>

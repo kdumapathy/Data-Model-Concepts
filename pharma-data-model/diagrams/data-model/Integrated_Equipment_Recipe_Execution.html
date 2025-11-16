@@ -316,9 +316,9 @@ erDiagram
 
     %% MATERIALS
     MATERIAL ||--o{ RECIPE_MATERIAL : "required in recipe"
-    MATERIAL ||--o{ MATERIAL_LOT : "has lots"
-    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumed in"
-    BATCH ||--o{ BATCH_MATERIAL_USAGE : "consumes"
+    MATERIAL ||--o{ MATERIAL_LOT : "instantiated as lot"
+    MATERIAL_LOT ||--o{ BATCH_MATERIAL_USAGE : "consumed as lot"
+    BATCH ||--o{ BATCH_MATERIAL_USAGE : "utilized in batch"
     RECIPE_EXECUTION ||--o{ BATCH_MATERIAL_USAGE : "used during"
         </div>
     </div>
