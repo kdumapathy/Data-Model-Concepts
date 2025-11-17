@@ -72,30 +72,11 @@
             font-weight: bold;
             min-width: 60px;
         }
-        .print-button {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .print-button button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s;
-        }
-        .print-button button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
         @media print {
             body {
                 background: white;
             }
-            .print-button {
+            .zoom-controls {
                 display: none;
             }
         }
@@ -105,15 +86,12 @@
     <div class="container">
         <h1>🎨 Conceptual Analytical Data Model</h1>
         
-        <div class="print-button">
-            <button onclick="window.print()">🖨️ Print Diagram</button>
-        </div>
-
         <div class="zoom-controls">
             <button onclick="zoomOut()">➖ Zoom Out</button>
             <span class="zoom-level" id="zoomLevel">100%</span>
             <button onclick="zoomIn()">➕ Zoom In</button>
             <button onclick="resetZoom()">🔄 Reset</button>
+            <button onclick="window.print()">🖨️ Print Diagram</button>
         </div>
 
         <div class="diagram-container">
