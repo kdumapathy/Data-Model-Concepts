@@ -322,6 +322,9 @@
             <a href="#conceptual-process">🎨 Conceptual Process</a>
             <a href="#conceptual-analytical">🎨 Conceptual Analytics</a>
             <a href="#conceptual-integrated">🎨 Integrated View</a>
+            <a href="#conceptual-process-star">🎨 Process Star</a>
+            <a href="#conceptual-analytical-star">🎨 Analytics Star</a>
+            <a href="#conceptual-genealogy-star">🎨 Genealogy Star</a>
             <a href="#process-star">⭐ Process-Logical</a>
             <a href="#analytical-star">⭐ Analytical-Logical</a>
             <a href="#batch-genealogy">🧬 Batch Genealogy</a>
@@ -1091,6 +1094,177 @@ erDiagram
                 <li>"Vial Thaw", "T-Flask", "Shake Flask" are children of "Seed Train"</li>
                 <li>Enables drill-down from summary to detail, or roll-up from detail to summary</li>
             </ul>
+        </div>
+
+        <!-- CONCEPTUAL STAR SCHEMA VERSION 2: Manufacturing Process -->
+        <h2 id="conceptual-process-star">🎨 Conceptual Model: Manufacturing Process Star Schema</h2>
+        <div class="conceptual-note">
+            <strong>📌 Conceptual View - Version 2</strong><br/>
+            Isolated view of manufacturing process fact with its dimensions.
+            Clean star schema showing process hierarchies and conformed dimensions.
+        </div>
+
+        <div class="zoom-controls">
+            <button onclick="zoomOutConceptProcess()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevelConceptProcess">100%</span>
+            <button onclick="zoomInConceptProcess()">Zoom In (+)</button>
+            <button onclick="resetZoomConceptProcess()">Reset</button>
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid" id="mermaidDiagramConceptProcess">
+erDiagram
+    %% MANUFACTURING PROCESS STAR SCHEMA
+
+    %% === FACT ===
+    FACT_MANUFACTURING_PROCESS_RESULT["Manufacturing Process Result"]
+
+    %% === CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+
+    %% === PROCESS-SPECIFIC DIMENSIONS ===
+    LOCAL_PROCESS_HIERARCHY["Local Process Hierarchy"]
+    COMMON_PROCESS_HIERARCHY["Common Process Hierarchy"]
+
+    %% === DIMENSION HIERARCHIES ===
+    LOCAL_PROCESS_HIERARCHY ||--o| LOCAL_PROCESS_HIERARCHY : "parent step of"
+    COMMON_PROCESS_HIERARCHY ||--o| COMMON_PROCESS_HIERARCHY : "parent process of"
+
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    LOCAL_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines local step"
+    COMMON_PROCESS_HIERARCHY ||--o{ FACT_MANUFACTURING_PROCESS_RESULT : "defines process"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| BATCH : "performed on"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SAMPLE : "measured from"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MATERIAL : "consumed"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| MANUFACTURER : "manufactured by"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SPECIFICATION : "meets specification"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| NOTIFICATION : "triggers"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| DOCUMENT : "documented in"
+    FACT_MANUFACTURING_PROCESS_RESULT }o--|| SOURCE_SYSTEM : "sourced from"
+            </div>
+        </div>
+
+        <!-- CONCEPTUAL STAR SCHEMA VERSION 3: Analytical Results -->
+        <h2 id="conceptual-analytical-star">🎨 Conceptual Model: Analytical Results Star Schema</h2>
+        <div class="conceptual-note">
+            <strong>📌 Conceptual View - Version 3</strong><br/>
+            Isolated analytical fact with both conformed and analytical-specific dimensions.
+            Pure star schema for testing and quality control analytics.
+        </div>
+
+        <div class="zoom-controls">
+            <button onclick="zoomOutConceptAnalytical()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevelConceptAnalytical">100%</span>
+            <button onclick="zoomInConceptAnalytical()">Zoom In (+)</button>
+            <button onclick="resetZoomConceptAnalytical()">Reset</button>
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid" id="mermaidDiagramConceptAnalytical">
+erDiagram
+    %% ANALYTICAL RESULTS STAR SCHEMA
+
+    %% === FACT ===
+    FACT_ANALYTICAL["Analytical Result"]
+
+    %% === CONFORMED DIMENSIONS ===
+    BATCH["Batch"]
+    SAMPLE["Sample"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    SPECIFICATION["Specification"]
+    NOTIFICATION["Notification"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+
+    %% === ANALYTICAL-SPECIFIC DIMENSIONS ===
+    TEST["Test"]
+    TEST_LOCATION["Test Location"]
+    ANALYTICAL_METHOD["Analytical Method"]
+    CONDITION["Condition"]
+    TIME_POINT["Time Point"]
+    STUDY["Study"]
+
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    BATCH ||--o{ FACT_ANALYTICAL : "tested via"
+    SAMPLE ||--o{ FACT_ANALYTICAL : "analyzed as"
+    MATERIAL ||--o{ FACT_ANALYTICAL : "tested for"
+    MANUFACTURER ||--o{ FACT_ANALYTICAL : "produced by"
+    SPECIFICATION ||--o{ FACT_ANALYTICAL : "evaluated against"
+    NOTIFICATION ||--o{ FACT_ANALYTICAL : "notified via"
+    DOCUMENT ||--o{ FACT_ANALYTICAL : "recorded in"
+    SOURCE_SYSTEM ||--o{ FACT_ANALYTICAL : "originated in"
+    FACT_ANALYTICAL }o--|| ANALYTICAL_METHOD : "using method"
+    FACT_ANALYTICAL }o--|| TEST : "performs test"
+    FACT_ANALYTICAL }o--|| TEST_LOCATION : "conducted at"
+    FACT_ANALYTICAL }o--|| CONDITION : "under condition"
+    FACT_ANALYTICAL }o--|| TIME_POINT : "measured at"
+    FACT_ANALYTICAL }o--|| STUDY : "part of study"
+            </div>
+        </div>
+
+        <!-- CONCEPTUAL STAR SCHEMA VERSION 5: Genealogy Complete -->
+        <h2 id="conceptual-genealogy-star">🎨 Conceptual Model: Genealogy Star Schema (Complete)</h2>
+        <div class="conceptual-note">
+            <strong>📌 Conceptual View - Version 5</strong><br/>
+            Full genealogy fact including Production Order and Transformation dimensions.
+            Comprehensive lineage with manufacturing execution context.
+        </div>
+
+        <div class="zoom-controls">
+            <button onclick="zoomOutConceptGenealogy()">Zoom Out (-)</button>
+            <span class="zoom-level" id="zoomLevelConceptGenealogy">100%</span>
+            <button onclick="zoomInConceptGenealogy()">Zoom In (+)</button>
+            <button onclick="resetZoomConceptGenealogy()">Reset</button>
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid" id="mermaidDiagramConceptGenealogy">
+erDiagram
+    %% COMPLETE GENEALOGY STAR SCHEMA
+
+    %% === FACT ===
+    FACT_BATCH_MATERIAL_USAGE["Batch Material Usage"]
+
+    %% === DIMENSIONS ===
+    BATCH["Batch"]
+    MATERIAL_LOT["Material Lot"]
+    MATERIAL["Material"]
+    MANUFACTURER["Manufacturer"]
+    DOCUMENT["Document"]
+    SOURCE_SYSTEM["Source System"]
+    TRANSFORMATION["Transformation"]
+    PRODUCTION_ORDER["Production Order"]
+
+    %% === BRIDGE TABLE ===
+    BATCH_GENEALOGY["Batch Genealogy"]
+
+    %% === HIERARCHIES ===
+    BATCH ||--o| BATCH : "parent of"
+    MATERIAL ||--o| MATERIAL : "component of"
+
+    %% === BRIDGE RELATIONSHIPS ===
+    BATCH ||--o{ BATCH_GENEALOGY : "is child in"
+    BATCH_GENEALOGY }o--|| BATCH : "has parent"
+
+    %% === SUPPORTING RELATIONSHIPS ===
+    MATERIAL ||--o{ MATERIAL_LOT : "tracked as"
+    PRODUCTION_ORDER ||--o{ BATCH : "produces"
+
+    %% === STAR SCHEMA RELATIONSHIPS ===
+    BATCH ||--o{ FACT_BATCH_MATERIAL_USAGE : "consumed in"
+    MATERIAL_LOT ||--o{ FACT_BATCH_MATERIAL_USAGE : "used as"
+    TRANSFORMATION ||--o{ FACT_BATCH_MATERIAL_USAGE : "transformed via"
+    FACT_BATCH_MATERIAL_USAGE }o--|| MATERIAL : "material type"
+    FACT_BATCH_MATERIAL_USAGE }o--|| MANUFACTURER : "supplied by"
+    FACT_BATCH_MATERIAL_USAGE }o--|| DOCUMENT : "documented in"
+    FACT_BATCH_MATERIAL_USAGE }o--|| SOURCE_SYSTEM : "sourced from"
+    FACT_BATCH_MATERIAL_USAGE }o--|| PRODUCTION_ORDER : "executed by"
+            </div>
         </div>
 
         <!-- PROCESS STAR SCHEMA -->
@@ -2909,6 +3083,93 @@ graph TB
             diagram.style.transform = `scale(${currentZoom9})`;
             diagram.style.transformOrigin = 'top left';
             document.getElementById('zoomLevel9').textContent = `${Math.round(currentZoom9 * 100)}%`;
+        }
+
+        // Zoom controls for Conceptual Process Star Schema
+        let currentZoomConceptProcess = 1;
+
+        function zoomInConceptProcess() {
+            if (currentZoomConceptProcess < maxZoom) {
+                currentZoomConceptProcess += zoomStep;
+                updateZoomConceptProcess();
+            }
+        }
+
+        function zoomOutConceptProcess() {
+            if (currentZoomConceptProcess > minZoom) {
+                currentZoomConceptProcess -= zoomStep;
+                updateZoomConceptProcess();
+            }
+        }
+
+        function resetZoomConceptProcess() {
+            currentZoomConceptProcess = 1;
+            updateZoomConceptProcess();
+        }
+
+        function updateZoomConceptProcess() {
+            const diagram = document.getElementById('mermaidDiagramConceptProcess');
+            diagram.style.transform = `scale(${currentZoomConceptProcess})`;
+            diagram.style.transformOrigin = 'top left';
+            document.getElementById('zoomLevelConceptProcess').textContent = `${Math.round(currentZoomConceptProcess * 100)}%`;
+        }
+
+        // Zoom controls for Conceptual Analytical Star Schema
+        let currentZoomConceptAnalytical = 1;
+
+        function zoomInConceptAnalytical() {
+            if (currentZoomConceptAnalytical < maxZoom) {
+                currentZoomConceptAnalytical += zoomStep;
+                updateZoomConceptAnalytical();
+            }
+        }
+
+        function zoomOutConceptAnalytical() {
+            if (currentZoomConceptAnalytical > minZoom) {
+                currentZoomConceptAnalytical -= zoomStep;
+                updateZoomConceptAnalytical();
+            }
+        }
+
+        function resetZoomConceptAnalytical() {
+            currentZoomConceptAnalytical = 1;
+            updateZoomConceptAnalytical();
+        }
+
+        function updateZoomConceptAnalytical() {
+            const diagram = document.getElementById('mermaidDiagramConceptAnalytical');
+            diagram.style.transform = `scale(${currentZoomConceptAnalytical})`;
+            diagram.style.transformOrigin = 'top left';
+            document.getElementById('zoomLevelConceptAnalytical').textContent = `${Math.round(currentZoomConceptAnalytical * 100)}%`;
+        }
+
+        // Zoom controls for Conceptual Genealogy Star Schema
+        let currentZoomConceptGenealogy = 1;
+
+        function zoomInConceptGenealogy() {
+            if (currentZoomConceptGenealogy < maxZoom) {
+                currentZoomConceptGenealogy += zoomStep;
+                updateZoomConceptGenealogy();
+            }
+        }
+
+        function zoomOutConceptGenealogy() {
+            if (currentZoomConceptGenealogy > minZoom) {
+                currentZoomConceptGenealogy -= zoomStep;
+                updateZoomConceptGenealogy();
+            }
+        }
+
+        function resetZoomConceptGenealogy() {
+            currentZoomConceptGenealogy = 1;
+            updateZoomConceptGenealogy();
+        }
+
+        function updateZoomConceptGenealogy() {
+            const diagram = document.getElementById('mermaidDiagramConceptGenealogy');
+            diagram.style.transform = `scale(${currentZoomConceptGenealogy})`;
+            diagram.style.transformOrigin = 'top left';
+            document.getElementById('zoomLevelConceptGenealogy').textContent = `${Math.round(currentZoomConceptGenealogy * 100)}%`;
         }
     </script>
 </body>
