@@ -328,9 +328,9 @@
             <a href="#process-star">⭐ Process-Logical</a>
             <a href="#analytical-star">⭐ Analytical-Logical</a>
             <a href="#batch-genealogy">🧬 Batch Genealogy</a>
-            <a href="#self-joins">🔄 Self-Join Examples</a>
-            <a href="#entity-catalog">📋 Entity Catalog</a>
             <a href="#complete-erd">🗂️ Complete ERD</a>
+            <a href="#entity-catalog">📋 Entity Catalog</a>
+            <a href="#self-joins">🔄 Self-Join Examples</a>
             <a href="#changes-summary">✨ Changes Summary</a>
         </nav>
 
@@ -990,110 +990,6 @@ erDiagram
             <strong>Batch Material Usage:</strong> Material consumption and production events. Grain: One row per batch-material-transformation usage event.<br/>
             <strong>Transformation:</strong> Process steps that transform materials. Grain: One row per transformation type version.<br/>
             <strong>Production Order:</strong> Work orders linking batches to production campaigns. Grain: One row per order version.
-        </div>
-
-        <!-- SELF-JOIN EXAMPLES -->
-        <h2 id="self-joins">🔄 Self-Join Examples Explained</h2>
-        
-        <div class="self-join-example">
-            <h4>📊 Example 1: Batch Genealogy Self-Join (Splits)</h4>
-            <p><strong>Business Scenario:</strong> A 1000L batch is split into three smaller batches for different filling operations.</p>
-            
-            <div class="code-block">
-                Parent Batch: B-2024-001 (1000L) [generation_level = 0]
-                    ├─→ Child: B-2024-001-A (400L) [generation_level = 1, parent_batch_key → B-2024-001]
-                    ├─→ Child: B-2024-001-B (400L) [generation_level = 1, parent_batch_key → B-2024-001]
-                    └─→ Child: B-2024-001-C (200L) [generation_level = 1, parent_batch_key → B-2024-001]
-            </div>
-            
-            <p><strong>Self-Join Explanation:</strong></p>
-            <ul>
-                <li>Parent batch B-2024-001 has <code>parent_batch_key = NULL</code> (it's the root)</li>
-                <li>Each child batch has <code>parent_batch_key</code> pointing to B-2024-001's <code>batch_key</code></li>
-                <li>This creates a tree structure: one parent → many children</li>
-                <li>Query pattern: <code>JOIN Batch child ON child.parent_batch_key = parent.batch_key</code></li>
-            </ul>
-
-            <div class="code-block">
-                -- Find all child batches of B-2024-001
-                SELECT 
-                    parent.batch_id as parent_batch,
-                    child.batch_id as child_batch,
-                    child.batch_size,
-                    child.genealogy_type
-                FROM Batch parent
-                LEFT JOIN Batch child ON parent.batch_key = child.parent_batch_key
-                WHERE parent.batch_id = 'B-2024-001';
-                
-                Result:
-                parent_batch  | child_batch     | batch_size | genealogy_type
-                B-2024-001    | B-2024-001-A    | 400L       | Split
-                B-2024-001    | B-2024-001-B    | 400L       | Split
-                B-2024-001    | B-2024-001-C    | 200L       | Split
-            </div>
-        </div>
-
-        <div class="self-join-example">
-            <h4>📊 Example 2: Material Lineage Self-Join (Vector → Cell Line → MCB → WCB)</h4>
-            <p><strong>Business Scenario:</strong> Trace a working cell bank back to its expression vector.</p>
-            
-            <div class="code-block">
-                Expression Vector: pVECTOR-mAb-001 [hierarchy_level = 0, parent_material_key = NULL]
-                    ↓
-                Cell Line: CHO-K1-mAb-001 [hierarchy_level = 1, parent_material_key → pVECTOR-mAb-001]
-                    ↓
-                MCB: MCB-2024-001 [hierarchy_level = 2, parent_material_key → CHO-K1-mAb-001]
-                    ↓
-                WCB: WCB-2024-Q1-A [hierarchy_level = 3, parent_material_key → MCB-2024-001]
-            </div>
-            
-            <p><strong>Self-Join Explanation:</strong></p>
-            <ul>
-                <li>Each material has a <code>parent_material_key</code> that references another row in Material</li>
-                <li>Expression Vector is root (<code>parent_material_key = NULL</code>)</li>
-                <li>Cell Line points to Vector, MCB points to Cell Line, WCB points to MCB</li>
-                <li>Creates a genealogy chain showing material derivation</li>
-            </ul>
-
-            <div class="code-block">
-                -- Trace WCB back to Expression Vector
-                SELECT 
-                    vector.material_id as vector,
-                    cell_line.material_id as cell_line,
-                    mcb.material_id as mcb,
-                    wcb.material_id as wcb
-                FROM Material wcb
-                LEFT JOIN Material mcb ON wcb.parent_material_key = mcb.material_key
-                LEFT JOIN Material cell_line ON mcb.parent_material_key = cell_line.material_key
-                LEFT JOIN Material vector ON cell_line.parent_material_key = vector.material_key
-                WHERE wcb.material_id = 'WCB-2024-Q1-A';
-                
-                Result:
-                vector              | cell_line        | mcb           | wcb
-                pVECTOR-mAb-001     | CHO-K1-mAb-001  | MCB-2024-001  | WCB-2024-Q1-A
-            </div>
-        </div>
-
-        <div class="self-join-example">
-            <h4>📊 Example 3: Process Hierarchy Self-Join (Cell Culture Breakdown)</h4>
-            <p><strong>Business Scenario:</strong> A high-level "Cell Culture" process has multiple sub-steps.</p>
-            
-            <div class="code-block">
-                Cell Culture [level = 1, parent_step_key = NULL]
-                    ├─→ Seed Train [level = 2, parent_step_key → Cell Culture]
-                    │   ├─→ Vial Thaw [level = 3, parent_step_key → Seed Train]
-                    │   ├─→ T-Flask [level = 3, parent_step_key → Seed Train]
-                    │   └─→ Shake Flask [level = 3, parent_step_key → Seed Train]
-                    └─→ Production Bioreactor [level = 2, parent_step_key → Cell Culture]
-            </div>
-            
-            <p><strong>Self-Join Explanation:</strong></p>
-            <ul>
-                <li>Top-level process "Cell Culture" is root (<code>parent_step_key = NULL</code>)</li>
-                <li>"Seed Train" and "Production Bioreactor" are children of "Cell Culture"</li>
-                <li>"Vial Thaw", "T-Flask", "Shake Flask" are children of "Seed Train"</li>
-                <li>Enables drill-down from summary to detail, or roll-up from detail to summary</li>
-            </ul>
         </div>
 
         <!-- CONCEPTUAL STAR SCHEMA VERSION 2: Manufacturing Process -->
@@ -2164,7 +2060,341 @@ erDiagram
         </div>
 
         <!-- ENTITY CATALOG -->
-        
+
+        <h2 id="entity-catalog">📋 Complete Entity Catalog</h2>
+
+        <div class="description">
+            Comprehensive catalog of all entities with classifications, grain definitions, and usage notes.
+        </div>
+
+        <table class="entity-table">
+            <thead>
+                <tr>
+                    <th>Entity Name</th>
+                    <th>Type</th>
+                    <th>Grain</th>
+                    <th>Self-Join</th>
+                    <th>Key Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- FACTS -->
+                <tr style="background: #e3f2fd;">
+                    <td><strong>Manufacturing Process Results</strong></td>
+                    <td><span class="badge badge-fact">FACT</span></td>
+                    <td>One row per process execution event</td>
+                    <td>❌ No</td>
+                    <td>Captures manufacturing activities, yields, parameters</td>
+                </tr>
+                <tr style="background: #f3e5f5;">
+                    <td><strong>Analytical Results</strong></td>
+                    <td><span class="badge badge-fact">FACT</span></td>
+                    <td>One row per test result</td>
+                    <td>❌ No</td>
+                    <td>Captures quality control test results and status</td>
+                </tr>
+                <tr style="background: #ffebee;">
+                    <td><strong>Batch Material Usage</strong></td>
+                    <td><span class="badge badge-fact">FACT</span> <span class="badge badge-genealogy">GENEALOGY</span></td>
+                    <td>One row per batch-material usage event</td>
+                    <td>❌ No</td>
+                    <td>Tracks material consumption and production by batch</td>
+                </tr>
+
+                <!-- CONFORMED -->
+                <tr>
+                    <td><strong>Material</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span></td>
+                    <td>One row per material version</td>
+                    <td>✅ Yes (lineage)</td>
+                    <td>Expression vectors, cell lines, MCB/WCB, therapeutic proteins (as material_type), raw materials. Self-join: Vector→Cell Line→MCB→WCB</td>
+                </tr>
+                <tr>
+                    <td><strong>Batch</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span> <span class="badge badge-genealogy">GENEALOGY</span></td>
+                    <td>One row per batch version</td>
+                    <td>✅ Yes (genealogy)</td>
+                    <td>Production batches with GBT genealogy. Self-join: Parent→Child batches (splits, merges, rework)</td>
+                </tr>
+                <tr>
+                    <td><strong>Sample</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span></td>
+                    <td>One row per sample version</td>
+                    <td>❌ No</td>
+                    <td>Test specimens and retention samples</td>
+                </tr>
+                <tr>
+                    <td><strong>Manufacturer</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span></td>
+                    <td>One row per manufacturer version</td>
+                    <td>❌ No</td>
+                    <td>Manufacturing sites, CMOs, testing laboratories</td>
+                </tr>
+                <tr>
+                    <td><strong>Specification</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span></td>
+                    <td>One row per specification version</td>
+                    <td>❌ No</td>
+                    <td>Process and analytical acceptance criteria</td>
+                </tr>
+                <tr>
+                    <td><strong>Notification</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span></td>
+                    <td>One row per event</td>
+                    <td>❌ No</td>
+                    <td>Deviations, CAPA, quality events across domains</td>
+                </tr>
+                <tr>
+                    <td><strong>Document</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span></td>
+                    <td>One row per document</td>
+                    <td>❌ No</td>
+                    <td>Batch records, protocols, COAs, SOPs, images</td>
+                </tr>
+                <tr>
+                    <td><strong>Source System</strong></td>
+                    <td><span class="badge badge-conformed">CONFORMED</span></td>
+                    <td>One row per system</td>
+                    <td>❌ No</td>
+                    <td>Data lineage (LIMS, MES, ELN, ERP)</td>
+                </tr>
+
+                <!-- PROCESS ONLY -->
+                <tr style="background: #e8f5e9;">
+                    <td><strong>Local Process Hierarchy</strong></td>
+                    <td><span class="badge badge-process">PROCESS</span></td>
+                    <td>One row per local process step version</td>
+                    <td>✅ Yes (hierarchy)</td>
+                    <td>Site-specific process decomposition. Self-join: Phase→Step→Sub-step</td>
+                </tr>
+                <tr style="background: #e8f5e9;">
+                    <td><strong>Common Process Hierarchy</strong></td>
+                    <td><span class="badge badge-process">PROCESS</span></td>
+                    <td>One row per standard process version</td>
+                    <td>✅ Yes (taxonomy)</td>
+                    <td>Industry standard process taxonomy. Self-join: Category→Phase→Step</td>
+                </tr>
+
+                <!-- ANALYTICAL ONLY -->
+                <tr style="background: #f3e5f5;">
+                    <td><strong>Test</strong></td>
+                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
+                    <td>One row per test version</td>
+                    <td>❌ No</td>
+                    <td>Test catalog (Identity, Purity, Potency, Safety)</td>
+                </tr>
+                <tr style="background: #f3e5f5;">
+                    <td><strong>Test Location</strong></td>
+                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
+                    <td>One row per laboratory version</td>
+                    <td>❌ No</td>
+                    <td>Testing laboratories and facilities</td>
+                </tr>
+                <tr style="background: #f3e5f5;">
+                    <td><strong>Analytical Method</strong></td>
+                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
+                    <td>One row per method version</td>
+                    <td>❌ No</td>
+                    <td>Validated analytical methods (HPLC, ELISA, PCR, etc)</td>
+                </tr>
+                <tr style="background: #f3e5f5;">
+                    <td><strong>Condition</strong></td>
+                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
+                    <td>One row per condition version</td>
+                    <td>❌ No</td>
+                    <td>Storage conditions for stability testing</td>
+                </tr>
+                <tr style="background: #f3e5f5;">
+                    <td><strong>Timepoint</strong></td>
+                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
+                    <td>One row per timepoint version</td>
+                    <td>❌ No</td>
+                    <td>Stability study timepoints (T0, 3mo, 6mo, etc)</td>
+                </tr>
+                <tr style="background: #f3e5f5;">
+                    <td><strong>Study</strong></td>
+                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
+                    <td>One row per study version</td>
+                    <td>❌ No</td>
+                    <td>Clinical and stability study protocols</td>
+                </tr>
+
+                <!-- GENEALOGY -->
+                <tr style="background: #ffebee;">
+                    <td><strong>Material Lot</strong></td>
+                    <td><span class="badge badge-genealogy">GENEALOGY</span></td>
+                    <td>One row per material lot version</td>
+                    <td>❌ No</td>
+                    <td>Individual material lots with quantities and expiry</td>
+                </tr>
+                <tr style="background: #ffebee;">
+                    <td><strong>Transformation</strong></td>
+                    <td><span class="badge badge-genealogy">GENEALOGY</span></td>
+                    <td>One row per transformation version</td>
+                    <td>❌ No</td>
+                    <td>Process operations that transform materials</td>
+                </tr>
+                <tr style="background: #ffebee;">
+                    <td><strong>Production Order</strong></td>
+                    <td><span class="badge badge-genealogy">GENEALOGY</span></td>
+                    <td>One row per order version</td>
+                    <td>❌ No</td>
+                    <td>Work orders linking batches to campaigns</td>
+                </tr>
+
+                <!-- BRIDGES -->
+                <tr style="background: #e0f7fa;">
+                    <td><strong>Batch Genealogy</strong></td>
+                    <td><span class="badge badge-bridge">BRIDGE</span></td>
+                    <td>One row per parent-child batch pairing</td>
+                    <td>❌ No</td>
+                    <td>Many-to-many batch relationships (merges, pooling)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box">
+            <h3>🎯 Model Summary</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4 style="color: #1976d2;">Facts (3)</h4>
+                    <ul>
+                        <li>Manufacturing Process Result</li>
+                        <li>Analytical Test Result</li>
+                        <li>Batch Material Usage</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #f57c00;">Conformed (8)</h4>
+                    <ul>
+                        <li>Material (with protein types)</li>
+                        <li>Batch (with genealogy)</li>
+                        <li>Sample</li>
+                        <li>Manufacturer</li>
+                        <li>Specification</li>
+                        <li>Notification</li>
+                        <li>Document</li>
+                        <li>Source System</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #388e3c;">Self-Joins (4)</h4>
+                    <ul>
+                        <li>Material Lineage</li>
+                        <li>Batch Genealogy</li>
+                        <li>Local Process Hierarchy</li>
+                        <li>Common Process Taxonomy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHANGES SUMMARY -->
+
+        <!-- SELF-JOIN EXAMPLES -->
+        <h2 id="self-joins">🔄 Self-Join Examples Explained</h2>
+
+        <div class="self-join-example">
+            <h4>📊 Example 1: Batch Genealogy Self-Join (Splits)</h4>
+            <p><strong>Business Scenario:</strong> A 1000L batch is split into three smaller batches for different filling operations.</p>
+
+            <div class="code-block">
+                Parent Batch: B-2024-001 (1000L) [generation_level = 0]
+                    ├─→ Child: B-2024-001-A (400L) [generation_level = 1, parent_batch_key → B-2024-001]
+                    ├─→ Child: B-2024-001-B (400L) [generation_level = 1, parent_batch_key → B-2024-001]
+                    └─→ Child: B-2024-001-C (200L) [generation_level = 1, parent_batch_key → B-2024-001]
+            </div>
+
+            <p><strong>Self-Join Explanation:</strong></p>
+            <ul>
+                <li>Parent batch B-2024-001 has <code>parent_batch_key = NULL</code> (it's the root)</li>
+                <li>Each child batch has <code>parent_batch_key</code> pointing to B-2024-001's <code>batch_key</code></li>
+                <li>This creates a tree structure: one parent → many children</li>
+                <li>Query pattern: <code>JOIN Batch child ON child.parent_batch_key = parent.batch_key</code></li>
+            </ul>
+
+            <div class="code-block">
+                -- Find all child batches of B-2024-001
+                SELECT
+                    parent.batch_id as parent_batch,
+                    child.batch_id as child_batch,
+                    child.batch_size,
+                    child.genealogy_type
+                FROM Batch parent
+                LEFT JOIN Batch child ON parent.batch_key = child.parent_batch_key
+                WHERE parent.batch_id = 'B-2024-001';
+
+                Result:
+                parent_batch  | child_batch     | batch_size | genealogy_type
+                B-2024-001    | B-2024-001-A    | 400L       | Split
+                B-2024-001    | B-2024-001-B    | 400L       | Split
+                B-2024-001    | B-2024-001-C    | 200L       | Split
+            </div>
+        </div>
+
+        <div class="self-join-example">
+            <h4>📊 Example 2: Material Lineage Self-Join (Vector → Cell Line → MCB → WCB)</h4>
+            <p><strong>Business Scenario:</strong> Trace a working cell bank back to its expression vector.</p>
+
+            <div class="code-block">
+                Expression Vector: pVECTOR-mAb-001 [hierarchy_level = 0, parent_material_key = NULL]
+                    ↓
+                Cell Line: CHO-K1-mAb-001 [hierarchy_level = 1, parent_material_key → pVECTOR-mAb-001]
+                    ↓
+                MCB: MCB-2024-001 [hierarchy_level = 2, parent_material_key → CHO-K1-mAb-001]
+                    ↓
+                WCB: WCB-2024-Q1-A [hierarchy_level = 3, parent_material_key → MCB-2024-001]
+            </div>
+
+            <p><strong>Self-Join Explanation:</strong></p>
+            <ul>
+                <li>Each material has a <code>parent_material_key</code> that references another row in Material</li>
+                <li>Expression Vector is root (<code>parent_material_key = NULL</code>)</li>
+                <li>Cell Line points to Vector, MCB points to Cell Line, WCB points to MCB</li>
+                <li>Creates a genealogy chain showing material derivation</li>
+            </ul>
+
+            <div class="code-block">
+                -- Trace WCB back to Expression Vector
+                SELECT
+                    vector.material_id as vector,
+                    cell_line.material_id as cell_line,
+                    mcb.material_id as mcb,
+                    wcb.material_id as wcb
+                FROM Material wcb
+                LEFT JOIN Material mcb ON wcb.parent_material_key = mcb.material_key
+                LEFT JOIN Material cell_line ON mcb.parent_material_key = cell_line.material_key
+                LEFT JOIN Material vector ON cell_line.parent_material_key = vector.material_key
+                WHERE wcb.material_id = 'WCB-2024-Q1-A';
+
+                Result:
+                vector              | cell_line        | mcb           | wcb
+                pVECTOR-mAb-001     | CHO-K1-mAb-001  | MCB-2024-001  | WCB-2024-Q1-A
+            </div>
+        </div>
+
+        <div class="self-join-example">
+            <h4>📊 Example 3: Process Hierarchy Self-Join (Cell Culture Breakdown)</h4>
+            <p><strong>Business Scenario:</strong> A high-level "Cell Culture" process has multiple sub-steps.</p>
+
+            <div class="code-block">
+                Cell Culture [level = 1, parent_step_key = NULL]
+                    ├─→ Seed Train [level = 2, parent_step_key → Cell Culture]
+                    │   ├─→ Vial Thaw [level = 3, parent_step_key → Seed Train]
+                    │   ├─→ T-Flask [level = 3, parent_step_key → Seed Train]
+                    │   └─→ Shake Flask [level = 3, parent_step_key → Seed Train]
+                    └─→ Production Bioreactor [level = 2, parent_step_key → Cell Culture]
+            </div>
+
+            <p><strong>Self-Join Explanation:</strong></p>
+            <ul>
+                <li>Top-level process "Cell Culture" is root (<code>parent_step_key = NULL</code>)</li>
+                <li>"Seed Train" and "Production Bioreactor" are children of "Cell Culture"</li>
+                <li>"Vial Thaw", "T-Flask", "Shake Flask" are children of "Seed Train"</li>
+                <li>Enables drill-down from summary to detail, or roll-up from detail to summary</li>
+            </ul>
+        </div>
+
         <h2 id="conceptual-complete">🎨 Conceptual Model - High-Level Entity Relationships</h2>
         <div class="conceptual-note">
             <strong>📌 Business-Friendly Conceptual View</strong><br/>
@@ -2295,237 +2525,6 @@ graph TB
             <strong>🌐 Conformed:</strong> Manufacturers, documents, notifications, and source systems shared across both domains<br/>
             <strong>📅 Time:</strong> Common time dimension enables temporal analysis across all business processes
         </div>
-
-        <h2 id="entity-catalog">📋 Complete Entity Catalog</h2>
-        
-        <div class="description">
-            Comprehensive catalog of all entities with classifications, grain definitions, and usage notes.
-        </div>
-
-        <table class="entity-table">
-            <thead>
-                <tr>
-                    <th>Entity Name</th>
-                    <th>Type</th>
-                    <th>Grain</th>
-                    <th>Self-Join</th>
-                    <th>Key Purpose</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- FACTS -->
-                <tr style="background: #e3f2fd;">
-                    <td><strong>Manufacturing Process Results</strong></td>
-                    <td><span class="badge badge-fact">FACT</span></td>
-                    <td>One row per process execution event</td>
-                    <td>❌ No</td>
-                    <td>Captures manufacturing activities, yields, parameters</td>
-                </tr>
-                <tr style="background: #f3e5f5;">
-                    <td><strong>Analytical Results</strong></td>
-                    <td><span class="badge badge-fact">FACT</span></td>
-                    <td>One row per test result</td>
-                    <td>❌ No</td>
-                    <td>Captures quality control test results and status</td>
-                </tr>
-                <tr style="background: #ffebee;">
-                    <td><strong>Batch Material Usage</strong></td>
-                    <td><span class="badge badge-fact">FACT</span> <span class="badge badge-genealogy">GENEALOGY</span></td>
-                    <td>One row per batch-material usage event</td>
-                    <td>❌ No</td>
-                    <td>Tracks material consumption and production by batch</td>
-                </tr>
-                
-                <!-- CONFORMED -->
-                <tr>
-                    <td><strong>Material</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span></td>
-                    <td>One row per material version</td>
-                    <td>✅ Yes (lineage)</td>
-                    <td>Expression vectors, cell lines, MCB/WCB, therapeutic proteins (as material_type), raw materials. Self-join: Vector→Cell Line→MCB→WCB</td>
-                </tr>
-                <tr>
-                    <td><strong>Batch</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span> <span class="badge badge-genealogy">GENEALOGY</span></td>
-                    <td>One row per batch version</td>
-                    <td>✅ Yes (genealogy)</td>
-                    <td>Production batches with GBT genealogy. Self-join: Parent→Child batches (splits, merges, rework)</td>
-                </tr>
-                <tr>
-                    <td><strong>Sample</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span></td>
-                    <td>One row per sample version</td>
-                    <td>❌ No</td>
-                    <td>Test specimens and retention samples</td>
-                </tr>
-                <tr>
-                    <td><strong>Manufacturer</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span></td>
-                    <td>One row per manufacturer version</td>
-                    <td>❌ No</td>
-                    <td>Manufacturing sites, CMOs, testing laboratories</td>
-                </tr>
-                <tr>
-                    <td><strong>Specification</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span></td>
-                    <td>One row per specification version</td>
-                    <td>❌ No</td>
-                    <td>Process and analytical acceptance criteria</td>
-                </tr>
-                <tr>
-                    <td><strong>Notification</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span></td>
-                    <td>One row per event</td>
-                    <td>❌ No</td>
-                    <td>Deviations, CAPA, quality events across domains</td>
-                </tr>
-                <tr>
-                    <td><strong>Document</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span></td>
-                    <td>One row per document</td>
-                    <td>❌ No</td>
-                    <td>Batch records, protocols, COAs, SOPs, images</td>
-                </tr>
-                <tr>
-                    <td><strong>Source System</strong></td>
-                    <td><span class="badge badge-conformed">CONFORMED</span></td>
-                    <td>One row per system</td>
-                    <td>❌ No</td>
-                    <td>Data lineage (LIMS, MES, ELN, ERP)</td>
-                </tr>
-                
-                <!-- PROCESS ONLY -->
-                <tr style="background: #e8f5e9;">
-                    <td><strong>Local Process Hierarchy</strong></td>
-                    <td><span class="badge badge-process">PROCESS</span></td>
-                    <td>One row per local process step version</td>
-                    <td>✅ Yes (hierarchy)</td>
-                    <td>Site-specific process decomposition. Self-join: Phase→Step→Sub-step</td>
-                </tr>
-                <tr style="background: #e8f5e9;">
-                    <td><strong>Common Process Hierarchy</strong></td>
-                    <td><span class="badge badge-process">PROCESS</span></td>
-                    <td>One row per standard process version</td>
-                    <td>✅ Yes (taxonomy)</td>
-                    <td>Industry standard process taxonomy. Self-join: Category→Phase→Step</td>
-                </tr>
-                
-                <!-- ANALYTICAL ONLY -->
-                <tr style="background: #f3e5f5;">
-                    <td><strong>Test</strong></td>
-                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
-                    <td>One row per test version</td>
-                    <td>❌ No</td>
-                    <td>Test catalog (Identity, Purity, Potency, Safety)</td>
-                </tr>
-                <tr style="background: #f3e5f5;">
-                    <td><strong>Test Location</strong></td>
-                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
-                    <td>One row per laboratory version</td>
-                    <td>❌ No</td>
-                    <td>Testing laboratories and facilities</td>
-                </tr>
-                <tr style="background: #f3e5f5;">
-                    <td><strong>Analytical Method</strong></td>
-                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
-                    <td>One row per method version</td>
-                    <td>❌ No</td>
-                    <td>Validated analytical methods (HPLC, ELISA, PCR, etc)</td>
-                </tr>
-                <tr style="background: #f3e5f5;">
-                    <td><strong>Condition</strong></td>
-                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
-                    <td>One row per condition version</td>
-                    <td>❌ No</td>
-                    <td>Storage conditions for stability testing</td>
-                </tr>
-                <tr style="background: #f3e5f5;">
-                    <td><strong>Timepoint</strong></td>
-                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
-                    <td>One row per timepoint version</td>
-                    <td>❌ No</td>
-                    <td>Stability study timepoints (T0, 3mo, 6mo, etc)</td>
-                </tr>
-                <tr style="background: #f3e5f5;">
-                    <td><strong>Study</strong></td>
-                    <td><span class="badge badge-analytical">ANALYTICAL</span></td>
-                    <td>One row per study version</td>
-                    <td>❌ No</td>
-                    <td>Clinical and stability study protocols</td>
-                </tr>
-                
-                <!-- GENEALOGY -->
-                <tr style="background: #ffebee;">
-                    <td><strong>Material Lot</strong></td>
-                    <td><span class="badge badge-genealogy">GENEALOGY</span></td>
-                    <td>One row per material lot version</td>
-                    <td>❌ No</td>
-                    <td>Individual material lots with quantities and expiry</td>
-                </tr>
-                <tr style="background: #ffebee;">
-                    <td><strong>Transformation</strong></td>
-                    <td><span class="badge badge-genealogy">GENEALOGY</span></td>
-                    <td>One row per transformation version</td>
-                    <td>❌ No</td>
-                    <td>Process operations that transform materials</td>
-                </tr>
-                <tr style="background: #ffebee;">
-                    <td><strong>Production Order</strong></td>
-                    <td><span class="badge badge-genealogy">GENEALOGY</span></td>
-                    <td>One row per order version</td>
-                    <td>❌ No</td>
-                    <td>Work orders linking batches to campaigns</td>
-                </tr>
-                
-                <!-- BRIDGES -->
-                <tr style="background: #e0f7fa;">
-                    <td><strong>Batch Genealogy</strong></td>
-                    <td><span class="badge badge-bridge">BRIDGE</span></td>
-                    <td>One row per parent-child batch pairing</td>
-                    <td>❌ No</td>
-                    <td>Many-to-many batch relationships (merges, pooling)</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="highlight-box">
-            <h3>🎯 Model Summary</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
-                <div>
-                    <h4 style="color: #1976d2;">Facts (3)</h4>
-                    <ul>
-                        <li>Manufacturing Process Result</li>
-                        <li>Analytical Test Result</li>
-                        <li>Batch Material Usage</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color: #f57c00;">Conformed (8)</h4>
-                    <ul>
-                        <li>Material (with protein types)</li>
-                        <li>Batch (with genealogy)</li>
-                        <li>Sample</li>
-                        <li>Manufacturer</li>
-                        <li>Specification</li>
-                        <li>Notification</li>
-                        <li>Document</li>
-                        <li>Source System</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color: #388e3c;">Self-Joins (4)</h4>
-                    <ul>
-                        <li>Material Lineage</li>
-                        <li>Batch Genealogy</li>
-                        <li>Local Process Hierarchy</li>
-                        <li>Common Process Taxonomy</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- CHANGES SUMMARY -->
-        
         <!-- FEATURES AND CAPABILITIES -->
         <h2 id="features">✨ Model Features & Capabilities</h2>
         
