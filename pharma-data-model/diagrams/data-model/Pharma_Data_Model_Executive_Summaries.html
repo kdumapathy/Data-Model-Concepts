@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmaceutical Data Model - Executive Summaries</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #ecf0f1;
+            font-weight: 300;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 0.95em;
+            border: 2px solid transparent;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            color: white;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            padding: 20px 25px;
+            border-radius: 10px;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .overview-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #ff6b6b;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        .relationship-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left: 5px solid #f093fb;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .intro-section {
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            border-left: 6px solid #00695c;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .summary-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .summary-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .summary-card p {
+            font-size: 0.95em;
+            color: #555;
+            margin: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .badge-conceptual {
+            background: #667eea;
+            color: white;
+        }
+
+        .badge-logical {
+            background: #f093fb;
+            color: white;
+        }
+
+        .badge-business {
+            background: #ffa726;
+            color: white;
+        }
+
+        .badge-technical {
+            background: #26c6da;
+            color: white;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+                padding: 15px 20px;
+            }
+
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            border-bottom: none;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .toc li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .toc li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .toc a {
+            color: #2c3e50;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #667eea;
+        }
+
+        strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .home-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .home-button.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .home-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .home-button:active {
+            transform: translateY(-2px);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧬 Pharmaceutical Data Model</h1>
+            <div class="subtitle">Executive Summaries | Complete Lifecycle Data Architecture</div>
+            <div class="subtitle" style="margin-top: 10px; font-size: 1em;">Discovery → Pre-Clinical → Clinical Trials → Commercial Manufacturing</div>
+        </header>
+
+        <nav>
+            <a href="#intro">📋 Introduction</a>
+            <a href="#conceptual-process">🎨 Process</a>
+            <a href="#conceptual-analytical">🔬 Analytical</a>
+            <a href="#conceptual-integrated">🔗 Integrated</a>
+            <a href="#batch-genealogy">🧬 Genealogy</a>
+            <a href="#process-star">⭐ Process Star</a>
+            <a href="#analytical-star">⭐ Analytical Star</a>
+            <a href="#concept-process-star">📊 Concept Process</a>
+            <a href="#concept-analytical-star">📊 Concept Analytical</a>
+            <a href="#concept-genealogy-star">📊 Concept Genealogy</a>
+        </nav>
+
+        <div class="content">
+            <!-- Introduction -->
+            <div id="intro" class="intro-section">
+                <h3>Document Overview</h3>
+                <p>This document provides comprehensive executive summaries for all major diagrams in the pharmaceutical data model architecture. Each summary is structured to serve both business stakeholders and technical teams, explaining what each model represents and how its relationship design supports pharmaceutical manufacturing from discovery through commercial production.</p>
+                
+                <p>The summaries are organized into two main categories. Conceptual models provide business-friendly views suitable for stakeholder presentations and demonstrate how manufacturing, testing, and genealogy interconnect. Logical models provide technical implementation details with complete dimensional architectures and specify traceability requirements.</p>
+
+                <div class="summary-grid" style="margin-top: 25px;">
+                    <div class="summary-card">
+                        <h4><span class="badge badge-conceptual">Conceptual Models</span></h4>
+                        <p>Business-friendly views designed for stakeholder communication, regulatory presentations, and enterprise architecture discussions.</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4><span class="badge badge-logical">Logical Models</span></h4>
+                        <p>Technical implementation specifications with complete entity-relationship details, attribute definitions, and data integrity rules.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 1: Conceptual Process -->
+            <div id="conceptual-process" class="section">
+                <h2>1. Conceptual Process Data Model</h2>
+                <span class="badge badge-conceptual">Conceptual</span>
+                <span class="badge badge-business">Business View</span>
+
+                <h3>Business Overview of the Process Data Model</h3>
+                <div class="overview-box">
+                    <p>This process data model represents how we execute and monitor pharmaceutical manufacturing operations from cell banking through final formulation. At the center, Manufacturing Steps capture every production event that occurs during biologic manufacturing. Each step must connect to both a Local Process that identifies the specific site procedure being performed and a Common Process that categorizes it according to industry-standard terminology such as cell banking, cell culture, harvest, purification, or formulation. This dual classification ensures we can both operate our facilities effectively and compare performance across sites and industry benchmarks.</p>
+
+                    <p>The model captures essential manufacturing context that drives quality and compliance. Manufacturing Steps link to Batches being produced, Process Parameters measuring critical quality attributes like temperature and pH, Equipment usage tracking assets and instruments, Materials consumed during production including working cell banks and raw materials, and Batch identifiers for traceability. This architecture enables us to monitor manufacturing performance in real-time, investigate deviations, optimize process parameters, and maintain complete batch records for regulatory submissions.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design reflects both regulatory mandates and operational flexibility. Local Process and Common Process connections are required because no manufacturing event can be properly understood or analyzed without knowing both what specific procedure was performed and how it fits into the broader manufacturing taxonomy. These hierarchies enable process analytics ranging from individual bioreactor runs to enterprise-wide yield comparisons.</p>
+
+                    <p>The connections from Manufacturing Steps to other entities accommodate different manufacturing scenarios. Batch linkage is essential for production runs but may not apply to equipment qualification or cleaning validation. Process Parameters matter for critical process steps but not for material transfers or sampling. Equipment tracking is crucial for regulatory compliance and maintenance scheduling. Material consumption links are vital for batch genealogy and inventory management but vary by process phase. This design supports the complete spectrum of biopharmaceutical operations while maintaining the rigorous documentation that regulatory agencies require for product approval and ongoing compliance.</p>
+                </div>
+            </div>
+
+            <!-- Section 2: Conceptual Analytical -->
+            <div id="conceptual-analytical" class="section">
+                <h2>2. Conceptual Analytical Data Model</h2>
+                <span class="badge badge-conceptual">Conceptual</span>
+                <span class="badge badge-business">Business View</span>
+
+                <h3>Business Overview of the Analytical Data Model</h3>
+                <div class="overview-box">
+                    <p>This analytical data model represents how we manage quality testing throughout pharmaceutical manufacturing. At the center, Measurements capture every analytical test result we generate. Each measurement must be linked to a Test Category that defines what quality attribute we are evaluating, such as identity, purity, potency, or safety, and an Analytical Method that specifies the testing technique used, whether HPLC, ELISA, PCR, or Western Blot. This ensures every result has clear scientific meaning and regulatory traceability.</p>
+
+                    <p>The model also captures business context essential for quality management and compliance. Measurements connect to Quality Specifications for acceptance criteria, Studies that organize testing into stability or characterization programs, Testing Laboratories, Batch identifiers, physical Samples, Quality Events like deviations or investigations, and Documentation including certificates of analysis and analytical reports. This architecture supports routine release testing, stability programs, and regulatory submissions with complete data integrity.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design distinguishes between mandatory requirements and contextual enrichment. Test Categories and Analytical Methods are required because no analytical result has meaning without knowing what was tested and how. These enforce data quality and regulatory compliance at the system level.</p>
+
+                    <p>The connections from Measurements to other entities are optional because they apply differently across business scenarios. Release testing requires batch linkage and specification evaluation, while characterization studies focus on method validation. Stability programs demand storage conditions and timepoint tracking, whereas routine quality control may not. Quality events link only to measurements triggering investigations, and laboratory attribution matters most for contract testing. This design accommodates the full spectrum of pharmaceutical analytical workflows while maintaining rigorous traceability where regulations demand it.</p>
+                </div>
+            </div>
+
+            <!-- Section 3: Conceptual Integrated -->
+            <div id="conceptual-integrated" class="section">
+                <h2>3. Conceptual Integrated Architecture</h2>
+                <span class="badge badge-conceptual">Conceptual</span>
+                <span class="badge badge-business">Enterprise View</span>
+
+                <h3>Business Overview of the Integrated Architecture</h3>
+                <div class="overview-box">
+                    <p>This integrated architecture demonstrates how pharmaceutical manufacturing, batch genealogy, and quality testing interconnect to form a complete pharmaceutical quality system. The model spans five major business domains. Material Traceability tracks the complete lineage from expression vectors and cell lines through master and working cell banks to therapeutic proteins and raw materials. Process Execution captures manufacturing steps with their process parameters and equipment usage. Batch Genealogy and Usage manages lot numbers, batch splits and pooling, transformations, and complete input-output traceability. Quality Testing encompasses sample collection, test execution, results evaluation, and root cause investigations. Governance and Compliance ties everything together through specifications, documentation, quality events, and source system integration.</p>
+
+                    <p>This enterprise-level view shows how materials flow through manufacturing processes to create batches, which are then sampled and tested against specifications. Quality results may trigger investigations that generate quality events, all documented in batch records and certificates of analysis. The architecture ensures that every therapeutic protein can be traced back through its cell banking lineage, every batch can be connected to its manufacturing history, and every test result links to the specifications and methods that validate product quality. This end-to-end integration is essential for regulatory submissions, product recalls, and continuous quality improvement.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design reflects the sequential nature of pharmaceutical manufacturing while enabling comprehensive traceability. Material relationships are directional and hierarchical, flowing from expression vectors through cell lines to cell banks and ultimately to proteins and raw materials. This lineage is mandatory for biologic products where the manufacturing process itself is part of the product definition.</p>
+
+                    <p>Process and genealogy relationships support both forward and backward traceability. Manufacturing steps produce batches, which can split into multiple lots or merge through pooling operations. Transformations document the process changes that occur at each manufacturing stage. These relationships must handle complex scenarios like rework loops, partial batch processing, and material substitutions while maintaining complete regulatory traceability.</p>
+
+                    <p>Quality and governance relationships provide context rather than enforce rigid workflows. Specifications guide both manufacturing execution and analytical testing but apply selectively based on process phase and testing scenario. Quality events connect only when investigations occur. Documentation and source systems provide audit trails without constraining operational flexibility. This design gives quality and operations teams the tools they need for compliance and investigation while supporting the varied workflows of discovery, clinical development, and commercial manufacturing.</p>
+                </div>
+            </div>
+
+            <!-- Section 4: Batch Genealogy -->
+            <div id="batch-genealogy" class="section">
+                <h2>4. GBT Batch Genealogy Architecture</h2>
+                <span class="badge badge-logical">Logical Model</span>
+                <span class="badge badge-technical">Technical Implementation</span>
+
+                <h3>Business Overview of the Batch Genealogy Model</h3>
+                <div class="overview-box">
+                    <p>This genealogy model implements industry-standard Genealogy Batch Tree (GBT) architecture for complete forward and backward batch traceability. At the center, Batch entities track individual production lots with parent-child relationships that document splits, merges, and rework operations. Each batch connects to Material Lots that record the specific raw materials, buffers, and cell banks consumed during production, and to Production Orders that link batches to manufacturing campaigns and work schedules.</p>
+
+                    <p>The model captures three critical types of traceability information. Batch Genealogy provides many-to-many relationships for complex pooling scenarios where multiple parent batches combine into one child batch or one parent splits into multiple children. Batch Material Usage documents every material consumption and production event, linking batches to material lots through specific Transformation steps that identify which manufacturing operation consumed or generated each material. This architecture enables rapid product recall investigations, root cause analysis of quality issues, regulatory audit support, and impact assessment when materials or equipment problems occur.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design supports both simple linear genealogy and complex manufacturing scenarios. The Batch self-join through parent_batch_identity handles straightforward splits and single-parent scenarios. For complex pooling where multiple parent batches contribute to one child batch, the Batch Genealogy bridge table captures contribution percentages and sequence information. Both patterns coexist to provide the most efficient storage for common cases while supporting edge cases that require many-to-many relationships.</p>
+
+                    <p>Material traceability operates through a two-tier approach. Material Lots track individual inventory items with quantities and expiration dates. Batch Material Usage links these lots to specific batches through Transformation steps, distinguishing between input materials consumed, output products generated, and yield losses. This granularity enables lot-level recalls, investigation of material quality issues, and accurate inventory accounting. Production Orders provide optional campaign-level grouping when batches are organized into larger production programs, which matters more for commercial manufacturing than for clinical development. This flexibility ensures the model serves small-scale development batches and large-scale commercial production with equal effectiveness.</p>
+                </div>
+            </div>
+
+            <!-- Section 5: Process Star Schema -->
+            <div id="process-star" class="section">
+                <h2>5. Process Star Schema - Logical Model</h2>
+                <span class="badge badge-logical">Logical Model</span>
+                <span class="badge badge-technical">Technical Implementation</span>
+
+                <h3>Business Overview of the Process Star Schema</h3>
+                <div class="overview-box">
+                    <p>This star schema represents the analytical foundation for manufacturing process intelligence and performance management. At the center, Manufacturing Process Results serves as the fact table, recording one row for each manufacturing execution event with measures like yield values, temperature, pH, and cell viability. Each fact row connects to dimensions that provide business context. Local Process Hierarchy and Common Process Hierarchy are process-specific dimensions that classify manufacturing steps using both site-specific procedures and industry-standard terminology. Eight conformed dimensions shared with the analytical star schema provide consistent batch, material, manufacturer, specification, notification, document, sample, and source system information.</p>
+
+                    <p>This architecture enables sophisticated process analytics across multiple business scenarios. Quality engineers analyze yields and process parameters by manufacturing phase to optimize bioreactor performance. Operations teams track equipment utilization and batch cycle times across facilities. Regulatory affairs professionals generate batch records with complete process history for regulatory submissions. Manufacturing science groups compare process performance across cell lines and therapeutic programs. The star schema design ensures query performance remains fast even with years of historical process data, while conformed dimensions guarantee that process and analytical data can be integrated seamlessly for comprehensive quality investigations.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design implements pure star schema architecture where all dimensions connect directly to the fact table without snowflaking. Local Process Hierarchy and Common Process Hierarchy both include self-joins that create parent-child relationships within each dimension, enabling drill-down from high-level process categories like "Upstream Processing" down to specific operations like "Bioreactor 24 Seed Train Expansion." This approach balances query simplicity with analytical depth, keeping dimension tables manageable while supporting hierarchical analysis.</p>
+
+                    <p>The eight conformed dimensions use optional foreign keys because not every manufacturing event requires all dimensional context. Batch linkage is mandatory for production runs but optional for equipment qualification events. Sample tracking matters for in-process testing but not for cleaning validation. Specification evaluation applies to critical process parameters but not to routine equipment operations. Notification and Document connections activate only when deviations occur or batch records are generated. This design accommodates the full range of manufacturing scenarios from development through commercial production while maintaining the referential integrity needed for regulatory compliance and quality investigations.</p>
+                </div>
+            </div>
+
+            <!-- Section 6: Analytical Star Schema -->
+            <div id="analytical-star" class="section">
+                <h2>6. Analytical Star Schema - Logical Model</h2>
+                <span class="badge badge-logical">Logical Model</span>
+                <span class="badge badge-technical">Technical Implementation</span>
+
+                <h3>Business Overview of the Analytical Star Schema</h3>
+                <div class="overview-box">
+                    <p>This star schema provides the analytical foundation for pharmaceutical quality control, stability programs, and method validation. At the center, Analytical Results serves as the fact table, capturing one row per test result with measures including test values, pass-fail status, out-of-specification flags, and percentage differences from target specifications. Each result connects to eight conformed dimensions that integrate with the process star schema, plus six analytical-specific dimensions that characterize testing operations. Test defines what quality attribute is being evaluated, Test Location identifies the laboratory, Analytical Method specifies the technique used, Condition captures storage conditions for stability testing, Timepoint tracks when stability samples are tested, and Study organizes results into stability protocols or characterization programs.</p>
+
+                    <p>This architecture supports comprehensive quality analytics across the pharmaceutical lifecycle. Quality control teams analyze release testing pass rates by product and test method. Stability coordinators track product degradation over time under various storage conditions. Analytical scientists compare method performance across laboratories and instruments. Regulatory affairs professionals aggregate test results for regulatory submissions and annual product reviews. The star schema design delivers fast query performance across millions of test results, while conformed dimensions enable integrated analysis of quality issues that span manufacturing and testing operations.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design maintains pure star schema architecture with all dimensions connecting directly to the fact table. Batch and Material self-joins within their dimension tables support genealogy analysis, enabling queries that trace quality issues back through cell banking lineage or batch splits. This dimensional self-referencing keeps the star schema clean while supporting complex hierarchical queries like "show me all test results for batches derived from Master Cell Bank MCB-2024-001."</p>
+
+                    <p>The six analytical-specific dimensions are required foreign keys because every test result must identify what was tested, how it was tested, and where it was tested. The eight conformed dimensions use optional foreign keys to accommodate different testing scenarios. Batch and Sample linkage is mandatory for release testing but may be absent for reference standard qualification. Specification evaluation is essential for pass-fail decisions but not applicable for characterization studies. Notification connections activate only for out-of-specification results. Study and Timepoint matter for stability programs but not for routine quality control. This design serves the full spectrum of pharmaceutical analytical testing while enforcing data quality rules that ensure regulatory compliance.</p>
+                </div>
+            </div>
+
+            <!-- Section 7: Conceptual Process Star -->
+            <div id="concept-process-star" class="section">
+                <h2>7. Conceptual Process Star Schema</h2>
+                <span class="badge badge-conceptual">Conceptual</span>
+                <span class="badge badge-business">Business View</span>
+
+                <h3>Business Overview of the Conceptual Process Star Schema</h3>
+                <div class="overview-box">
+                    <p>This conceptual model isolates the manufacturing process fact and its dimensional relationships to provide a clean, business-friendly view of process data architecture. At the center, Manufacturing Process Result represents each execution event during pharmaceutical production. Two process-specific dimensions provide hierarchical classification. Local Process Hierarchy captures site-specific procedures like "Building A Bioreactor 7 Inoculation," while Common Process Hierarchy maps these to industry-standard categories like "Cell Culture - Seed Train Expansion - N-Minus-1 Stage." Eight conformed dimensions provide shared business context including Batch, Sample, Material, Manufacturer, Specification, Notification, Document, and Source System.</p>
+
+                    <p>This architecture demonstrates the star schema pattern where one central fact table connects to multiple independent dimension tables, each describing one aspect of the manufacturing event. The separation between local and common process hierarchies enables dual reporting perspectives that serve both operational excellence and enterprise analytics. Operations teams use local process hierarchies to monitor equipment performance and optimize site-specific procedures. Enterprise manufacturing science groups use common process hierarchies to benchmark performance across facilities and identify best practices that can be standardized. The conformed dimensions ensure that process data can be integrated with analytical results and batch genealogy for comprehensive quality investigations.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design implements pure dimensional modeling principles where dimensions remain independent of each other, connected only through the fact table. Both process hierarchies include self-join relationships that enable drill-down analysis from general process categories to specific execution steps. This hierarchical structure exists within each dimension table rather than creating additional tables, keeping the star schema clean and queries simple.</p>
+
+                    <p>The fact table connects to all dimensions through foreign keys, but the requirements vary by manufacturing scenario. Process hierarchy relationships are mandatory because every manufacturing event must be classified. Batch, Material, and Manufacturer dimensions typically have values for production operations. Specification relationships apply to critical process parameters. Sample connections matter for in-process testing. Notification and Document relationships activate when deviations occur or records are generated. This flexibility accommodates diverse manufacturing scenarios from early development through commercial production while maintaining the dimensional integrity that makes star schemas powerful for analytics and business intelligence applications.</p>
+                </div>
+            </div>
+
+            <!-- Section 8: Conceptual Analytical Star -->
+            <div id="concept-analytical-star" class="section">
+                <h2>8. Conceptual Analytical Star Schema</h2>
+                <span class="badge badge-conceptual">Conceptual</span>
+                <span class="badge badge-business">Business View</span>
+
+                <h3>Business Overview of the Conceptual Analytical Star Schema</h3>
+                <div class="overview-box">
+                    <p>This conceptual model isolates the analytical testing fact and its dimensional relationships to provide a clear, business-friendly view of quality data architecture. At the center, Analytical Result represents each test performed during pharmaceutical quality control, stability testing, or product characterization. Eight conformed dimensions provide shared context including Batch, Sample, Material, Manufacturer, Specification, Notification, Document, and Source System. Six analytical-specific dimensions characterize testing operations. Test identifies which quality attribute is evaluated, Test Location specifies the laboratory, Analytical Method defines the testing technique, Condition captures environmental factors for stability testing, Time Point tracks when stability samples are tested, and Study organizes results into formal testing programs.</p>
+
+                    <p>This architecture demonstrates how star schema design enables flexible quality analytics across different testing scenarios. Quality control managers analyze release testing performance by product and method. Stability coordinators monitor product degradation patterns under regulatory storage conditions. Method validation teams compare analytical performance across laboratories and instruments. Regulatory affairs professionals compile test results for submissions and annual reviews. The separation between conformed and analytical-specific dimensions enables this single star schema to serve release testing, stability programs, method validation, and product characterization while maintaining data consistency with manufacturing process information through shared dimensional attributes.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design implements pure star schema architecture where all dimensions connect directly to the fact table without intermediate tables or snowflaking. The six analytical-specific dimensions are required because every test result must document what was tested, which method was used, and where testing occurred. These dimensions enforce data quality at the structural level, ensuring regulatory compliance.</p>
+
+                    <p>The eight conformed dimensions use optional relationships because different testing scenarios require different context. Batch and Sample dimensions typically have values for release testing and stability programs but may be absent when testing reference standards or validating analytical methods. Material tracking matters when characterizing therapeutic proteins but not when qualifying testing equipment. Specification relationships are essential for pass-fail decisions in release testing but not applicable during method development. Notification and Document connections activate only when investigations occur or certificates of analysis are generated. This design accommodates the full range of pharmaceutical analytical testing while maintaining dimensional consistency with the process star schema, enabling integrated analytics that span manufacturing and quality control operations.</p>
+                </div>
+            </div>
+
+            <!-- Section 9: Conceptual Genealogy Star -->
+            <div id="concept-genealogy-star" class="section">
+                <h2>9. Conceptual Genealogy Star Schema</h2>
+                <span class="badge badge-conceptual">Conceptual</span>
+                <span class="badge badge-business">Business View</span>
+
+                <h3>Business Overview of the Genealogy Star Schema</h3>
+                <div class="overview-box">
+                    <p>This conceptual model isolates the batch material usage fact and its dimensional relationships to demonstrate how genealogy tracking integrates within the larger data architecture. At the center, Batch Material Usage records each instance of material consumption or production during manufacturing, creating the foundation for complete forward and backward traceability. Core dimensions include Batch for the consuming lot, Material Lot for the specific inventory item, Material for the master data, Transformation for the manufacturing step, and Production Order for campaign management. Supporting dimensions include Manufacturer, Document, and Source System for audit context.</p>
+
+                    <p>The model also shows Batch Genealogy as a bridge table that handles complex many-to-many batch relationships such as pooling multiple parent batches into one child batch. This genealogy fact works in concert with the process and analytical star schemas to provide comprehensive traceability capabilities. When quality issues arise, this data enables rapid identification of all affected downstream batches for recalls, complete backward tracing to raw materials for root cause investigations, demonstration of lot-level traceability for regulatory audits, and impact assessment when material suppliers or equipment failures affect multiple batches. The star schema design ensures these critical queries perform efficiently even with years of manufacturing history.</p>
+                </div>
+
+                <h3>Understanding the Relationship Structure</h3>
+                <div class="relationship-box">
+                    <p>The relationship design separates two distinct genealogy patterns for optimal performance. Batch includes a self-join through parent_batch_identity that handles simple linear genealogy such as one batch splitting into multiple child batches. For complex pooling scenarios where multiple parent batches contribute to one child batch, the Batch Genealogy bridge table captures contribution percentages and sequence information. This dual approach provides efficient storage for common cases while supporting complex manufacturing scenarios that require many-to-many relationships.</p>
+
+                    <p>Material traceability uses a parallel pattern. Material includes a self-join for linear lineage such as Expression Vector to Cell Line to Master Cell Bank. Material Lot tracks individual inventory items. Batch Material Usage links batches to specific material lots through Transformation steps, distinguishing input materials consumed, output products generated, and yield losses. Transformation and Production Order dimensions are required because regulatory agencies mandate documentation of which process step consumed which materials under which work order. Manufacturer, Document, and Source System dimensions are optional but important for contract manufacturing scenarios and audit trails. This design provides the granular traceability that regulatory agencies require for product approval while maintaining the query performance needed for rapid recall investigations.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p><strong>Pharmaceutical Data Model - Executive Summaries</strong></p>
+            <p>Enterprise Data Architecture for Data Products, Business Intelligence & Analytics</p>
+            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">Discovery → Pre-Clinical → Phase 1-3 → Filing → Commercial Manufacturing</p>
+        </footer>
+    </div>
+
+    <!-- Home Button -->
+    <button class="home-button" id="homeButton" onclick="scrollToTop()" title="Back to Top">
+        ↑
+    </button>
+
+    <script>
+        // Show/hide home button based on scroll position
+        window.addEventListener('scroll', function() {
+            const homeButton = document.getElementById('homeButton');
+            if (window.pageYOffset > 300) {
+                homeButton.classList.add('visible');
+            } else {
+                homeButton.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
