@@ -1,0 +1,34 @@
+{
+  "cluster_name": "pharma-model-cluster",
+  "spark_version": "13.3.x-scala2.12",
+  "node_type_id": "Standard_DS3_v2",
+  "driver_node_type_id": "Standard_DS3_v2",
+  "num_workers": 0,
+  "autoscale": null,
+  "spark_conf": {
+    "spark.databricks.delta.preview.enabled": "true",
+    "spark.databricks.delta.properties.defaults.enableChangeDataFeed": "true",
+    "spark.databricks.delta.optimizeWrite.enabled": "true",
+    "spark.databricks.delta.autoCompact.enabled": "true",
+    "spark.sql.adaptive.enabled": "true",
+    "spark.sql.adaptive.coalescePartitions.enabled": "true"
+  },
+  "spark_env_vars": {
+    "PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+  },
+  "custom_tags": {
+    "Project": "pharma-databricks-model",
+    "Environment": "dev",
+    "Owner": "data-engineering",
+    "CostCenter": "analytics"
+  },
+  "cluster_log_conf": {
+    "dbfs": {
+      "destination": "dbfs:/pharma-model/cluster-logs"
+    }
+  },
+  "init_scripts": [],
+  "enable_elastic_disk": true,
+  "runtime_engine": "STANDARD",
+  "description": "Cluster for pharmaceutical data model deployment and processing"
+}

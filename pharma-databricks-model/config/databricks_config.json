@@ -1,0 +1,89 @@
+{
+  "project_name": "pharma-databricks-model",
+  "version": "1.0.0",
+  "description": "Pharmaceutical Data Model Implementation for Databricks",
+
+  "catalog_config": {
+    "catalog_name": "hive_metastore",
+    "schemas": {
+      "bronze": {
+        "name": "bronze",
+        "description": "Raw landing layer with minimal transformation",
+        "location": "dbfs:/pharma-model/bronze",
+        "managed": true
+      },
+      "silver": {
+        "name": "silver",
+        "description": "Validated and conformed data with SCD Type 2",
+        "location": "dbfs:/pharma-model/silver",
+        "managed": true
+      },
+      "gold": {
+        "name": "gold",
+        "description": "Business-ready star schemas",
+        "location": "dbfs:/pharma-model/gold",
+        "managed": true
+      }
+    }
+  },
+
+  "table_config": {
+    "bronze": {
+      "format": "delta",
+      "partition_columns": [],
+      "optimization": {
+        "auto_optimize": true,
+        "auto_compact": true
+      }
+    },
+    "silver": {
+      "format": "delta",
+      "partition_columns": ["effective_date"],
+      "optimization": {
+        "auto_optimize": true,
+        "auto_compact": true,
+        "optimize_write": true
+      }
+    },
+    "gold": {
+      "format": "delta",
+      "partition_columns": ["process_date", "test_date"],
+      "optimization": {
+        "auto_optimize": true,
+        "auto_compact": true,
+        "optimize_write": true,
+        "z_order_columns": ["batch_identity", "material_identity"]
+      }
+    }
+  },
+
+  "data_quality": {
+    "enable_constraints": true,
+    "enable_expectations": true,
+    "fail_on_error": false,
+    "validation_rules": {
+      "row_count_min": 10,
+      "null_check_critical_columns": true,
+      "referential_integrity": true,
+      "duplicate_check": true,
+      "data_range_validation": true
+    }
+  },
+
+  "deployment": {
+    "environments": {
+      "dev": {
+        "catalog": "hive_metastore",
+        "cluster_mode": "single_node"
+      },
+      "staging": {
+        "catalog": "hive_metastore",
+        "cluster_mode": "standard"
+      },
+      "prod": {
+        "catalog": "pharma_catalog",
+        "cluster_mode": "high_concurrency"
+      }
+    }
+  }
+}
