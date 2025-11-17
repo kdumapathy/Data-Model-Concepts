@@ -126,6 +126,7 @@ graph TB
         CL[Cell Lines<br/>🦠 Transfected Cells]
         MCB[Master Cell Bank<br/>🏦 Primary Stock]
         WCB[Working Cell Bank<br/>💼 Production Stock]
+        PROT[Protein<br/>🧬 Gene of Interest]		
         RM[Raw Materials<br/>📦 Media, Buffers, Reagents]
     end
     
@@ -159,6 +160,8 @@ graph TB
     
     EV --> CL --> MCB --> WCB
     WCB --> PE
+	PROT --> EV	
+	PROT --> RM		
     RM --> PE
     
     PE --> BG

@@ -322,8 +322,8 @@
             <a href="#conceptual-process">🎨 Conceptual Process</a>
             <a href="#conceptual-analytical">🎨 Conceptual Analytics</a>
             <a href="#conceptual-integrated">🎨 Integrated View</a>
-            <a href="#process-star">⭐ Process Star</a>
-            <a href="#analytical-star">⭐ Analytical Star</a>
+            <a href="#process-star">⭐ Process-Logical</a>
+            <a href="#analytical-star">⭐ Analytical-Logical</a>
             <a href="#batch-genealogy">🧬 Batch Genealogy</a>
             <a href="#self-joins">🔄 Self-Join Examples</a>
             <a href="#entity-catalog">📋 Entity Catalog</a>
@@ -681,32 +681,34 @@ graph LR
 graph TB
     %% Conceptual Analytical Data Model
     
-    SAMPLE[Samples<br/>🧪 Test Specimens]
     TEST_CAT[Test Categories<br/>📋 Identity, Purity, Potency, Safety]
     MEAS[Measurements<br/>📊 Test Results & Values]
     METHODS[Analytical Methods<br/>🔬 HPLC, ELISA, PCR, Western Blot]
     
     SPECS[Quality Specifications<br/>✅ Acceptance Criteria & Limits]
-    LABS[Testing Laboratories<br/>🏥 Internal & Contract Labs]
     STUDIES[Studies<br/>📚 Stability, Release, Characterization]
     
     CONDITIONS[Storage Conditions<br/>🌡️ Temperature, Humidity, Light]
-    TIMEPOINTS[Study Timepoints<br/>⏱️ T0, 3mo, 6mo, 12mo, 24mo]
+    TIMEPOINTS[Study Timepoints<br/>⏱️ D0, D4 etc.,  T0, 3mo, 6mo, 12mo, 24mo etc.]
     
-    EVENTS[Quality Events<br/>⚠️ Deviations, OOS, Investigations]
+    LABS[Testing Laboratories<br/>🏥 Internal & Contract Labs]	
+	BATCH[Batch<br/>🏷️ Lot Number]
+    SAMPLE[Samples<br/>🧪 Test Specimens]	
+    EVENTS[Quality Events / Notification <br/>⚠️ Deviations, OOS, Investigations]
     DOCS[Documentation<br/>📄 COAs, Reports, Protocols]
     
-    SAMPLE --> MEAS
     TEST_CAT --> MEAS
     METHODS --> MEAS
     
     SPECS -.-> MEAS
-    LABS -.-> MEAS
     STUDIES -.-> MEAS
     
     CONDITIONS -.-> STUDIES
     TIMEPOINTS -.-> STUDIES
-    
+
+	MEAS -.-> LABS
+	MEAS -.-> BATCH
+    MEAS -.-> SAMPLE  
     MEAS -.-> EVENTS
     MEAS -.-> DOCS
     
@@ -770,6 +772,7 @@ graph TB
         CL[Cell Lines<br/>🦠 Transfected Cells]
         MCB[Master Cell Bank<br/>🏦 Primary Stock]
         WCB[Working Cell Bank<br/>💼 Production Stock]
+        PROT[Protein<br/>🧬 Gene of Interest]		
         RM[Raw Materials<br/>📦 Media, Buffers, Reagents]
     end
     
@@ -779,7 +782,7 @@ graph TB
         EQ[Equipment Usage<br/>🏭 Assets & Instruments]
     end
     
-    subgraph GENEALOGY [Batch Genealogy]
+    subgraph GENEALOGY [Batch Genealogy & Usage]
         BG[Batch Tracking<br/>🏷️ Lot Numbers]
         SPLIT[Batch Splits<br/>📊 1 → Many]
         MERGE[Batch Pooling<br/>🔀 Many → 1]
@@ -797,12 +800,14 @@ graph TB
     subgraph GOVERNANCE [Governance & Compliance]
         SPECS[Specifications<br/>📋 Acceptance Criteria]
         DOCS[Documentation<br/>📄 Batch Records, COAs]
-        EVENTS[Quality Events<br/>⚠️ Deviations, CAPA]
+        EVENTS[Quality Events / Notification <br/>⚠️ Deviations, CAPA]
         SYS[Source Systems<br/>💾 LIMS, MES, ELN]
     end
-    
+    	
     EV --> CL --> MCB --> WCB
     WCB --> PE
+	PROT --> EV	
+	PROT --> RM	
     RM --> PE
     
     PE --> BG
@@ -1089,7 +1094,7 @@ erDiagram
         </div>
 
         <!-- PROCESS STAR SCHEMA -->
-        <h2 id="process-star">⭐ Process Star Schema - Manufacturing Domain</h2>
+        <h2 id="process-star">⭐ Process Star Schema Logical - Manufacturing Domain</h2>
         
         <div class="description">
             <strong>Grain:</strong> One row per manufacturing process execution event<br/>
@@ -1298,7 +1303,7 @@ erDiagram
         </div>
 
         <!-- ANALYTICAL STAR SCHEMA -->
-        <h2 id="analytical-star">⭐ Analytical Star Schema - Analytical Domain</h2>
+        <h2 id="analytical-star">⭐ Analytical Star Schema Logical - Analytical Domain</h2>
         
         <div class="description">
             <strong>Grain:</strong> One row per analytical test result<br/>

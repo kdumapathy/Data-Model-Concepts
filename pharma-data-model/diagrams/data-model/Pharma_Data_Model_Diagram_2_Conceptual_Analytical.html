@@ -121,32 +121,34 @@
 graph TB
     %% Conceptual Analytical Data Model
     
-    SAMPLE[Samples<br/>🧪 Test Specimens]
     TEST_CAT[Test Categories<br/>📋 Identity, Purity, Potency, Safety]
     MEAS[Measurements<br/>📊 Test Results & Values]
     METHODS[Analytical Methods<br/>🔬 HPLC, ELISA, PCR, Western Blot]
     
     SPECS[Quality Specifications<br/>✅ Acceptance Criteria & Limits]
-    LABS[Testing Laboratories<br/>🏥 Internal & Contract Labs]
     STUDIES[Studies<br/>📚 Stability, Release, Characterization]
     
     CONDITIONS[Storage Conditions<br/>🌡️ Temperature, Humidity, Light]
-    TIMEPOINTS[Study Timepoints<br/>⏱️ T0, 3mo, 6mo, 12mo, 24mo]
+    TIMEPOINTS[Study Timepoints<br/>⏱️ D0, D4 etc.,  T0, 3mo, 6mo, 12mo, 24mo etc.]
     
+    LABS[Testing Laboratories<br/>🏥 Internal & Contract Labs]	
+	BATCH[Batch<br/>🏷️ Lot Number]
+    SAMPLE[Samples<br/>🧪 Test Specimens]	
     EVENTS[Quality Events<br/>⚠️ Deviations, OOS, Investigations]
     DOCS[Documentation<br/>📄 COAs, Reports, Protocols]
     
-    SAMPLE --> MEAS
     TEST_CAT --> MEAS
     METHODS --> MEAS
     
     SPECS -.-> MEAS
-    LABS -.-> MEAS
     STUDIES -.-> MEAS
     
     CONDITIONS -.-> STUDIES
     TIMEPOINTS -.-> STUDIES
-    
+
+	MEAS -.-> LABS
+	MEAS -.-> BATCH
+    MEAS -.-> SAMPLE  
     MEAS -.-> EVENTS
     MEAS -.-> DOCS
     
