@@ -30,11 +30,16 @@ execution_id = str(uuid.uuid4())
 # - If imported to Shared: "/Workspace/Shared/databricks-pharma-pipeline"
 NOTEBOOK_BASE_PATH = "/Workspace/Users/kd.umapathy@gmail.com/Data-Model-Concepts/databricks-pharma-pipeline"
 
+# Demo mode - Set to True to use synthetic data (no real database connections needed)
+# Set to False to use production notebooks with actual JDBC/API connections
+USE_DEMO_MODE = True
+
 print("="*70)
 print("  PHARMACEUTICAL DATA PLATFORM - PIPELINE ORCHESTRATION")
 print("="*70)
 print(f"Execution ID: {execution_id}")
 print(f"Notebook Base Path: {NOTEBOOK_BASE_PATH}")
+print(f"Mode: {'DEMO (Synthetic Data)' if USE_DEMO_MODE else 'PRODUCTION (Real Data Sources)'}")
 print(f"Started at: {datetime.now()}")
 print("="*70)
 
@@ -83,9 +88,12 @@ bronze_results = {}
 
 print("\n[1.1] Ingesting manufacturing data...")
 
+# Select demo or production notebook
+mfg_notebook = "01_bronze_manufacturing_ingestion_DEMO" if USE_DEMO_MODE else "01_bronze_manufacturing_ingestion"
+
 try:
     result = dbutils.notebook.run(
-        f"{NOTEBOOK_BASE_PATH}/01_bronze/01_bronze_manufacturing_ingestion",
+        f"{NOTEBOOK_BASE_PATH}/01_bronze/{mfg_notebook}",
         timeout_seconds=1200
     )
     bronze_results['manufacturing'] = 'SUCCESS'
@@ -103,9 +111,12 @@ except Exception as e:
 
 print("\n[1.2] Ingesting clinical and LIMS data...")
 
+# Select demo or production notebook
+clinical_notebook = "02_bronze_clinical_lims_ingestion_DEMO" if USE_DEMO_MODE else "02_bronze_clinical_lims_ingestion"
+
 try:
     result = dbutils.notebook.run(
-        f"{NOTEBOOK_BASE_PATH}/01_bronze/02_bronze_clinical_lims_ingestion",
+        f"{NOTEBOOK_BASE_PATH}/01_bronze/{clinical_notebook}",
         timeout_seconds=1200
     )
     bronze_results['clinical_lims'] = 'SUCCESS'
