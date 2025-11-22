@@ -23,10 +23,18 @@ from datetime import datetime
 catalog_name = "pharma_platform"
 execution_id = str(uuid.uuid4())
 
+# Notebook base path - UPDATE THIS based on your workspace location
+# Examples:
+# - If imported to Repos: "/Repos/<username>/Data-Model-Concepts/databricks-pharma-pipeline"
+# - If imported to Workspace: "/Workspace/Users/<email>/Data-Model-Concepts/databricks-pharma-pipeline"
+# - If imported to Shared: "/Workspace/Shared/databricks-pharma-pipeline"
+NOTEBOOK_BASE_PATH = "/Workspace/Users/kd.umapathy@gmail.com/Data-Model-Concepts/databricks-pharma-pipeline"
+
 print("="*70)
 print("  PHARMACEUTICAL DATA PLATFORM - PIPELINE ORCHESTRATION")
 print("="*70)
 print(f"Execution ID: {execution_id}")
+print(f"Notebook Base Path: {NOTEBOOK_BASE_PATH}")
 print(f"Started at: {datetime.now()}")
 print("="*70)
 
@@ -44,7 +52,7 @@ if setup_required:
     print("\n[STAGE 0] Running Unity Catalog Setup...")
 
     dbutils.notebook.run(
-        "/databricks-pharma-pipeline/00_setup/00_unity_catalog_setup",
+        f"{NOTEBOOK_BASE_PATH}/00_setup/00_unity_catalog_setup",
         timeout_seconds=600
     )
 
@@ -77,7 +85,7 @@ print("\n[1.1] Ingesting manufacturing data...")
 
 try:
     result = dbutils.notebook.run(
-        "/databricks-pharma-pipeline/01_bronze/01_bronze_manufacturing_ingestion",
+        f"{NOTEBOOK_BASE_PATH}/01_bronze/01_bronze_manufacturing_ingestion",
         timeout_seconds=1200
     )
     bronze_results['manufacturing'] = 'SUCCESS'
@@ -97,7 +105,7 @@ print("\n[1.2] Ingesting clinical and LIMS data...")
 
 try:
     result = dbutils.notebook.run(
-        "/databricks-pharma-pipeline/01_bronze/02_bronze_clinical_lims_ingestion",
+        f"{NOTEBOOK_BASE_PATH}/01_bronze/02_bronze_clinical_lims_ingestion",
         timeout_seconds=1200
     )
     bronze_results['clinical_lims'] = 'SUCCESS'
@@ -138,7 +146,7 @@ print("\n[2.1] Building dimensional model with SCD Type 2...")
 
 try:
     result = dbutils.notebook.run(
-        "/databricks-pharma-pipeline/02_silver/01_silver_dimensions_scd2",
+        f"{NOTEBOOK_BASE_PATH}/02_silver/01_silver_dimensions_scd2",
         timeout_seconds=1800
     )
     silver_results['dimensions'] = 'SUCCESS'
@@ -158,7 +166,7 @@ print("\n[2.2] Building fact tables...")
 
 try:
     result = dbutils.notebook.run(
-        "/databricks-pharma-pipeline/02_silver/02_silver_fact_tables",
+        f"{NOTEBOOK_BASE_PATH}/02_silver/02_silver_fact_tables",
         timeout_seconds=1800
     )
     silver_results['facts'] = 'SUCCESS'
@@ -199,7 +207,7 @@ print("\n[3.1] Creating gold layer analytics...")
 
 try:
     result = dbutils.notebook.run(
-        "/databricks-pharma-pipeline/03_gold/01_gold_batch_analytics",
+        f"{NOTEBOOK_BASE_PATH}/03_gold/01_gold_batch_analytics",
         timeout_seconds=1200
     )
     gold_results['analytics'] = 'SUCCESS'
