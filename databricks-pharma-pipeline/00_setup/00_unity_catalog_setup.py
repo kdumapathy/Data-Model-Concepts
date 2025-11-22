@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS {catalog_name}.{meta_schema}.pipeline_execution_log (
   user_name STRING COMMENT 'User who executed the pipeline',
   notebook_path STRING COMMENT 'Path to the notebook',
   parameters MAP<STRING, STRING> COMMENT 'Execution parameters',
-  created_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+  created_timestamp TIMESTAMP,
   PRIMARY KEY(execution_id)
 )
 USING DELTA
@@ -172,29 +172,48 @@ print("✓ Table 'pipeline_execution_log' created")
 
 # COMMAND ----------
 
-spark.sql(f"""
-CREATE TABLE IF NOT EXISTS {catalog_name}.{meta_schema}.data_quality_metrics (
-  dq_check_id STRING COMMENT 'Unique DQ check identifier',
-  execution_id STRING COMMENT 'Reference to pipeline execution',
-  table_name STRING COMMENT 'Table being checked',
-  check_name STRING COMMENT 'Name of the quality check',
-  check_type STRING COMMENT 'Type: completeness/accuracy/consistency/timeliness/validity',
-  check_result STRING COMMENT 'PASS/FAIL/WARNING',
-  expected_value STRING COMMENT 'Expected value or threshold',
-  actual_value STRING COMMENT 'Actual measured value',
-  deviation_percentage DOUBLE COMMENT 'Percentage deviation from expected',
-  rows_affected BIGINT COMMENT 'Number of rows failing the check',
-  severity STRING COMMENT 'CRITICAL/HIGH/MEDIUM/LOW',
-  check_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY(dq_check_id)
+# Step 1: Create the table without DEFAULT
+spark.sql(
+    f"""
+    CREATE TABLE IF NOT EXISTS {catalog_name}.{meta_schema}.data_quality_metrics (
+      dq_check_id STRING COMMENT 'Unique DQ check identifier',
+      execution_id STRING COMMENT 'Reference to pipeline execution',
+      table_name STRING COMMENT 'Table being checked',
+      check_name STRING COMMENT 'Name of the quality check',
+      check_type STRING COMMENT 'Type: completeness/accuracy/consistency/timeliness/validity',
+      check_result STRING COMMENT 'PASS/FAIL/WARNING',
+      expected_value STRING COMMENT 'Expected value or threshold',
+      actual_value STRING COMMENT 'Actual measured value',
+      deviation_percentage DOUBLE COMMENT 'Percentage deviation from expected',
+      rows_affected BIGINT COMMENT 'Number of rows failing the check',
+      severity STRING COMMENT 'CRITICAL/HIGH/MEDIUM/LOW',
+      check_timestamp TIMESTAMP,
+      PRIMARY KEY(dq_check_id)
+    )
+    USING DELTA
+    COMMENT 'Data quality validation results for ALCOA+ compliance'
+    TBLPROPERTIES (
+      'delta.enableChangeDataFeed' = 'true'
+    )
+    """
 )
-USING DELTA
-COMMENT 'Data quality validation results for ALCOA+ compliance'
-TBLPROPERTIES (
-  'delta.enableChangeDataFeed' = 'true'
-)
-""")
 print("✓ Table 'data_quality_metrics' created")
+
+# Step 2: Enable column defaults feature
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{meta_schema}.data_quality_metrics
+    SET TBLPROPERTIES('delta.feature.allowColumnDefaults' = 'supported')
+    """
+)
+
+# Step 3: Add the DEFAULT value to the column
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{meta_schema}.data_quality_metrics
+    ALTER COLUMN check_timestamp SET DEFAULT CURRENT_TIMESTAMP()
+    """
+)
 
 # COMMAND ----------
 
@@ -203,29 +222,48 @@ print("✓ Table 'data_quality_metrics' created")
 
 # COMMAND ----------
 
-spark.sql(f"""
-CREATE TABLE IF NOT EXISTS {catalog_name}.{meta_schema}.data_lineage (
-  lineage_id STRING COMMENT 'Unique lineage record identifier',
-  source_catalog STRING COMMENT 'Source catalog name',
-  source_schema STRING COMMENT 'Source schema name',
-  source_table STRING COMMENT 'Source table name',
-  source_column STRING COMMENT 'Source column name (optional)',
-  target_catalog STRING COMMENT 'Target catalog name',
-  target_schema STRING COMMENT 'Target schema name',
-  target_table STRING COMMENT 'Target table name',
-  target_column STRING COMMENT 'Target column name (optional)',
-  transformation_logic STRING COMMENT 'SQL or description of transformation',
-  execution_id STRING COMMENT 'Reference to pipeline execution',
-  created_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY(lineage_id)
+# Step 1: Create the table without DEFAULT
+spark.sql(
+    f"""
+    CREATE TABLE IF NOT EXISTS {catalog_name}.{meta_schema}.data_lineage (
+      lineage_id STRING COMMENT 'Unique lineage record identifier',
+      source_catalog STRING COMMENT 'Source catalog name',
+      source_schema STRING COMMENT 'Source schema name',
+      source_table STRING COMMENT 'Source table name',
+      source_column STRING COMMENT 'Source column name (optional)',
+      target_catalog STRING COMMENT 'Target catalog name',
+      target_schema STRING COMMENT 'Target schema name',
+      target_table STRING COMMENT 'Target table name',
+      target_column STRING COMMENT 'Target column name (optional)',
+      transformation_logic STRING COMMENT 'SQL or description of transformation',
+      execution_id STRING COMMENT 'Reference to pipeline execution',
+      created_timestamp TIMESTAMP,
+      PRIMARY KEY(lineage_id)
+    )
+    USING DELTA
+    COMMENT 'End-to-end data lineage for regulatory compliance'
+    TBLPROPERTIES (
+      'delta.enableChangeDataFeed' = 'true'
+    )
+    """
 )
-USING DELTA
-COMMENT 'End-to-end data lineage for regulatory compliance'
-TBLPROPERTIES (
-  'delta.enableChangeDataFeed' = 'true'
-)
-""")
 print("✓ Table 'data_lineage' created")
+
+# Step 2: Enable column defaults feature
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{meta_schema}.data_lineage
+    SET TBLPROPERTIES('delta.feature.allowColumnDefaults' = 'supported')
+    """
+)
+
+# Step 3: Add the DEFAULT value to the column
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{meta_schema}.data_lineage
+    ALTER COLUMN created_timestamp SET DEFAULT CURRENT_TIMESTAMP()
+    """
+)
 
 # COMMAND ----------
 
@@ -234,25 +272,43 @@ print("✓ Table 'data_lineage' created")
 
 # COMMAND ----------
 
-spark.sql(f"""
-CREATE TABLE IF NOT EXISTS {catalog_name}.{meta_schema}.watermark_tracking (
-  table_name STRING COMMENT 'Fully qualified table name',
-  watermark_column STRING COMMENT 'Column used for incremental processing',
-  last_watermark_value STRING COMMENT 'Last processed watermark value',
-  last_run_timestamp TIMESTAMP COMMENT 'Last successful run timestamp',
-  last_run_status STRING COMMENT 'SUCCESS/FAILED',
-  rows_processed BIGINT COMMENT 'Number of rows in last run',
-  next_run_watermark STRING COMMENT 'Starting point for next run',
-  updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY(table_name, watermark_column)
+# Step 1: Create the table without DEFAULT
+spark.sql(
+    f"""
+    CREATE TABLE IF NOT EXISTS {catalog_name}.{meta_schema}.watermark_tracking (
+      table_name STRING COMMENT 'Fully qualified table name',
+      watermark_column STRING COMMENT 'Column used for incremental processing',
+      last_watermark_value STRING COMMENT 'Last processed watermark value',
+      last_run_timestamp TIMESTAMP COMMENT 'Last successful run timestamp',
+      last_run_status STRING COMMENT 'SUCCESS/FAILED',
+      rows_processed BIGINT COMMENT 'Number of rows in last run',
+      next_run_watermark STRING COMMENT 'Starting point for next run',
+      updated_timestamp TIMESTAMP,
+      PRIMARY KEY(table_name, watermark_column)
+    )
+    USING DELTA
+    COMMENT 'Watermark state for incremental data loads'
+    TBLPROPERTIES (
+      'delta.enableChangeDataFeed' = 'true'
+    )
+    """
 )
-USING DELTA
-COMMENT 'Watermark state for incremental data loads'
-TBLPROPERTIES (
-  'delta.enableChangeDataFeed' = 'true'
+
+# Step 2: Enable column defaults feature
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{meta_schema}.watermark_tracking
+    SET TBLPROPERTIES('delta.feature.allowColumnDefaults' = 'supported')
+    """
 )
-""")
-print("✓ Table 'watermark_tracking' created")
+
+# Step 3: Add the DEFAULT value to the column
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{meta_schema}.watermark_tracking
+    ALTER COLUMN updated_timestamp SET DEFAULT CURRENT_TIMESTAMP()
+    """
+)
 
 # COMMAND ----------
 
@@ -266,29 +322,59 @@ print("✓ Table 'watermark_tracking' created")
 
 # COMMAND ----------
 
-spark.sql(f"""
-CREATE TABLE IF NOT EXISTS {catalog_name}.{silver_schema}.ref_isa88_hierarchy (
-  hierarchy_id STRING COMMENT 'Unique hierarchy record ID',
-  hierarchy_level STRING COMMENT 'Enterprise/Site/Area/ProcessCell/Unit/EquipmentModule/ControlModule',
-  hierarchy_level_number INT COMMENT '1=Enterprise, 2=Site, 3=Area, 4=ProcessCell, 5=Unit, 6=EquipmentModule, 7=ControlModule',
-  element_code STRING COMMENT 'Unique code for this element',
-  element_name STRING COMMENT 'Name of the element',
-  parent_element_code STRING COMMENT 'Code of parent in hierarchy',
-  description STRING COMMENT 'Detailed description',
-  is_active BOOLEAN DEFAULT TRUE,
-  effective_start_date DATE,
-  effective_end_date DATE,
-  created_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-  updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY(hierarchy_id)
+# Step 1: Create the table without DEFAULT
+spark.sql(
+    f"""
+    CREATE TABLE IF NOT EXISTS {catalog_name}.{silver_schema}.ref_isa88_hierarchy (
+      hierarchy_id STRING COMMENT 'Unique hierarchy record ID',
+      hierarchy_level STRING COMMENT 'Enterprise/Site/Area/ProcessCell/Unit/EquipmentModule/ControlModule',
+      hierarchy_level_number INT COMMENT '1=Enterprise, 2=Site, 3=Area, 4=ProcessCell, 5=Unit, 6=EquipmentModule, 7=ControlModule',
+      element_code STRING COMMENT 'Unique code for this element',
+      element_name STRING COMMENT 'Name of the element',
+      parent_element_code STRING COMMENT 'Code of parent in hierarchy',
+      description STRING COMMENT 'Detailed description',
+      is_active BOOLEAN,
+      effective_start_date DATE,
+      effective_end_date DATE,
+      created_timestamp TIMESTAMP,
+      updated_timestamp TIMESTAMP,
+      PRIMARY KEY(hierarchy_id)
+    )
+    USING DELTA
+    COMMENT 'ISA-88 Physical Model Hierarchy for equipment organization'
+    TBLPROPERTIES (
+      'delta.enableChangeDataFeed' = 'true'
+    )
+    """
 )
-USING DELTA
-COMMENT 'ISA-88 Physical Model Hierarchy for equipment organization'
-TBLPROPERTIES (
-  'delta.enableChangeDataFeed' = 'true'
+
+# Step 2: Enable column defaults feature
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{silver_schema}.ref_isa88_hierarchy
+    SET TBLPROPERTIES('delta.feature.allowColumnDefaults' = 'supported')
+    """
 )
-""")
-print("✓ Table 'ref_isa88_hierarchy' created")
+
+# Step 3: Add the DEFAULT values to the columns
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{silver_schema}.ref_isa88_hierarchy
+    ALTER COLUMN is_active SET DEFAULT TRUE
+    """
+)
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{silver_schema}.ref_isa88_hierarchy
+    ALTER COLUMN created_timestamp SET DEFAULT CURRENT_TIMESTAMP()
+    """
+)
+spark.sql(
+    f"""
+    ALTER TABLE {catalog_name}.{silver_schema}.ref_isa88_hierarchy
+    ALTER COLUMN updated_timestamp SET DEFAULT CURRENT_TIMESTAMP()
+    """
+)
 
 # COMMAND ----------
 
