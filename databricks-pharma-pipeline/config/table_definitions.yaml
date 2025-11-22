@@ -1,0 +1,426 @@
+# Table Definitions for Pharmaceutical Data Platform
+# Organized by layer: Bronze (raw), Silver (dimensional), Gold (aggregated)
+
+# ============================================================================
+# BRONZE LAYER - Raw Data Tables
+# ============================================================================
+
+bronze_tables:
+
+  # Manufacturing Process Data
+  - table_name: "manufacturing_batch_records"
+    source_system: "manufacturing_mes"
+    primary_key: ["batch_id", "recorded_timestamp"]
+    watermark_column: "recorded_timestamp"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date", "site_code"]
+
+  - table_name: "manufacturing_process_data"
+    source_system: "manufacturing_mes"
+    primary_key: ["process_data_id"]
+    watermark_column: "timestamp"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date", "unit_id"]
+
+  - table_name: "equipment_sensor_data"
+    source_system: "manufacturing_mes"
+    primary_key: ["sensor_id", "timestamp"]
+    watermark_column: "timestamp"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date", "equipment_id"]
+
+  # Quality Control and Analytical Data
+  - table_name: "analytical_test_results"
+    source_system: "lims"
+    primary_key: ["test_id"]
+    watermark_column: "result_timestamp"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date", "test_type"]
+
+  - table_name: "qc_sample_data"
+    source_system: "lims"
+    primary_key: ["sample_id"]
+    watermark_column: "created_date"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date"]
+
+  # Clinical Trial Data
+  - table_name: "clinical_subjects"
+    source_system: "edc_clinical"
+    primary_key: ["subject_id"]
+    watermark_column: "updated_date"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date", "study_id"]
+
+  - table_name: "clinical_adverse_events"
+    source_system: "edc_clinical"
+    primary_key: ["ae_id"]
+    watermark_column: "reported_date"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date", "study_id"]
+
+  # Equipment Master Data
+  - table_name: "equipment_master"
+    source_system: "equipment_master"
+    primary_key: ["equipment_id"]
+    watermark_column: "modified_date"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date"]
+
+  # Batch Genealogy
+  - table_name: "batch_genealogy"
+    source_system: "manufacturing_mes"
+    primary_key: ["genealogy_id"]
+    watermark_column: "created_timestamp"
+    extraction_mode: "incremental"
+    partition_columns: ["ingestion_date"]
+
+# ============================================================================
+# SILVER LAYER - Dimensional Model (Kimball Star Schema)
+# ============================================================================
+
+silver_dimensions:
+
+  # Type 2 Slowly Changing Dimensions
+  - dimension_name: "dim_product"
+    business_key: "product_code"
+    scd_type: 2
+    attributes:
+      - product_id  # Surrogate key
+      - product_code  # Natural key
+      - product_name
+      - therapeutic_area
+      - molecule_type  # Small molecule, biologic, antibody, gene therapy
+      - development_phase  # Discovery, preclinical, Phase 1-3, commercial
+      - approval_status
+      - formulation_type
+      - dosage_form
+      - strength
+      - route_of_administration
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+  - dimension_name: "dim_batch"
+    business_key: "batch_number"
+    scd_type: 2
+    attributes:
+      - batch_id  # Surrogate key
+      - batch_number  # Natural key
+      - product_id  # FK to dim_product
+      - batch_type  # Clinical, commercial, development, validation
+      - batch_size
+      - batch_size_uom
+      - planned_start_date
+      - actual_start_date
+      - planned_end_date
+      - actual_end_date
+      - batch_status
+      - manufacturing_site_id
+      - campaign_id
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+  - dimension_name: "dim_equipment"
+    business_key: "equipment_code"
+    scd_type: 2
+    attributes:
+      - equipment_id  # Surrogate key
+      - equipment_code  # Natural key
+      - equipment_name
+      - equipment_type
+      - manufacturer
+      - model_number
+      - serial_number
+      # ISA-88 Physical Model Hierarchy
+      - enterprise_id
+      - site_id
+      - area_id
+      - process_cell_id
+      - unit_id
+      - equipment_module_id
+      - control_module_id
+      - qualification_status
+      - calibration_due_date
+      - last_maintenance_date
+      - equipment_class
+      - capacity
+      - capacity_uom
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+  - dimension_name: "dim_material"
+    business_key: "material_code"
+    scd_type: 2
+    attributes:
+      - material_id  # Surrogate key
+      - material_code  # Natural key
+      - material_name
+      - material_type  # Raw material, API, excipient, finished product
+      - material_category
+      - supplier_id
+      - lot_number
+      - expiration_date
+      - storage_condition
+      - hazard_classification
+      - coa_required
+      - gmp_grade
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+  - dimension_name: "dim_site"
+    business_key: "site_code"
+    scd_type: 2
+    attributes:
+      - site_id  # Surrogate key
+      - site_code  # Natural key
+      - site_name
+      - site_type  # Manufacturing, clinical, R&D, warehouse
+      - country
+      - region
+      - regulatory_authority
+      - gmp_certification
+      - iso_certification
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+  - dimension_name: "dim_test_method"
+    business_key: "test_method_code"
+    scd_type: 2
+    attributes:
+      - test_method_id  # Surrogate key
+      - test_method_code  # Natural key
+      - test_method_name
+      - test_category  # Identity, purity, potency, safety
+      - analytical_technique  # HPLC, UPLC, LC-MS, ELISA, etc.
+      - instrument_type
+      - specification_reference
+      - validation_status
+      - compendial_method  # USP, EP, JP
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+  - dimension_name: "dim_operator"
+    business_key: "employee_id"
+    scd_type: 2
+    attributes:
+      - operator_id  # Surrogate key
+      - employee_id  # Natural key
+      - operator_name
+      - department
+      - role
+      - qualification_level
+      - training_current
+      - site_id
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+  # Type 1 Dimensions (Overwrite)
+  - dimension_name: "dim_date"
+    scd_type: 1
+    attributes:
+      - date_id  # YYYYMMDD
+      - full_date
+      - day_of_week
+      - day_name
+      - day_of_month
+      - day_of_year
+      - week_of_year
+      - month_number
+      - month_name
+      - quarter
+      - year
+      - fiscal_quarter
+      - fiscal_year
+      - is_weekend
+      - is_holiday
+
+  - dimension_name: "dim_study"
+    business_key: "study_code"
+    scd_type: 2
+    attributes:
+      - study_id  # Surrogate key
+      - study_code  # Natural key (Protocol number)
+      - study_title
+      - study_phase  # Phase 1, 2, 3, 4
+      - indication
+      - sponsor
+      - cro_name
+      - study_status
+      - planned_enrollment
+      - actual_enrollment
+      - start_date
+      - end_date
+      - regulatory_submission
+      - effective_start_date
+      - effective_end_date
+      - is_current
+      - row_hash
+
+silver_facts:
+
+  # Manufacturing Process Fact Table
+  - fact_name: "fact_manufacturing_process"
+    grain: "One row per unit procedure execution per batch"
+    fact_type: "transaction"
+    dimensions:
+      - dim_batch
+      - dim_equipment
+      - dim_material
+      - dim_operator
+      - dim_site
+      - dim_date
+      - dim_product
+    measures:
+      - process_parameter_value
+      - target_value
+      - upper_control_limit
+      - lower_control_limit
+      - duration_minutes
+      - yield_percentage
+      - temperature
+      - pressure
+      - ph_value
+      - dissolved_oxygen
+      - flow_rate
+      - volume
+    additive_measures:
+      - total_duration_minutes
+      - material_quantity_consumed
+
+  # Analytical Testing Fact Table
+  - fact_name: "fact_analytical_testing"
+    grain: "One row per analytical test result"
+    fact_type: "transaction"
+    dimensions:
+      - dim_batch
+      - dim_material
+      - dim_test_method
+      - dim_operator
+      - dim_site
+      - dim_date
+      - dim_product
+    measures:
+      - test_result_value
+      - specification_min
+      - specification_max
+      - replicate_1_value
+      - replicate_2_value
+      - replicate_3_value
+      - mean_value
+      - std_deviation
+      - relative_std_deviation
+      - pass_fail_flag
+
+  # Batch Genealogy Fact Table (Factless)
+  - fact_name: "fact_batch_genealogy"
+    grain: "One row per parent-child batch relationship"
+    fact_type: "factless"
+    dimensions:
+      - dim_batch  # Parent batch
+      - dim_batch  # Child batch
+      - dim_material
+      - dim_date
+      - dim_site
+    measures:
+      - quantity_transferred
+      - genealogy_level
+
+  # Clinical Trial Fact Table
+  - fact_name: "fact_clinical_observations"
+    grain: "One row per clinical observation per subject per visit"
+    fact_type: "transaction"
+    dimensions:
+      - dim_study
+      - dim_product
+      - dim_site
+      - dim_date
+    measures:
+      - observation_value
+      - baseline_value
+      - change_from_baseline
+      - dose_amount
+      - dose_frequency
+
+  # Equipment Utilization Snapshot (Periodic)
+  - fact_name: "fact_equipment_utilization"
+    grain: "Daily snapshot of equipment utilization"
+    fact_type: "periodic_snapshot"
+    dimensions:
+      - dim_equipment
+      - dim_site
+      - dim_date
+    measures:
+      - total_runtime_hours
+      - scheduled_downtime_hours
+      - unscheduled_downtime_hours
+      - changeover_hours
+      - utilization_percentage
+      - batches_processed
+
+# Bridge Tables for Many-to-Many Relationships
+silver_bridge_tables:
+
+  - bridge_name: "bridge_batch_materials"
+    description: "Many-to-many relationship between batches and materials"
+    dimensions:
+      - dim_batch
+      - dim_material
+    attributes:
+      - material_role  # Input, output, in-process
+      - quantity
+      - quantity_uom
+
+  - bridge_name: "bridge_equipment_recipe"
+    description: "Equipment to recipe assignment (ISA-88)"
+    dimensions:
+      - dim_equipment
+      - recipe_id
+    attributes:
+      - recipe_phase
+      - parameter_name
+      - parameter_value
+
+# ============================================================================
+# GOLD LAYER - Analytical and Aggregated Tables
+# ============================================================================
+
+gold_tables:
+
+  - table_name: "gold_batch_performance_summary"
+    description: "Aggregated batch performance metrics"
+    aggregation_level: "batch"
+    refresh_frequency: "daily"
+
+  - table_name: "gold_quality_kpi_dashboard"
+    description: "Quality KPIs for executive dashboard"
+    aggregation_level: "monthly"
+    refresh_frequency: "daily"
+
+  - table_name: "gold_clinical_enrollment_tracking"
+    description: "Clinical trial enrollment and milestones"
+    aggregation_level: "study"
+    refresh_frequency: "weekly"
+
+  - table_name: "gold_equipment_oee"
+    description: "Overall Equipment Effectiveness (OEE)"
+    aggregation_level: "equipment_monthly"
+    refresh_frequency: "daily"
+
+  - table_name: "gold_material_consumption_forecast"
+    description: "Material usage trends and forecasting"
+    aggregation_level: "material_monthly"
+    refresh_frequency: "weekly"

@@ -1,0 +1,73 @@
+# Unity Catalog Configuration for Pharmaceutical Data Platform
+# This configuration defines the catalog, schemas, and table structures
+
+# Unity Catalog Hierarchy
+catalog:
+  name: "pharma_platform"
+  comment: "Pharmaceutical data platform supporting all phases from early-stage to commercial"
+
+# Schemas (databases) for medallion architecture
+schemas:
+  bronze:
+    name: "bronze_raw"
+    comment: "Raw data ingested from source systems - immutable landing zone"
+
+  silver:
+    name: "silver_cdm"
+    comment: "Common Data Model - Star schema dimensional model following Kimball methodology"
+
+  gold:
+    name: "gold_analytics"
+    comment: "Business-level aggregations and analytical datasets"
+
+  meta:
+    name: "metadata"
+    comment: "Pipeline metadata, data lineage, and audit tracking"
+
+# Storage Configuration
+storage:
+  bronze_path: "s3://pharma-datalake/bronze/"
+  silver_path: "s3://pharma-datalake/silver/"
+  gold_path: "s3://pharma-datalake/gold/"
+  checkpoint_path: "s3://pharma-datalake/checkpoints/"
+
+# Source Systems Configuration
+source_systems:
+  - name: "manufacturing_mes"
+    description: "Manufacturing Execution System (Syncade, DeltaV)"
+    extraction_method: "jdbc"
+    connection_type: "sql_server"
+
+  - name: "lims"
+    description: "Laboratory Information Management System (LabWare, Thermo SampleManager)"
+    extraction_method: "jdbc"
+    connection_type: "oracle"
+
+  - name: "edc_clinical"
+    description: "Electronic Data Capture for Clinical Trials (Medidata Rave)"
+    extraction_method: "api"
+    connection_type: "rest_api"
+
+  - name: "equipment_master"
+    description: "Equipment master data and ISA-88 hierarchy"
+    extraction_method: "jdbc"
+    connection_type: "sql_server"
+
+  - name: "batch_records"
+    description: "Electronic Batch Records and genealogy"
+    extraction_method: "jdbc"
+    connection_type: "sql_server"
+
+# Data Classification
+data_classification:
+  pii: true
+  phi: true  # Protected Health Information for clinical data
+  gxp: true  # GxP regulated data
+  retention_years: 25  # FDA requirement for drug master files
+
+# Compliance and Validation
+compliance:
+  cfr_part11: true  # Electronic records and signatures
+  eu_gdpr: true
+  data_integrity: "ALCOA+"  # Attributable, Legible, Contemporaneous, Original, Accurate + Complete, Consistent, Enduring, Available
+  audit_trail: true
