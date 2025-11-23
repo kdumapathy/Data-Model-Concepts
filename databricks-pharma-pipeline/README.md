@@ -174,26 +174,46 @@ The data model supports all development and commercial phases:
 
 ```
 databricks-pharma-pipeline/
+├── RUN_ALL_SIMPLE.py                        # ⭐ ONE-CLICK EXECUTION - Run this!
 ├── 00_setup/
 │   └── 00_unity_catalog_setup.py           # Unity Catalog initialization
 ├── 01_bronze/
-│   ├── 01_bronze_manufacturing_ingestion.py # Manufacturing data (MES, DCS)
-│   └── 02_bronze_clinical_lims_ingestion.py # Clinical and LIMS data
+│   ├── 01_bronze_manufacturing_ingestion_DEMO.py  # Demo: Synthetic manufacturing data
+│   ├── 01_bronze_manufacturing_ingestion.py       # Prod: Real MES/DCS data
+│   ├── 02_bronze_clinical_lims_ingestion_DEMO.py  # Demo: Synthetic clinical/LIMS data
+│   └── 02_bronze_clinical_lims_ingestion.py       # Prod: Real EDC/LIMS data
 ├── 02_silver/
 │   ├── 01_silver_dimensions_scd2.py         # Type 2 SCD dimensions
 │   └── 02_silver_fact_tables.py             # Fact tables and date dimension
 ├── 03_gold/
 │   └── 01_gold_batch_analytics.py           # Business aggregations
 ├── 04_orchestration/
-│   └── orchestrate_pipeline.py              # End-to-end pipeline orchestration
+│   └── orchestrate_pipeline.py              # Automated pipeline orchestration
 ├── config/
 │   ├── unity_catalog_config.yaml            # Unity Catalog configuration
 │   └── table_definitions.yaml               # Table schemas and metadata
 └── docs/
-    └── architecture_diagram.md              # Detailed architecture docs
+    ├── EXECUTION_ORDER.md                   # Quick reference execution guide
+    ├── DEMO_MODE_GUIDE.md                   # Using synthetic data
+    ├── DEPLOYMENT_GUIDE.md                  # Production deployment
+    └── NOTEBOOK_PATH_CONFIG.md              # Path configuration
 ```
 
 ## Getting Started
+
+### ⚡ Quick Start (5 Minutes)
+
+**Want to try it immediately?** Use demo mode with synthetic data:
+
+1. **Import notebooks** to your Databricks workspace
+2. **Open**: `RUN_ALL_SIMPLE.py`
+3. **Attach** to a running cluster
+4. **Click** "Run All"
+5. ✅ Complete pipeline runs in 10-15 minutes!
+
+**See**: [`docs/EXECUTION_ORDER.md`](docs/EXECUTION_ORDER.md) for detailed instructions
+
+---
 
 ### Prerequisites
 
@@ -207,7 +227,7 @@ databricks-pharma-pipeline/
    - Schema CREATE permission
    - Table CREATE/MODIFY permissions
 
-3. **Source System Connectivity**
+3. **For Production (optional for demo)**
    - JDBC drivers for SQL Server, Oracle
    - API credentials for EDC systems
    - S3/ADLS bucket for data lake storage
