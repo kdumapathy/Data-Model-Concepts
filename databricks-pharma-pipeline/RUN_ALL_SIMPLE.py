@@ -313,29 +313,29 @@ print("="*70)
 # MAGIC %sql
 # MAGIC -- Check Bronze layer row counts
 # MAGIC SELECT
-#   'Bronze - Batch Records' as layer_table,
-#   COUNT(*) as row_count
+# MAGIC   'Bronze - Batch Records' as layer_table,
+# MAGIC   COUNT(*) as row_count
 # MAGIC FROM pharma_platform.bronze_raw.manufacturing_batch_records
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC
 # MAGIC SELECT
-#   'Bronze - Process Data' as layer_table,
-#   COUNT(*) as row_count
+# MAGIC   'Bronze - Process Data' as layer_table,
+# MAGIC   COUNT(*) as row_count
 # MAGIC FROM pharma_platform.bronze_raw.manufacturing_process_data
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC
 # MAGIC SELECT
-#   'Bronze - Analytical Results' as layer_table,
-#   COUNT(*) as row_count
+# MAGIC   'Bronze - Analytical Results' as layer_table,
+# MAGIC   COUNT(*) as row_count
 # MAGIC FROM pharma_platform.bronze_raw.analytical_test_results
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC
 # MAGIC SELECT
-#   'Bronze - Clinical Subjects' as layer_table,
-#   COUNT(*) as row_count
+# MAGIC   'Bronze - Clinical Subjects' as layer_table,
+# MAGIC   COUNT(*) as row_count
 # MAGIC FROM pharma_platform.bronze_raw.clinical_subjects
 # MAGIC
 # MAGIC ORDER BY layer_table
@@ -345,32 +345,32 @@ print("="*70)
 # MAGIC %sql
 # MAGIC -- Check Silver layer dimensions
 # MAGIC SELECT
-#   'Silver - Products' as dimension,
-#   COUNT(*) as current_records
+# MAGIC   'Silver - Products' as dimension,
+# MAGIC   COUNT(*) as current_records
 # MAGIC FROM pharma_platform.silver_cdm.dim_product
 # MAGIC WHERE is_current = true
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC
 # MAGIC SELECT
-#   'Silver - Batches' as dimension,
-#   COUNT(*) as current_records
+# MAGIC   'Silver - Batches' as dimension,
+# MAGIC   COUNT(*) as current_records
 # MAGIC FROM pharma_platform.silver_cdm.dim_batch
 # MAGIC WHERE is_current = true
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC
 # MAGIC SELECT
-#   'Silver - Equipment' as dimension,
-#   COUNT(*) as current_records
+# MAGIC   'Silver - Equipment' as dimension,
+# MAGIC   COUNT(*) as current_records
 # MAGIC FROM pharma_platform.silver_cdm.dim_equipment
 # MAGIC WHERE is_current = true
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC
 # MAGIC SELECT
-#   'Silver - Materials' as dimension,
-#   COUNT(*) as current_records
+# MAGIC   'Silver - Materials' as dimension,
+# MAGIC   COUNT(*) as current_records
 # MAGIC FROM pharma_platform.silver_cdm.dim_material
 # MAGIC WHERE is_current = true
 # MAGIC
@@ -381,11 +381,11 @@ print("="*70)
 # MAGIC %sql
 # MAGIC -- Check Gold layer analytics
 # MAGIC SELECT
-#   product_name,
-#   COUNT(*) as batch_count,
-#   ROUND(AVG(first_pass_yield_pct), 2) as avg_first_pass_yield,
-#   ROUND(AVG(cycle_time_days), 1) as avg_cycle_time_days,
-#   SUM(deviation_count) as total_deviations
+# MAGIC   product_name,
+# MAGIC   COUNT(*) as batch_count,
+# MAGIC   ROUND(AVG(first_pass_yield_pct), 2) as avg_first_pass_yield,
+# MAGIC   ROUND(AVG(cycle_time_days), 1) as avg_cycle_time_days,
+# MAGIC   SUM(deviation_count) as total_deviations
 # MAGIC FROM pharma_platform.gold_analytics.gold_batch_performance_summary
 # MAGIC GROUP BY product_name
 # MAGIC ORDER BY batch_count DESC
