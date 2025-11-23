@@ -477,7 +477,8 @@ spark.sql(f"""
         NULL,
         current_user(),
         '{dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()}',
-        map('execution_id', '{execution_id}')
+        map('execution_id', '{execution_id}'),
+        current_timestamp()
     )
 """)
 
