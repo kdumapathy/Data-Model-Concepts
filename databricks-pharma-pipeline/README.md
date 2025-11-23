@@ -170,13 +170,48 @@ The data model supports all development and commercial phases:
   - **Timeliness**: Data freshness monitoring
   - **Validity**: Format and data type validation
 
+### 8. Table Constraints & ER Diagrams
+
+- **PRIMARY KEY Constraints**: Added to all dimension and fact tables
+  - 8 dimension tables (surrogate keys)
+  - 4+ fact tables (atomic grain identifiers)
+  - 2+ metadata tables
+
+- **FOREIGN KEY Constraints**: Document all table relationships
+  - 16+ fact-to-dimension relationships
+  - Enables automatic ER diagram generation
+  - BI tools (Power BI, Tableau) auto-detect relationships
+
+- **Relationship Documentation**:
+  - View: `pharma_platform.metadata.v_table_relationships`
+  - Displays all FK relationships for data modeling tools
+  - Supports Unity Catalog Data Explorer diagram visualization
+
+- **Benefits**:
+  - ✅ **Automatic ER diagrams** in data modeling tools (DbSchema, DataGrip, ER/Studio)
+  - ✅ **BI tool integration** - relationships auto-detected for drag-and-drop analytics
+  - ✅ **Data catalog metadata** - Unity Catalog shows relationship graph
+  - ✅ **Documentation** - Self-documenting data model structure
+  - ✅ **Query optimization** - Query planner uses constraint metadata
+
+**Example Query:**
+```sql
+-- View all table relationships
+SELECT * FROM pharma_platform.metadata.v_table_relationships
+ORDER BY fact_table, foreign_key_column;
+
+-- Verify constraints on a table
+DESCRIBE EXTENDED pharma_platform.silver_cdm.dim_batch;
+```
+
 ## Project Structure
 
 ```
 databricks-pharma-pipeline/
 ├── RUN_ALL_SIMPLE.py                        # ⭐ ONE-CLICK EXECUTION - Run this!
 ├── 00_setup/
-│   └── 00_unity_catalog_setup.py           # Unity Catalog initialization
+│   ├── 00_unity_catalog_setup.py           # Unity Catalog initialization
+│   └── 01_add_constraints.py               # Add PKs and FKs for ER diagrams
 ├── 01_bronze/
 │   ├── 01_bronze_manufacturing_ingestion_DEMO.py  # Demo: Synthetic manufacturing data
 │   ├── 01_bronze_manufacturing_ingestion.py       # Prod: Real MES/DCS data

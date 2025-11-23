@@ -57,7 +57,7 @@ skip_setup = False
 if skip_setup:
     print("⏭️  Skipping Unity Catalog Setup (already configured)")
 else:
-    print("🔧 [STEP 1/6] Running Unity Catalog Setup...")
+    print("🔧 [STEP 1/7] Running Unity Catalog Setup...")
     print("-" * 70)
 
     dbutils.notebook.run(
@@ -79,7 +79,7 @@ else:
 
 # COMMAND ----------
 
-print("📥 [STEP 2/6] Ingesting Manufacturing Data...")
+print("📥 [STEP 2/7] Ingesting Manufacturing Data...")
 print("-" * 70)
 
 # Select demo or production notebook
@@ -104,7 +104,7 @@ print("")
 
 # COMMAND ----------
 
-print("📥 [STEP 3/6] Ingesting Clinical & LIMS Data...")
+print("📥 [STEP 3/7] Ingesting Clinical & LIMS Data...")
 print("-" * 70)
 
 # Select demo or production notebook
@@ -129,7 +129,7 @@ print("")
 
 # COMMAND ----------
 
-print("🔄 [STEP 4/6] Building Dimensional Model (Dimensions)...")
+print("🔄 [STEP 4/7] Building Dimensional Model (Dimensions)...")
 print("-" * 70)
 
 dbutils.notebook.run(
@@ -151,7 +151,7 @@ print("")
 
 # COMMAND ----------
 
-print("🔄 [STEP 5/6] Building Fact Tables...")
+print("🔄 [STEP 5/7] Building Fact Tables...")
 print("-" * 70)
 
 dbutils.notebook.run(
@@ -173,7 +173,7 @@ print("")
 
 # COMMAND ----------
 
-print("📊 [STEP 6/6] Creating Gold Layer Analytics...")
+print("📊 [STEP 6/7] Creating Gold Layer Analytics...")
 print("-" * 70)
 
 dbutils.notebook.run(
@@ -182,6 +182,31 @@ dbutils.notebook.run(
 )
 
 print("✅ Gold layer analytics created successfully")
+print("")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Step 7: Add Table Constraints (PKs and FKs)
+# MAGIC
+# MAGIC Adds PRIMARY KEY and FOREIGN KEY constraints for:
+# MAGIC - Data integrity documentation
+# MAGIC - ER diagram generation
+# MAGIC - BI tool relationship detection
+# MAGIC
+# MAGIC **Creates:** Primary keys on all dimensions/facts, Foreign keys for all relationships
+
+# COMMAND ----------
+
+print("🔗 [STEP 7/7] Adding Primary and Foreign Key Constraints...")
+print("-" * 70)
+
+dbutils.notebook.run(
+    f"{NOTEBOOK_BASE_PATH}/00_setup/01_add_constraints",
+    timeout_seconds=600
+)
+
+print("✅ Table constraints added successfully")
 print("")
 
 # COMMAND ----------
@@ -200,11 +225,13 @@ print("📊 Data Platform Status:")
 print("  ✅ Bronze Layer - Raw data ingested")
 print("  ✅ Silver Layer - Dimensional model created (Kimball star schema)")
 print("  ✅ Gold Layer - Business analytics ready")
+print("  ✅ Table Constraints - PKs and FKs added for ER diagrams")
 print("")
 print("🔍 Next Steps:")
 print("  1. Query the data: SELECT * FROM pharma_platform.gold_analytics.gold_batch_performance_summary")
-print("  2. Connect BI tools: Point to pharma_platform.gold_analytics schema")
-print("  3. Explore dimensions: SELECT * FROM pharma_platform.silver_cdm.dim_product WHERE is_current=true")
+print("  2. View relationships: SELECT * FROM pharma_platform.metadata.v_table_relationships")
+print("  3. Connect BI tools: Point to pharma_platform.gold_analytics schema (relationships auto-detected)")
+print("  4. Explore dimensions: SELECT * FROM pharma_platform.silver_cdm.dim_product WHERE is_current=true")
 print("="*70)
 
 # COMMAND ----------

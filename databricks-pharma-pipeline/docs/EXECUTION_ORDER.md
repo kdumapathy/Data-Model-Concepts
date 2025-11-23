@@ -140,12 +140,37 @@ If you prefer to run each step individually, execute these notebooks in order:
 
 ---
 
+### Step 7: Add Table Constraints (PKs and FKs)
+```
+/Workspace/Users/kd.umapathy@gmail.com/Data-Model-Concepts/databricks-pharma-pipeline/00_setup/01_add_constraints
+```
+**What it does:**
+- Adds PRIMARY KEY constraints to all dimensions and fact tables
+- Adds FOREIGN KEY constraints to document relationships
+- Creates table relationship view for ER diagrams
+- Enables relationship detection in BI tools (Power BI, Tableau)
+
+**Runtime:** ~1 minute
+
+**Output:**
+- PRIMARY KEYs on 8 dimensions, 4+ fact tables, 2 metadata tables
+- FOREIGN KEYs documenting 16+ table relationships
+- View: `pharma_platform.metadata.v_table_relationships`
+
+**Benefits:**
+- ✅ ER diagrams automatically generated in data modeling tools
+- ✅ BI tools auto-detect relationships
+- ✅ Data catalog shows relationship metadata
+- ✅ Documentation of data model structure
+
+---
+
 ## ⏱️ Total Runtime
 
 | Execution Method | Time |
 |------------------|------|
-| **RUN_ALL_SIMPLE** (automated) | 10-15 minutes |
-| **Manual step-by-step** | 15-20 minutes |
+| **RUN_ALL_SIMPLE** (automated) | 12-18 minutes |
+| **Manual step-by-step** | 18-25 minutes |
 
 ---
 
@@ -170,6 +195,13 @@ SELECT COUNT(*) FROM pharma_platform.silver_cdm.fact_manufacturing_process;
 
 -- Check Gold layer
 SELECT * FROM pharma_platform.gold_analytics.gold_batch_performance_summary LIMIT 10;
+
+-- Check table relationships
+SELECT * FROM pharma_platform.metadata.v_table_relationships;
+-- Expected: 16+ relationship records
+
+-- Verify constraints exist (in Unity Catalog Data Explorer)
+DESCRIBE EXTENDED pharma_platform.silver_cdm.dim_batch;
 
 -- Check execution log
 SELECT * FROM pharma_platform.metadata.pipeline_execution_log
@@ -245,14 +277,18 @@ DROP SCHEMA IF EXISTS pharma_platform.metadata CASCADE;
 
 ## 📊 What Gets Created
 
-### Total Tables: 27
+### Total Tables: 28+
 
 | Layer | Tables | Description |
 |-------|--------|-------------|
 | **Bronze** | 7 | Raw data landing zone |
 | **Silver** | 13 | Dimensional model (8 dims + 4 facts + 1 bridge) |
 | **Gold** | 5 | Business analytics |
-| **Metadata** | 4 | Pipeline tracking |
+| **Metadata** | 4+ | Pipeline tracking + relationship documentation |
+
+### Total Constraints:
+- **PRIMARY KEYs**: 14+ (all dimensions and fact tables)
+- **FOREIGN KEYs**: 16+ (fact-to-dimension relationships)
 
 ### Total Rows (Demo Mode):
 - **Bronze**: ~22,000 rows

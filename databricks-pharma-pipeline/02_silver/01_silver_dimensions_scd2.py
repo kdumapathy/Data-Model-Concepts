@@ -534,15 +534,17 @@ if spark.catalog.tableExists(f"{catalog_name}.{bronze_schema}.clinical_subjects"
             500 as planned_enrollment,
             COUNT(DISTINCT subject_id) as actual_enrollment,
             MIN(enrollment_date) as start_date,
-            NULL as end_date,
+            CAST(NULL AS DATE) as end_date,
             'BLA' as regulatory_submission
         FROM {catalog_name}.{bronze_schema}.clinical_subjects
         WHERE ingestion_date >= current_date() - 30
         GROUP BY study_id
     """)
 
+    # Include ALL columns for change detection to ensure they're preserved
     study_hash_cols = ["study_code", "study_title", "study_phase", "indication",
-                       "study_status", "actual_enrollment"]
+                       "sponsor", "cro_name", "study_status", "planned_enrollment",
+                       "actual_enrollment", "start_date", "regulatory_submission"]
 
     study_source_with_hash = generate_row_hash(study_source, study_hash_cols)
 
