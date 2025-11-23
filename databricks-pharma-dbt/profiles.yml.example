@@ -1,0 +1,62 @@
+# dbt profile configuration for Databricks
+# Copy this file to ~/.dbt/profiles.yml and update with your credentials
+
+pharma_platform:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: pharma_platform  # Unity Catalog name
+      schema: dev_user_{{ env_var('USER') }}  # Default schema (models override this)
+      host: <your-databricks-workspace-url>  # e.g., adb-1234567890123456.7.azuredatabricks.net
+      http_path: /sql/1.0/warehouses/<warehouse-id>  # SQL Warehouse HTTP path
+      token: "{{ env_var('DBT_DATABRICKS_TOKEN') }}"  # Set DBT_DATABRICKS_TOKEN environment variable
+      threads: 4
+      connect_retries: 3
+      connect_timeout: 10
+
+    prod:
+      type: databricks
+      catalog: pharma_platform
+      schema: prod
+      host: <your-databricks-workspace-url>
+      http_path: /sql/1.0/warehouses/<prod-warehouse-id>
+      token: "{{ env_var('DBT_DATABRICKS_PROD_TOKEN') }}"
+      threads: 8
+      connect_retries: 3
+      connect_timeout: 10
+
+# Alternative: Using Databricks CLI authentication
+# Requires databricks CLI configured: `databricks configure --token`
+pharma_platform_cli:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: pharma_platform
+      schema: dev
+      host: <your-workspace-url>
+      http_path: /sql/1.0/warehouses/<warehouse-id>
+      auth_type: databricks-cli  # Use databricks CLI for auth
+      threads: 4
+
+# Alternative: Using Service Principal (for CI/CD)
+pharma_platform_sp:
+  target: prod
+  outputs:
+    prod:
+      type: databricks
+      catalog: pharma_platform
+      schema: prod
+      host: <your-workspace-url>
+      http_path: /sql/1.0/warehouses/<warehouse-id>
+      client_id: "{{ env_var('DBT_DATABRICKS_CLIENT_ID') }}"
+      client_secret: "{{ env_var('DBT_DATABRICKS_CLIENT_SECRET') }}"
+      threads: 8
+
+# Setup Instructions:
+# 1. Copy this file to ~/.dbt/profiles.yml
+# 2. Replace <your-databricks-workspace-url> with your workspace URL
+# 3. Replace <warehouse-id> with your SQL Warehouse ID
+# 4. Set environment variable: export DBT_DATABRICKS_TOKEN="your-token"
+# 5. Run: dbt debug to test connection

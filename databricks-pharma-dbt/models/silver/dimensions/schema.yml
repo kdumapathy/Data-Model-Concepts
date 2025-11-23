@@ -1,0 +1,140 @@
+version: 2
+
+models:
+  - name: dim_product
+    description: |
+      Product master dimension with pharmaceutical-specific attributes.
+      Implements Type 2 Slowly Changing Dimension to track product changes over time.
+
+      Business Key: product_code
+      Grain: One row per product version
+
+      Compliance:
+        - CFR Part 11: Complete audit trail via SCD Type 2
+        - ALCOA+: Historical versions maintained
+
+    config:
+      tags: ['pii:none', 'phi:none', 'gxp:yes']
+
+    columns:
+      - name: surrogate_key
+        description: Auto-incrementing surrogate key (primary key)
+        tests:
+          - unique
+          - not_null
+
+      - name: product_code
+        description: Product identifier (natural key)
+        tests:
+          - not_null
+
+      - name: product_name
+        description: Product name
+        tests:
+          - not_null
+
+      - name: therapeutic_area
+        description: Therapeutic area classification
+        tests:
+          - accepted_values:
+              values: ['Oncology', 'Cardiology', 'Neurology', 'Immunology', 'Other']
+
+      - name: molecule_type
+        description: Type of molecule
+        tests:
+          - accepted_values:
+              values: ['Monoclonal Antibody', 'Antibody-Drug Conjugate', 'CAR-T Cell Therapy', 'Small Molecule']
+
+      - name: development_phase
+        description: Current development phase
+        tests:
+          - accepted_values:
+              values: ['Research', 'Development', 'Clinical', 'Commercial']
+
+      - name: regulatory_status
+        description: Regulatory approval status
+        tests:
+          - accepted_values:
+              values: ['Preclinical', 'IND Submitted', 'FDA Approved']
+
+      - name: dosage_form
+        description: Dosage form
+        tests:
+          - accepted_values:
+              values: ['Tablet', 'Injectable', 'Cell Therapy', 'Other']
+
+      - name: strength
+        description: API strength
+
+      - name: strength_uom
+        description: Unit of measure for strength
+        tests:
+          - accepted_values:
+              values: ['mg', 'g', 'mcg', 'mL']
+
+      - name: active_flag
+        description: Active product flag
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: quality_standard
+        description: Quality standard (e.g., GMP)
+        tests:
+          - accepted_values:
+              values: ['GMP', 'Non-GMP']
+
+      - name: effective_start_date
+        description: SCD Type 2 - Version start date
+        tests:
+          - not_null
+
+      - name: effective_end_date
+        description: SCD Type 2 - Version end date
+        tests:
+          - not_null
+
+      - name: is_current
+        description: SCD Type 2 - Current version flag
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: row_hash
+        description: MD5 hash of business columns for change detection
+        tests:
+          - not_null
+
+      - name: created_timestamp
+        description: Record creation timestamp
+        tests:
+          - not_null
+
+      - name: updated_timestamp
+        description: Record last update timestamp
+        tests:
+          - not_null
+
+    tests:
+      # Ensure only one current record per business key
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_code
+            - is_current
+          where: "is_current = TRUE"
+
+      # Ensure we have at least some products
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1
+          max_value: 10000
+
+# Add more dimension documentation as needed
+# - dim_batch
+# - dim_equipment
+# - dim_material
+# - dim_site
+# - dim_test_method
+# - dim_study
+# - dim_date

@@ -1,0 +1,31 @@
+# dbt
+target/
+dbt_packages/
+logs/
+*.log
+
+# Python
+venv/
+*.pyc
+__pycache__/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# dbt
+profiles.yml  # Don't commit credentials (use profiles.yml.example instead)
+
+# Databricks
+.databricks/
+
+# Temporary files
+*.tmp
+*.bak

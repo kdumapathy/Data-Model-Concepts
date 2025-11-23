@@ -1,0 +1,111 @@
+# dbt Project Configuration for Pharmaceutical Data Platform
+# Databricks Delta Lake with Unity Catalog
+
+name: 'pharma_platform_dbt'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'pharma_platform'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Project variables
+vars:
+  # Unity Catalog configuration
+  catalog: "pharma_platform"
+
+  # Schema names (will use custom schema naming macro)
+  bronze_schema: "bronze_raw"
+  silver_schema: "silver_cdm"
+  gold_schema: "gold_analytics"
+  metadata_schema: "metadata"
+
+  # Data generation settings (for demo mode)
+  demo_mode: true
+  demo_batch_count: 50
+  demo_process_points_per_batch: 432  # 18 hours * 24 readings/hour
+
+  # SCD Type 2 settings
+  scd_effective_start_column: "effective_start_date"
+  scd_effective_end_column: "effective_end_date"
+  scd_is_current_column: "is_current"
+  scd_end_of_time: "9999-12-31"
+
+# Model configurations
+models:
+  pharma_platform_dbt:
+    +materialized: table
+    +file_format: delta
+    +on_schema_change: "sync_all_columns"
+
+    # Bronze layer - raw data ingestion
+    bronze:
+      +materialized: incremental
+      +on_schema_change: "append_new_columns"
+      +schema: bronze_raw
+      +tags: ["bronze", "raw"]
+      +enabled: true
+
+    # Silver layer - dimensional model (Kimball star schema)
+    silver:
+      +schema: silver_cdm
+      +tags: ["silver", "cdm"]
+
+      dimensions:
+        +materialized: table
+        +tags: ["dimension", "scd_type2"]
+        +post-hook:
+          - "OPTIMIZE {{ this }} ZORDER BY ({{ var('scd_is_current_column') }})"
+
+      facts:
+        +materialized: incremental
+        +unique_key: "surrogate_key"
+        +on_schema_change: "sync_all_columns"
+        +tags: ["fact", "atomic_grain"]
+        +post-hook:
+          - "OPTIMIZE {{ this }}"
+
+    # Gold layer - business aggregations
+    gold:
+      +materialized: table
+      +schema: gold_analytics
+      +tags: ["gold", "analytics"]
+      +post-hook:
+        - "OPTIMIZE {{ this }}"
+
+# Snapshot configurations
+snapshots:
+  pharma_platform_dbt:
+    +target_schema: silver_cdm
+    +unique_key: id
+    +strategy: timestamp
+    +updated_at: updated_timestamp
+
+# Seeds configurations
+seeds:
+  pharma_platform_dbt:
+    +schema: metadata
+    +tags: ["reference_data"]
+
+# Test configurations
+tests:
+  pharma_platform_dbt:
+    +severity: warn
+    +store_failures: true
+    +schema: metadata
+
+# Dispatch configuration for dbt-utils
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['pharma_platform_dbt', 'dbt_utils']

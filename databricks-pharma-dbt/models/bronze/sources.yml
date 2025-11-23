@@ -1,0 +1,253 @@
+version: 2
+
+sources:
+  - name: pharma_raw
+    description: Raw pharmaceutical data from source systems (MES, LIMS, EDC)
+    database: "{{ var('catalog') }}"
+    schema: "{{ var('bronze_schema') }}"
+
+    tables:
+      - name: manufacturing_batch_records
+        description: Manufacturing batch master data from MES
+        columns:
+          - name: batch_number
+            description: Unique batch number (natural key)
+            tests:
+              - not_null
+              - unique
+
+          - name: product_id
+            description: Product identifier
+            tests:
+              - not_null
+
+          - name: batch_size
+            description: Batch size (quantity)
+
+          - name: batch_size_uom
+            description: Unit of measure for batch size
+
+          - name: batch_status
+            description: Current status of the batch
+            tests:
+              - accepted_values:
+                  values: ['PLANNED', 'IN_PROGRESS', 'COMPLETED', 'RELEASED', 'REJECTED', 'ON_HOLD']
+
+          - name: planned_start_date
+            description: Planned start date
+
+          - name: actual_start_date
+            description: Actual start date
+
+          - name: planned_end_date
+            description: Planned completion date
+
+          - name: actual_end_date
+            description: Actual completion date
+
+          - name: manufacturing_site_id
+            description: Site where batch was manufactured
+
+          - name: ingestion_timestamp
+            description: Data ingestion timestamp (technical column)
+
+      - name: manufacturing_process_data
+        description: Time-series process data from MES (temperature, pH, pressure, etc.)
+        columns:
+          - name: batch_number
+            description: Batch number (foreign key)
+            tests:
+              - not_null
+
+          - name: equipment_id
+            description: Equipment identifier
+            tests:
+              - not_null
+
+          - name: process_timestamp
+            description: Timestamp of process reading
+            tests:
+              - not_null
+
+          - name: parameter_name
+            description: Process parameter name (TEMPERATURE, PH, DISSOLVED_OXYGEN, etc.)
+
+          - name: parameter_value
+            description: Measured value
+
+          - name: parameter_uom
+            description: Unit of measure
+
+          - name: setpoint_value
+            description: Target setpoint value
+
+          - name: lower_limit
+            description: Lower specification limit
+
+          - name: upper_limit
+            description: Upper specification limit
+
+          - name: deviation_flag
+            description: True if value is outside limits
+
+          - name: alarm_flag
+            description: True if alarm was triggered
+
+      - name: batch_genealogy
+        description: Batch-to-batch relationships and material traceability
+        columns:
+          - name: child_batch_number
+            description: Child batch number
+            tests:
+              - not_null
+
+          - name: parent_batch_number
+            description: Parent batch number
+            tests:
+              - not_null
+
+          - name: relationship_type
+            description: Type of relationship
+            tests:
+              - accepted_values:
+                  values: ['CONSUMED', 'PRODUCED', 'SPLIT', 'MERGED']
+
+          - name: quantity
+            description: Quantity consumed/produced
+
+      - name: analytical_test_results
+        description: Laboratory test results from LIMS
+        columns:
+          - name: test_id
+            description: Unique test identifier
+            tests:
+              - not_null
+              - unique
+
+          - name: sample_id
+            description: Sample identifier
+            tests:
+              - not_null
+
+          - name: batch_number
+            description: Batch number being tested
+
+          - name: test_method_code
+            description: Test method code
+
+          - name: test_category
+            description: Test category (identity, purity, potency, etc.)
+
+          - name: test_result_value
+            description: Numerical test result
+
+          - name: test_result_unit
+            description: Unit of measure
+
+          - name: specification_lower_limit
+            description: Lower specification limit
+
+          - name: specification_upper_limit
+            description: Upper specification limit
+
+          - name: pass_fail_flag
+            description: Test pass/fail status
+            tests:
+              - accepted_values:
+                  values: [0, 1]
+
+          - name: test_date
+            description: Date test was performed
+
+      - name: qc_sample_data
+        description: QC sample metadata from LIMS
+        columns:
+          - name: sample_id
+            description: Unique sample identifier
+            tests:
+              - not_null
+              - unique
+
+          - name: batch_number
+            description: Associated batch number
+
+          - name: sample_type
+            description: Type of sample (IN_PROCESS, FINAL_PRODUCT, RAW_MATERIAL)
+
+          - name: sampling_point
+            description: Where sample was taken
+
+          - name: sample_date
+            description: Date sample was collected
+
+      - name: clinical_subjects
+        description: Clinical trial subject data from EDC (CDISC-aligned)
+        columns:
+          - name: subject_id
+            description: Unique subject identifier
+            tests:
+              - not_null
+              - unique
+
+          - name: study_id
+            description: Clinical study identifier
+            tests:
+              - not_null
+
+          - name: site_code
+            description: Clinical site code
+
+          - name: enrollment_date
+            description: Date subject enrolled
+
+          - name: treatment_arm
+            description: Treatment arm assignment
+
+          - name: demographic_age
+            description: Subject age
+
+          - name: demographic_gender
+            description: Subject gender
+
+          - name: subject_status
+            description: Current status (ENROLLED, COMPLETED, WITHDRAWN, SCREEN_FAILURE)
+
+      - name: clinical_adverse_events
+        description: Adverse events from clinical trials (CDISC SDTM AE domain)
+        columns:
+          - name: subject_id
+            description: Subject identifier
+            tests:
+              - not_null
+
+          - name: study_id
+            description: Study identifier
+            tests:
+              - not_null
+
+          - name: ae_term
+            description: Adverse event term
+
+          - name: ae_start_date
+            description: AE start date
+
+          - name: ae_end_date
+            description: AE end date
+
+          - name: severity
+            description: Severity grade
+            tests:
+              - accepted_values:
+                  values: ['MILD', 'MODERATE', 'SEVERE', 'LIFE_THREATENING', 'FATAL']
+
+          - name: serious_flag
+            description: Serious adverse event flag
+
+          - name: related_to_drug
+            description: Relationship to study drug
+
+freshness:
+  warn_after: {count: 24, period: hour}
+  error_after: {count: 48, period: hour}
+
+loaded_at_field: ingestion_timestamp

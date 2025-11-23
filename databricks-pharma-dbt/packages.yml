@@ -1,0 +1,27 @@
+# dbt packages for pharma_platform_dbt project
+
+packages:
+  # dbt-utils: Useful macros for dbt projects
+  - package: dbt-labs/dbt_utils
+    version: 1.1.1
+
+  # dbt-expectations: Data quality testing framework
+  - package: calogica/dbt_expectations
+    version: 0.10.1
+
+  # dbt-audit-helper: Useful for data migration and comparison
+  - package: dbt-labs/audit_helper
+    version: 0.9.0
+
+  # codegen: Code generation helpers
+  - package: dbt-labs/codegen
+    version: 0.12.1
+
+# To install packages:
+# Run: dbt deps
+
+# Package descriptions:
+# - dbt_utils: Core utility macros (surrogate_key, date_spine, etc.)
+# - dbt_expectations: Great Expectations-style data quality tests
+# - audit_helper: Compare data between models during migrations
+# - codegen: Generate YAML files and model boilerplate

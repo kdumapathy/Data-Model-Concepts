@@ -55,6 +55,98 @@ open pharma-data-model/diagrams/data-model/Pharma_Data_Model_Complete_Lifecycle.
 
 ---
 
+## 🚀 Databricks Implementations
+
+This repository includes **two production-ready implementations** of the pharmaceutical data platform on Databricks:
+
+### 1. **Notebook-Based Implementation** (`databricks-pharma-pipeline/`)
+
+Traditional Databricks notebook approach with Delta Lake and Unity Catalog.
+
+**Features:**
+- ✅ Interactive notebook execution
+- ✅ One-click pipeline (`RUN_ALL_SIMPLE.py`)
+- ✅ Medallion architecture (Bronze → Silver → Gold)
+- ✅ Type 2 SCD dimensions
+- ✅ Demo mode with synthetic data
+- ✅ PRIMARY/FOREIGN KEY constraints for ER diagrams
+
+**Best for:**
+- Exploratory data analysis
+- Ad-hoc queries and investigations
+- Data scientists familiar with notebooks
+- Quick prototyping
+
+**Quick Start:**
+```bash
+cd databricks-pharma-pipeline
+# Import to Databricks workspace
+# Run: RUN_ALL_SIMPLE.py
+```
+
+[📚 Full Documentation →](databricks-pharma-pipeline/README.md)
+
+---
+
+### 2. **dbt Implementation** (`databricks-pharma-dbt/`) ⭐ NEW
+
+Modern data build tool (dbt) approach with version control, testing, and CI/CD.
+
+**Features:**
+- ✅ Git-based version control
+- ✅ Built-in data quality tests
+- ✅ Auto-generated documentation and lineage
+- ✅ Modular, reusable macros
+- ✅ CI/CD ready (GitHub Actions, GitLab CI)
+- ✅ Same Kimball star schema and Type 2 SCD
+
+**Best for:**
+- Production data pipelines
+- Team collaboration
+- Software engineering best practices
+- Automated testing and deployment
+- Enterprise-grade data platforms
+
+**Quick Start:**
+```bash
+cd databricks-pharma-dbt
+
+# Install dbt
+pip install dbt-databricks
+
+# Configure connection
+cp profiles.yml.example ~/.dbt/profiles.yml
+# Edit with your Databricks credentials
+
+# Run pipeline
+dbt deps
+dbt run
+
+# Generate documentation
+dbt docs generate
+dbt docs serve
+```
+
+[📚 Full Documentation →](databricks-pharma-dbt/README.md)
+
+---
+
+### Which Implementation to Choose?
+
+| Criterion | Notebooks | dbt |
+|-----------|-----------|-----|
+| **Team Size** | Individual or small team | Medium to large teams |
+| **CI/CD Requirement** | Optional | Essential |
+| **Version Control** | Manual | Native Git integration |
+| **Testing** | Manual test notebooks | Built-in test framework |
+| **Documentation** | Manual markdown | Auto-generated lineage |
+| **Learning Curve** | Low (familiar interface) | Moderate (dbt concepts) |
+| **Production Readiness** | ✅ Yes | ✅✅ Yes (recommended) |
+
+**Recommendation:** Start with **notebooks** for exploration, migrate to **dbt** for production.
+
+---
+
 ## Repository Structure
 
 ```
