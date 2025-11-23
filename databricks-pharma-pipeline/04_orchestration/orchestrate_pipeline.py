@@ -454,7 +454,8 @@ spark.sql(f"""
         '{"; ".join([f"{k}={v}" for k, v in all_results.items() if "FAILED" in v])}',
         current_user(),
         '{dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()}',
-        map('execution_id', '{execution_id}')
+        map('execution_id', '{execution_id}'),
+        current_timestamp()
     )
 """)
 

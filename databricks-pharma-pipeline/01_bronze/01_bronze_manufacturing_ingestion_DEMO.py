@@ -401,7 +401,8 @@ spark.sql(f"""
         NULL,
         current_user(),
         'demo_manufacturing_ingestion',
-        map('execution_id', '{execution_id}', 'mode', 'demo')
+        map('execution_id', '{execution_id}', 'mode', 'demo'),
+        current_timestamp()
     )
 """)
 
