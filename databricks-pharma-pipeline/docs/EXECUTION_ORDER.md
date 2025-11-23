@@ -10,9 +10,40 @@ Run this single notebook to execute the complete pipeline:
 
 **How to use:**
 1. Attach the notebook to a running cluster
-2. Click **"Run All"** button
-3. Monitor progress (approx. 10-15 minutes)
-4. All layers (Bronze → Silver → Gold) will be created automatically
+2. **(Optional)** If you want a fresh start, see "Clearing All Tables" section below
+3. Click **"Run All"** button
+4. Monitor progress (approx. 12-18 minutes)
+5. All layers (Bronze → Silver → Gold) will be created automatically
+
+---
+
+### 🗑️ Clearing All Tables (Fresh Start)
+
+The `RUN_ALL_SIMPLE` notebook includes an optional cleanup step to clear all tables before running.
+
+**When to use:**
+- You want a completely fresh start
+- Testing the full pipeline from scratch
+- Troubleshooting data issues
+
+**How to clear all tables:**
+1. Open `RUN_ALL_SIMPLE` notebook
+2. Navigate to the **"OPTIONAL: Clear All Tables"** section
+3. Set `CLEAR_ALL_TABLES = True`
+4. **Run ONLY that cleanup cell manually** (do not include in "Run All")
+5. Wait for all schemas to be dropped
+6. Set `CLEAR_ALL_TABLES = False`
+7. Now run the full pipeline with "Run All"
+
+**What gets deleted:**
+```sql
+DROP SCHEMA IF EXISTS pharma_platform.bronze_raw CASCADE;
+DROP SCHEMA IF EXISTS pharma_platform.silver_cdm CASCADE;
+DROP SCHEMA IF EXISTS pharma_platform.gold_analytics CASCADE;
+DROP SCHEMA IF EXISTS pharma_platform.metadata CASCADE;
+```
+
+**Note:** The catalog `pharma_platform` is preserved; only schemas and tables are dropped.
 
 ---
 
@@ -213,13 +244,23 @@ LIMIT 10;
 
 ## 🔄 Re-running the Pipeline
 
-### Multiple Runs
+### Multiple Runs (Default Behavior)
 - **Bronze layer**: Data appends (new records added each run)
 - **Silver layer**: Type 2 SCD tracks changes (creates new versions)
 - **Gold layer**: Overwrites with latest aggregations
 
-### Fresh Start
-To start completely fresh:
+**Note:** Running multiple times without cleanup will accumulate data in Bronze/Silver layers.
+
+### Fresh Start (Recommended Method)
+Use the built-in cleanup step in `RUN_ALL_SIMPLE`:
+
+1. Open `RUN_ALL_SIMPLE` notebook
+2. Set `CLEAR_ALL_TABLES = True` in the cleanup section
+3. Run ONLY the cleanup cell manually
+4. Set `CLEAR_ALL_TABLES = False`
+5. Run the full pipeline
+
+**Alternative: Manual SQL Cleanup**
 ```sql
 -- Drop all schemas (WARNING: Deletes all data)
 DROP SCHEMA IF EXISTS pharma_platform.bronze_raw CASCADE;

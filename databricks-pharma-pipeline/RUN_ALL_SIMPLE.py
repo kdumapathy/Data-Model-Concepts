@@ -43,6 +43,73 @@ print("="*70)
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ## ⚠️ OPTIONAL: Clear All Tables (Fresh Start)
+# MAGIC
+# MAGIC **⚠️ WARNING: This will DELETE ALL DATA! ⚠️**
+# MAGIC
+# MAGIC **When to use this:**
+# MAGIC - You want a completely fresh start
+# MAGIC - You're troubleshooting and need to rebuild from scratch
+# MAGIC - You want to test the full pipeline with clean slate
+# MAGIC
+# MAGIC **How to use:**
+# MAGIC 1. Set `CLEAR_ALL_TABLES = True` in the cell below
+# MAGIC 2. Run ONLY the cleanup cell manually (DO NOT include in "Run All")
+# MAGIC 3. Set it back to `False` before running the pipeline
+# MAGIC
+# MAGIC **What gets deleted:**
+# MAGIC - All Bronze layer tables
+# MAGIC - All Silver layer tables
+# MAGIC - All Gold layer tables
+# MAGIC - All Metadata tables
+# MAGIC - All schemas (but NOT the catalog)
+
+# COMMAND ----------
+
+# ⚠️ DANGEROUS: Set to True to clear all tables
+# This cell is designed to be run MANUALLY ONLY
+CLEAR_ALL_TABLES = False
+
+if CLEAR_ALL_TABLES:
+    print("\n" + "⚠️"*35)
+    print("  WARNING: CLEARING ALL TABLES AND SCHEMAS")
+    print("⚠️"*35 + "\n")
+
+    catalog_name = "pharma_platform"
+    schemas_to_drop = ["bronze_raw", "silver_cdm", "gold_analytics", "metadata"]
+
+    for schema in schemas_to_drop:
+        try:
+            print(f"🗑️  Dropping schema: {catalog_name}.{schema}")
+            spark.sql(f"DROP SCHEMA IF EXISTS {catalog_name}.{schema} CASCADE")
+            print(f"✅ Dropped: {catalog_name}.{schema}")
+        except Exception as e:
+            print(f"❌ Error dropping {schema}: {str(e)}")
+
+    print("\n" + "="*70)
+    print("  ✅ ALL TABLES AND SCHEMAS CLEARED")
+    print("="*70)
+    print("\nNext steps:")
+    print("1. Set CLEAR_ALL_TABLES = False above")
+    print("2. Run the pipeline starting from Step 1 (Unity Catalog Setup)")
+    print("="*70 + "\n")
+
+else:
+    print("ℹ️  Cleanup skipped (CLEAR_ALL_TABLES = False)")
+    print("   To clear all tables, set CLEAR_ALL_TABLES = True and run this cell manually")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ---
+# MAGIC
+# MAGIC # Pipeline Execution Steps
+# MAGIC
+# MAGIC **Start here for normal execution** (after optional cleanup above)
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ## Step 1: Unity Catalog Setup
 # MAGIC
 # MAGIC Creates catalog, schemas, and metadata tables.
